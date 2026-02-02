@@ -177,19 +177,11 @@ const Home = () => {
       {/* Featured Products */}
       <section className="py-16" data-testid="featured-products-section">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center mb-12">
-            <div>
-              <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-slate-900 mb-4" data-testid="featured-products-title">
-                Featured Products
-              </h2>
-              <p className="text-slate-600">Top-quality medical equipment for professionals</p>
-            </div>
-            <Link to="/products" data-testid="view-all-products-link">
-              <Button variant="outline" className="hover:bg-blue-50 transition-all duration-300">
-                View All
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </Link>
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-slate-900 mb-4" data-testid="featured-products-title">
+              Featured Products
+            </h2>
+            <p className="text-slate-600">Top-quality medical equipment for professionals</p>
           </div>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
