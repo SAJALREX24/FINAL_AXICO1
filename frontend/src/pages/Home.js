@@ -75,8 +75,13 @@ const Home = () => {
   return (
     <div className="animate-fade-in" data-testid="home-page">
       {/* Hero Section */}
-      <section className="hero-gradient py-16 md:py-24" data-testid="hero-section">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="hero-gradient py-16 md:py-24 relative" data-testid="hero-section">
+        {/* Floating Medical Icons */}
+        <Stethoscope className="medical-icon-float text-blue-400" style={{top: '10%', right: '15%', width: '60px', height: '60px', animationDelay: '0s'}} />
+        <Heart className="medical-icon-float text-green-400" style={{bottom: '20%', left: '10%', width: '50px', height: '50px', animationDelay: '3s'}} />
+        <Activity className="medical-icon-float text-teal-400" style={{top: '40%', right: '5%', width: '55px', height: '55px', animationDelay: '6s'}} />
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
               <h1 className="text-4xl md:text-6xl font-bold tracking-tighter text-slate-900 mb-6 animate-fade-in" data-testid="hero-title">
@@ -121,11 +126,12 @@ const Home = () => {
               </div>
             </div>
             
-            <div className="relative">
+            <div className="hero-image-wrapper relative">
+              <div className="pulse-ring" style={{width: '100%', height: '100%', top: '0', left: '0'}}></div>
               <img
                 src="https://images.unsplash.com/photo-1565594090530-d1ebc05b54b1?crop=entropy&cs=srgb&fm=jpg&q=85"
                 alt="Medical Equipment"
-                className="rounded-xl shadow-2xl animate-fade-in"
+                className="rounded-xl shadow-2xl relative z-10"
                 data-testid="hero-image"
               />
             </div>
