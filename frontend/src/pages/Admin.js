@@ -13,7 +13,7 @@ import { Package, ShoppingCart, FileText, Star, ShieldCheck, Users } from 'lucid
 import { toast } from 'sonner';
 
 const Admin = () => {
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('products');
   const [products, setProducts] = useState([]);
@@ -36,13 +36,15 @@ const Admin = () => {
   });
 
   useEffect(() => {
+    if (authLoading) return;
+    
     if (!user || user.role !== 'admin') {
       navigate('/');
       return;
     }
     fetchData();
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [user, authLoading]);
 
   const fetchData = async () => {
     try {
