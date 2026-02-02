@@ -181,13 +181,8 @@ const Home = () => {
             </div>
             
             <div className="relative">
-              {/* 3D Card Effect */}
-              <div 
-                className="relative transform-gpu transition-transform duration-300 ease-out"
-                style={{
-                  transform: `perspective(1000px) rotateY(${mousePosition.x * 0.5}deg) rotateX(${-mousePosition.y * 0.5}deg)`,
-                }}
-              >
+              {/* Hero Image without rotation */}
+              <div className="relative">
                 <div className="relative rounded-3xl overflow-hidden shadow-2xl">
                   <img
                     src="https://images.unsplash.com/photo-1565594090530-d1ebc05b54b1?crop=entropy&cs=srgb&fm=jpg&q=85"
