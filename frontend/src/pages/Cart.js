@@ -18,7 +18,8 @@ const Cart = () => {
       return;
     }
     fetchCart();
-  }, [user]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const fetchCart = async () => {
     try {
