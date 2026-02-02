@@ -12,7 +12,7 @@ import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
 import Auth from './pages/Auth';
 import Dashboard from './pages/Dashboard';
-import Admin from './pages/Admin';
+import BulkOrder from './pages/BulkOrder';
 import api from './utils/api';
 import '@/App.css';
 
