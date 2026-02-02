@@ -169,7 +169,7 @@ const Admin = () => {
             <p className="text-slate-600">Bulk Enquiries</p>
           </div>
           <div className="bg-white border border-slate-200 rounded-xl p-6" data-testid="stat-verifications">
-            <ShieldCheck className="h-8 w-8 text-yellow-500 mb-2" />
+            <ShieldCheck className="h-8 w-8 text-blue-500 mb-2" />
             <p className="text-2xl font-bold text-slate-900">{verifications.filter(v => v.status === 'pending').length}</p>
             <p className="text-slate-600">Pending Verifications</p>
           </div>
