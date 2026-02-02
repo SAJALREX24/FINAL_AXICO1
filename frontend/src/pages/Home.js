@@ -75,11 +75,15 @@ const Home = () => {
   return (
     <div className="animate-fade-in" data-testid="home-page">
       {/* Hero Section */}
-      <section className="hero-gradient py-16 md:py-24 relative" data-testid="hero-section">
-        {/* Floating Medical Icons */}
-        <Stethoscope className="medical-icon-float text-blue-400" style={{top: '10%', right: '15%', width: '60px', height: '60px', animationDelay: '0s'}} />
-        <Heart className="medical-icon-float text-green-400" style={{bottom: '20%', left: '10%', width: '50px', height: '50px', animationDelay: '3s'}} />
-        <Activity className="medical-icon-float text-teal-400" style={{top: '40%', right: '5%', width: '55px', height: '55px', animationDelay: '6s'}} />
+      <section className="hero-gradient py-16 md:py-24 relative overflow-hidden" data-testid="hero-section">
+        {/* 3D Floating Medical Icons - Multiple layers for depth */}
+        <div className="absolute inset-0 pointer-events-none">
+          <Stethoscope className="medical-icon-float text-blue-400 opacity-20" style={{top: '10%', right: '15%', width: '80px', height: '80px', animationDelay: '0s', transform: 'rotate(15deg)'}} />
+          <Heart className="medical-icon-float text-green-400 opacity-15" style={{bottom: '25%', left: '8%', width: '70px', height: '70px', animationDelay: '2s', transform: 'rotate(-20deg)'}} />
+          <Activity className="medical-icon-float text-teal-400 opacity-20" style={{top: '35%', right: '5%', width: '65px', height: '65px', animationDelay: '4s', transform: 'rotate(10deg)'}} />
+          <Scissors className="medical-icon-float text-blue-500 opacity-15" style={{top: '60%', left: '12%', width: '60px', height: '60px', animationDelay: '6s', transform: 'rotate(-15deg)'}} />
+          <Microscope className="medical-icon-float text-green-500 opacity-20" style={{bottom: '15%', right: '20%', width: '75px', height: '75px', animationDelay: '8s', transform: 'rotate(25deg)'}} />
+        </div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid md:grid-cols-2 gap-12 items-center">
@@ -93,13 +97,13 @@ const Home = () => {
               </p>
               <div className="flex flex-wrap gap-4">
                 <Link to="/products" data-testid="browse-products-button">
-                  <Button size="lg" className="shadow-md hover:shadow-xl transition-all duration-300">
+                  <Button size="lg" className="shadow-md hover:shadow-xl transition-all duration-300 transform hover:scale-105">
                     Browse Products
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
                 </Link>
-                <Link to="/bulk-enquiry" data-testid="hero-bulk-enquiry-button">
-                  <Button size="lg" variant="outline" className="hover:bg-blue-50 transition-all duration-300">
+                <Link to="/bulk-order" data-testid="hero-bulk-enquiry-button">
+                  <Button size="lg" variant="outline" className="hover:bg-blue-50 transition-all duration-300 transform hover:scale-105 border-2">
                     Bulk Orders
                   </Button>
                 </Link>
@@ -108,32 +112,73 @@ const Home = () => {
               {/* Trust Badges */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-12">
                 <div className="text-center trust-badge" data-testid="trust-badge-1">
-                  <ShieldCheck className="h-8 w-8 text-blue-500 mx-auto mb-2" />
+                  <div className="w-12 h-12 mx-auto mb-2 bg-blue-100 rounded-full flex items-center justify-center">
+                    <ShieldCheck className="h-6 w-6 text-blue-600" />
+                  </div>
                   <p className="text-sm font-medium text-slate-700">Certified</p>
                 </div>
                 <div className="text-center trust-badge" data-testid="trust-badge-2" style={{animationDelay: '0.1s'}}>
-                  <Truck className="h-8 w-8 text-green-500 mx-auto mb-2" />
+                  <div className="w-12 h-12 mx-auto mb-2 bg-green-100 rounded-full flex items-center justify-center">
+                    <Truck className="h-6 w-6 text-green-600" />
+                  </div>
                   <p className="text-sm font-medium text-slate-700">Fast Delivery</p>
                 </div>
                 <div className="text-center trust-badge" data-testid="trust-badge-3" style={{animationDelay: '0.2s'}}>
-                  <UserCheck className="h-8 w-8 text-teal-500 mx-auto mb-2" />
+                  <div className="w-12 h-12 mx-auto mb-2 bg-teal-100 rounded-full flex items-center justify-center">
+                    <UserCheck className="h-6 w-6 text-teal-600" />
+                  </div>
                   <p className="text-sm font-medium text-slate-700">Verified Sellers</p>
                 </div>
                 <div className="text-center trust-badge" data-testid="trust-badge-4" style={{animationDelay: '0.3s'}}>
-                  <Activity className="h-8 w-8 text-blue-600 mx-auto mb-2" />
+                  <div className="w-12 h-12 mx-auto mb-2 bg-blue-100 rounded-full flex items-center justify-center">
+                    <Activity className="h-6 w-6 text-blue-700" />
+                  </div>
                   <p className="text-sm font-medium text-slate-700">24/7 Support</p>
                 </div>
               </div>
             </div>
             
-            <div className="hero-image-wrapper relative">
-              <div className="pulse-ring" style={{width: '100%', height: '100%', top: '0', left: '0'}}></div>
-              <img
-                src="https://images.unsplash.com/photo-1565594090530-d1ebc05b54b1?crop=entropy&cs=srgb&fm=jpg&q=85"
-                alt="Medical Equipment"
-                className="rounded-xl shadow-2xl relative z-10"
-                data-testid="hero-image"
-              />
+            <div className="hero-image-wrapper relative perspective-1000">
+              {/* Multiple pulse rings for 3D effect */}
+              <div className="pulse-ring" style={{width: '100%', height: '100%', top: '0', left: '0', animationDelay: '0s'}}></div>
+              <div className="pulse-ring" style={{width: '100%', height: '100%', top: '0', left: '0', animationDelay: '1s'}}></div>
+              
+              <div className="relative transform hover:scale-105 transition-transform duration-500">
+                <img
+                  src="https://images.unsplash.com/photo-1565594090530-d1ebc05b54b1?crop=entropy&cs=srgb&fm=jpg&q=85"
+                  alt="Medical Equipment"
+                  className="rounded-2xl shadow-2xl relative z-10"
+                  data-testid="hero-image"
+                  style={{
+                    boxShadow: '0 25px 50px -12px rgba(59, 130, 246, 0.25)',
+                  }}
+                />
+                
+                {/* 3D Floating badges */}
+                <div className="absolute -top-4 -left-4 bg-white rounded-lg shadow-xl p-3 animate-bounce z-20" style={{animationDuration: '3s'}}>
+                  <div className="flex items-center space-x-2">
+                    <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
+                      <ShieldCheck className="h-6 w-6 text-green-600" />
+                    </div>
+                    <div>
+                      <p className="text-xs font-semibold text-slate-900">ISO Certified</p>
+                      <p className="text-xs text-slate-600">Quality Assured</p>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="absolute -bottom-4 -right-4 bg-white rounded-lg shadow-xl p-3 animate-bounce z-20" style={{animationDuration: '4s', animationDelay: '1s'}}>
+                  <div className="flex items-center space-x-2">
+                    <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                      <Truck className="h-6 w-6 text-blue-600" />
+                    </div>
+                    <div>
+                      <p className="text-xs font-semibold text-slate-900">Free Shipping</p>
+                      <p className="text-xs text-slate-600">On Bulk Orders</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
