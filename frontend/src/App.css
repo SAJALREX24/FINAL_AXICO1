@@ -23,28 +23,6 @@
   border-bottom: 1px solid rgba(226, 232, 240, 0.8);
 }
 
-.btn-primary {
-  background: #0F67B1;
-  color: white;
-  transition: all 0.2s ease;
-}
-
-.btn-primary:hover {
-  background: #0A4D8C;
-  box-shadow: 0 4px 12px rgba(15, 103, 177, 0.3);
-}
-
-.btn-secondary {
-  background: white;
-  color: #475569;
-  border: 1px solid #e2e8f0;
-  transition: all 0.2s ease;
-}
-
-.btn-secondary:hover {
-  background: #f1f5f9;
-}
-
 .whatsapp-float {
   position: fixed;
   bottom: 30px;
@@ -74,20 +52,83 @@
   font-weight: 500;
 }
 
-/* 3D Float Animation */
-@keyframes float3d {
+/* Blob Animation for Hero Background */
+@keyframes blob {
   0%, 100% {
-    transform: translateY(0) translateZ(0) rotateZ(0deg);
+    transform: translate(0, 0) scale(1);
   }
   25% {
-    transform: translateY(-20px) translateZ(20px) rotateZ(5deg);
+    transform: translate(20px, -50px) scale(1.1);
   }
   50% {
-    transform: translateY(0) translateZ(40px) rotateZ(0deg);
+    transform: translate(-20px, 20px) scale(0.9);
   }
   75% {
-    transform: translateY(20px) translateZ(20px) rotateZ(-5deg);
+    transform: translate(50px, 50px) scale(1.05);
   }
+}
+
+.animate-blob {
+  animation: blob 7s infinite;
+}
+
+/* Floating Animation */
+@keyframes float-slow {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+.animate-float-slow {
+  animation: float-slow 6s ease-in-out infinite;
+}
+
+/* Bounce Slow */
+@keyframes bounce-slow {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-bounce-slow {
+  animation: bounce-slow 3s ease-in-out infinite;
+}
+
+/* Slide In Animations */
+@keyframes slide-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-slide-in-left {
+  animation: slide-in-left 0.8s ease-out;
+}
+
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right 0.8s ease-out;
 }
 
 .category-card {
@@ -97,8 +138,7 @@
 }
 
 .category-card:hover {
-  transform: translateY(-5px) scale(1.03);
-  box-shadow: 0 15px 35px rgba(59, 130, 246, 0.2);
+  transform: translateY(-8px) scale(1.02);
 }
 
 .animate-fade-in {
@@ -127,15 +167,6 @@
   }
 }
 
-.trust-badge {
-  animation: fadeInUp 0.8s ease-out;
-  transition: all 0.3s ease;
-}
-
-.trust-badge:hover {
-  transform: translateY(-5px);
-}
-
 .featured-product {
   animation: fadeInUp 0.7s ease-out;
 }
@@ -148,11 +179,6 @@
 .featured-product:nth-child(6) { animation-delay: 0.6s; }
 .featured-product:nth-child(7) { animation-delay: 0.7s; }
 .featured-product:nth-child(8) { animation-delay: 0.8s; }
-
-.cta-section {
-  background: linear-gradient(135deg, #3B82F6 0%, #10B981 100%);
-  animation: fadeIn 1s ease-out;
-}
 
 .category-scroll {
   overflow-x: auto;
@@ -177,26 +203,4 @@
 
 .category-scroll::-webkit-scrollbar-thumb:hover {
   background: #94A3B8;
-}
-
-/* 3D Perspective */
-.perspective-1000 {
-  perspective: 1000px;
-}
-
-.preserve-3d {
-  transform-style: preserve-3d;
-}
-
-/* Hero 3D Effects */
-.hero-3d {
-  perspective: 1200px;
-  transform-style: preserve-3d;
-}
-
-/* Glassmorphism Effect */
-.glass-effect {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
 }
