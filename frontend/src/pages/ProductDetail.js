@@ -240,102 +240,11 @@ const ProductDetail = () => {
                 Add to Cart
               </Button>
               
-              <Dialog open={bulkEnquiryOpen} onOpenChange={setBulkEnquiryOpen}>
-                <DialogTrigger asChild>
-                  <Button variant="outline" className="w-full" size="lg" data-testid="bulk-enquiry-dialog-trigger">
-                    Request Bulk Order Quote
-                  </Button>
-                </DialogTrigger>
-                <DialogContent className="max-w-md max-h-[90vh] overflow-y-auto">
-                  <DialogHeader>
-                    <DialogTitle>Bulk Order Enquiry</DialogTitle>
-                  </DialogHeader>
-                  <form onSubmit={handleBulkEnquiry} className="space-y-4">
-                    <div>
-                      <Label>Buyer Type *</Label>
-                      <Select value={buyerType} onValueChange={setBuyerType} required>
-                        <SelectTrigger data-testid="buyer-type-select">
-                          <SelectValue placeholder="Select buyer type" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="Hospital">Hospital</SelectItem>
-                          <SelectItem value="Clinic">Clinic</SelectItem>
-                          <SelectItem value="Doctor">Doctor</SelectItem>
-                          <SelectItem value="Distributor">Distributor</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    
-                    <div>
-                      <Label>Organization Name *</Label>
-                      <Input
-                        value={organizationName}
-                        onChange={(e) => setOrganizationName(e.target.value)}
-                        required
-                        data-testid="organization-name-input"
-                      />
-                    </div>
-                    
-                    <div>
-                      <Label>Quantity Required *</Label>
-                      <Input
-                        type="number"
-                        min="1"
-                        value={quantity}
-                        onChange={(e) => setQuantity(e.target.value)}
-                        required
-                        data-testid="quantity-input"
-                      />
-                    </div>
-                    
-                    <div>
-                      <Label>Contact Name *</Label>
-                      <Input
-                        value={contactName}
-                        onChange={(e) => setContactName(e.target.value)}
-                        required
-                        data-testid="contact-name-input"
-                      />
-                    </div>
-                    
-                    <div>
-                      <Label>Contact Phone *</Label>
-                      <Input
-                        type="tel"
-                        value={contactPhone}
-                        onChange={(e) => setContactPhone(e.target.value)}
-                        required
-                        data-testid="contact-phone-input"
-                      />
-                    </div>
-                    
-                    <div>
-                      <Label>Contact Email *</Label>
-                      <Input
-                        type="email"
-                        value={contactEmail}
-                        onChange={(e) => setContactEmail(e.target.value)}
-                        required
-                        data-testid="contact-email-input"
-                      />
-                    </div>
-                    
-                    <div>
-                      <Label>Additional Message</Label>
-                      <Textarea
-                        value={message}
-                        onChange={(e) => setMessage(e.target.value)}
-                        rows={3}
-                        data-testid="enquiry-message-textarea"
-                      />
-                    </div>
-                    
-                    <Button type="submit" className="w-full" data-testid="submit-bulk-enquiry-button">
-                      Submit Enquiry
-                    </Button>
-                  </form>
-                </DialogContent>
-              </Dialog>
+              <Link to={`/bulk-order?product=${product.id}`}>
+                <Button variant="outline" className="w-full border-2 border-blue-500 text-blue-600 hover:bg-blue-50" size="lg" data-testid="bulk-enquiry-link">
+                  Request Bulk Order Quote
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
