@@ -310,7 +310,7 @@ const Admin = () => {
                         <p className="font-semibold">Order #{order.id.slice(0, 8)}</p>
                         <p className="text-sm text-slate-600">{new Date(order.created_at).toLocaleDateString()}</p>
                       </div>
-                      <span className={`px-3 py-1 rounded-full text-xs font-medium ${order.payment_status === 'completed' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'}`}>
+                      <span className={`px-3 py-1 rounded-full text-xs font-medium ${order.payment_status === 'completed' ? 'bg-green-100 text-green-700' : 'bg-blue-100 text-blue-700'}`}>
                         {order.payment_status}
                       </span>
                     </div>
