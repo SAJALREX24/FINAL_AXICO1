@@ -1,0 +1,161 @@
+{
+  "identity": {
+    "name": "E1",
+    "role": "Anti-AI Designer",
+    "mission": "Create a medical e-commerce platform that radiates 'Clinical Trust' without looking like a generic Bootstrap template. Prioritize clarity, sterility, and authority.",
+    "principles": [
+      "Fusion: Swiss Precision x Medical Sterility",
+      "Emotion: Trust & Safety above all",
+      "Content: Data-heavy but breathable",
+      "Contrast: High legibility (WCAG AA+)"
+    ]
+  },
+  "typography": {
+    "primary_font": "Manrope",
+    "secondary_font": "Inter",
+    "usage": {
+      "headings": "Manrope, font-bold, tracking-tight, text-slate-900",
+      "body": "Inter, font-normal, text-slate-600, relaxed-leading",
+      "ui_elements": "Inter, font-medium, tracking-wide (buttons, labels)"
+    },
+    "scale": {
+      "h1": "text-4xl md:text-6xl font-bold tracking-tighter",
+      "h2": "text-3xl md:text-4xl font-semibold tracking-tight",
+      "h3": "text-2xl font-semibold",
+      "body": "text-base leading-relaxed",
+      "small": "text-sm text-slate-500"
+    }
+  },
+  "colors": {
+    "palette": {
+      "primary": {
+        "DEFAULT": "#0F67B1",
+        "foreground": "#FFFFFF",
+        "hover": "#0A4D8C"
+      },
+      "secondary": {
+        "DEFAULT": "#3FA2F6",
+        "foreground": "#FFFFFF"
+      },
+      "accent": {
+        "DEFAULT": "#96C9F4",
+        "foreground": "#0F172A"
+      },
+      "background": {
+        "DEFAULT": "#F8FAFC",
+        "paper": "#FFFFFF",
+        "subtle": "#F1F5F9"
+      },
+      "text": {
+        "primary": "#0F172A",
+        "secondary": "#475569",
+        "muted": "#94A3B8"
+      },
+      "status": {
+        "success": "#10B981",
+        "warning": "#F59E0B",
+        "error": "#EF4444",
+        "info": "#3B82F6"
+      }
+    },
+    "theme_strategy": "Light Mode Dominant (Clinical Cleanliness). Dark mode is secondary and should use deep slate (#0F172A) instead of pure black."
+  },
+  "layout": {
+    "spacing_system": "Tailwind Scale (p-4, p-6, p-8, p-12, p-16)",
+    "container": "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
+    "grid_strategy": {
+      "marketing": "Bento Grid (Asymmetrical) for Categories",
+      "dashboard": "Dense Grid (4-col) for Data",
+      "product_list": "Responsive Grid (grid-cols-1 sm:grid-cols-2 lg:grid-cols-4) gap-6"
+    },
+    "border_radius": {
+      "default": "rounded-lg",
+      "card": "rounded-xl",
+      "button": "rounded-md"
+    }
+  },
+  "components": {
+    "navbar": {
+      "style": "Sticky, Glassmorphism (White/90 + Blur), 1px border-b border-slate-200",
+      "elements": [
+        "Logo (Left)",
+        "Search Bar (Center, wide)",
+        "Nav Links (Right)",
+        "Cart & Profile Icons",
+        "Primary CTA: 'Bulk Enquiry'"
+      ]
+    },
+    "hero": {
+      "style": "Split Layout. Left: Typography + Trust Badges. Right: High-fidelity Equipment Image.",
+      "bg": "bg-gradient-to-br from-slate-50 to-blue-50"
+    },
+    "cards": {
+      "product": "White bg, 1px border-slate-200, hover:shadow-lg hover:border-blue-200 transition-all duration-300. Image top, details bottom.",
+      "feature": "Icon-heavy, minimal text, subtle bg-blue-50/50"
+    },
+    "buttons": {
+      "primary": "bg-primary text-white hover:bg-primary/90 shadow-sm hover:shadow-md transition-all",
+      "secondary": "bg-white text-slate-700 border border-slate-200 hover:bg-slate-50",
+      "ghost": "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+    },
+    "inputs": {
+      "style": "bg-white border-slate-200 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-md h-10"
+    }
+  },
+  "visual_enhancers": {
+    "shadows": "shadow-sm (default), shadow-md (hover), shadow-xl (modals)",
+    "glass": "backdrop-blur-md bg-white/80 border border-white/20",
+    "gradients": "Subtle linear gradients for backgrounds (e.g., from-blue-50 to-transparent). NO heavy gradients on buttons.",
+    "textures": "Noise overlay (opacity 0.02) on solid backgrounds to reduce digital flatness."
+  },
+  "images": {
+    "hero_equipment": "https://images.unsplash.com/photo-1565594090530-d1ebc05b54b1?crop=entropy&cs=srgb&fm=jpg&q=85",
+    "doctor_portraits": [
+      "https://images.unsplash.com/photo-1758691461516-7e716e0ca135?crop=entropy&cs=srgb&fm=jpg&q=85",
+      "https://images.unsplash.com/photo-1758691463393-a2aa9900af8a?crop=entropy&cs=srgb&fm=jpg&q=85",
+      "https://images.unsplash.com/photo-1758691463582-11aea602cd4a?crop=entropy&cs=srgb&fm=jpg&q=85"
+    ],
+    "medical_scenes": [
+      "https://images.unsplash.com/photo-1690306815613-f839b74af330?crop=entropy&cs=srgb&fm=jpg&q=85",
+      "https://images.unsplash.com/photo-1766310550061-7cd0900f7c76?crop=entropy&cs=srgb&fm=jpg&q=85"
+    ],
+    "trust_badges": [
+      "https://images.unsplash.com/photo-1722235625926-3db1c4c54af0?crop=entropy&cs=srgb&fm=jpg&q=85"
+    ]
+  },
+  "icons": {
+    "library": "lucide-react",
+    "preferred_icons": [
+      "Stethoscope",
+      "Activity",
+      "ShieldCheck",
+      "Truck",
+      "UserCheck",
+      "ShoppingCart",
+      "Search",
+      "Menu"
+    ]
+  },
+  "animations": {
+    "page_load": "animate-in fade-in slide-in-from-bottom-4 duration-700",
+    "hover": "transition-all duration-200 ease-out",
+    "micro": "active:scale-95"
+  },
+  "instructions_to_main_agent": [
+    "1. Install 'lucide-react' and 'clsx' 'tailwind-merge' if not present.",
+    "2. Update 'tailwind.config.js' to include the custom colors defined above.",
+    "3. Create a 'Layout' component that wraps pages with the Navbar and Footer.",
+    "4. Use 'Manrope' for all headings. Import it via Google Fonts in index.css.",
+    "5. Ensure all forms (Login, Enquiry) have proper validation states (red border for error).",
+    "6. The 'Bulk Enquiry' feature is key for B2B. Make that CTA prominent.",
+    "7. Use the provided image URLs for the respective sections. Do not use placeholders.",
+    "8. For the Admin Dashboard, prioritize density and data visibility over large whitespace."
+  ],
+  "universal_guidelines": [
+    "Avoid generic centered layouts.",
+    "Use 2-3x more spacing than typical designs.",
+    "Every interaction needs micro-animations.",
+    "Use 'sonner' for toasts.",
+    "All interactive elements MUST include 'data-testid'."
+  ]
+}
