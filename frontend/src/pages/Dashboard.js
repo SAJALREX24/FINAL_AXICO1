@@ -7,9 +7,10 @@ import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
-import { Package, FileText, ShieldCheck, User } from 'lucide-react';
+import { Package, FileText, ShieldCheck, User, Download } from 'lucide-react';
 import { toast } from 'sonner';
 import VerificationBadge from '../components/VerificationBadge';
+import { getMedicalAvatar } from '../utils/avatars';
 
 const Dashboard = () => {
   const { user, loading: authLoading } = useAuth();
