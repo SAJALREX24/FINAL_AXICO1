@@ -173,3 +173,11 @@ carts: { id, user_id, items, updated_at }
 
 ## Last Updated
 February 3, 2025
+
+## Recent Changes
+- Fixed logout error that occurred during state transition
+- Redesigned "Add Product" dialog with sections for Basic Info, Pricing & Discount, Inventory, and Product Options
+- Added new product fields: originalPrice, discount, stockQuantity, minOrderQuantity, featured, limitedStock
+- Redesigned "Write Review" dialog with interactive star rating
+- Added "Recently Viewed" products feature on homepage
+- Fixed CSS background color variable to ensure white dialogs
