@@ -101,9 +101,17 @@ const Navbar = ({ cartCount = 0 }) => {
             {user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <button className="flex items-center space-x-2" data-testid="user-menu-trigger">
-                    <div className="h-8 w-8 rounded-full bg-primary text-white flex items-center justify-center">
-                      {user.name?.charAt(0)?.toUpperCase() || 'U'}
+                  <button className="flex items-center space-x-2 focus:outline-none" data-testid="user-menu-trigger">
+                    <div className="h-9 w-9 rounded-full overflow-hidden border-2 border-blue-400 shadow-md hover:border-blue-500 transition-colors">
+                      <img 
+                        src={userAvatar} 
+                        alt={user.name || 'User'} 
+                        className="h-full w-full object-cover"
+                        onError={(e) => {
+                          e.target.style.display = 'none';
+                          e.target.parentElement.innerHTML = `<div class="h-full w-full bg-primary text-white flex items-center justify-center font-bold">${user.name?.charAt(0)?.toUpperCase() || 'U'}</div>`;
+                        }}
+                      />
                     </div>
                   </button>
                 </DropdownMenuTrigger>
