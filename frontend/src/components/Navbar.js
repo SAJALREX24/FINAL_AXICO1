@@ -90,7 +90,7 @@ const Navbar = ({ cartCount = 0 }) => {
                 <DropdownMenuTrigger asChild>
                   <button className="flex items-center space-x-2" data-testid="user-menu-trigger">
                     <div className="h-8 w-8 rounded-full bg-primary text-white flex items-center justify-center">
-                      {user.name.charAt(0).toUpperCase()}
+                      {user.name?.charAt(0)?.toUpperCase() || 'U'}
                     </div>
                   </button>
                 </DropdownMenuTrigger>
