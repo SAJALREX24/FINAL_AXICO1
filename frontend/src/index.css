@@ -35,7 +35,7 @@ h1, h2, h3, h4, h5, h6 {
 
 @layer base {
     :root {
-        --background: 248 250 252;
+        --background: 0 0% 100%;
         --foreground: 15 23 42;
         --card: 0 0% 100%;
         --card-foreground: 15 23 42;
