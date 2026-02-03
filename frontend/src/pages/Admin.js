@@ -219,69 +219,210 @@ const Admin = () => {
                 <h2 className="text-xl font-semibold text-slate-900">Products Management</h2>
                 <Dialog open={productDialogOpen} onOpenChange={setProductDialogOpen}>
                   <DialogTrigger asChild>
-                    <Button data-testid="add-product-button">Add Product</Button>
+                    <Button className="bg-gradient-to-r from-blue-500 to-green-500 hover:from-blue-600 hover:to-green-600" data-testid="add-product-button">
+                      <Plus className="w-4 h-4 mr-2" />
+                      Add Product
+                    </Button>
                   </DialogTrigger>
-                  <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
-                    <DialogHeader>
-                      <DialogTitle>Create New Product</DialogTitle>
+                  <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto bg-white border-2 border-blue-100 shadow-xl">
+                    <DialogHeader className="border-b border-slate-200 pb-4">
+                      <div className="flex items-center space-x-3">
+                        <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-green-500 rounded-xl flex items-center justify-center">
+                          <Package className="w-5 h-5 text-white" />
+                        </div>
+                        <div>
+                          <DialogTitle className="text-xl font-bold text-slate-900">Add New Product</DialogTitle>
+                          <p className="text-sm text-slate-500">Fill in the product details below</p>
+                        </div>
+                      </div>
                     </DialogHeader>
-                    <form onSubmit={handleCreateProduct} className="space-y-4">
-                      <div>
-                        <Label>Product Name *</Label>
-                        <Input
-                          value={productForm.name}
-                          onChange={(e) => setProductForm({ ...productForm, name: e.target.value })}
-                          required
-                          data-testid="product-name-input"
-                        />
+                    <form onSubmit={handleCreateProduct} className="space-y-6 pt-4">
+                      {/* Basic Info Section */}
+                      <div className="space-y-4">
+                        <h3 className="text-sm font-semibold text-slate-700 flex items-center">
+                          <Tag className="w-4 h-4 mr-2 text-blue-500" />
+                          Basic Information
+                        </h3>
+                        <div className="grid md:grid-cols-2 gap-4">
+                          <div>
+                            <Label className="text-slate-700 font-medium">Product Name *</Label>
+                            <Input
+                              value={productForm.name}
+                              onChange={(e) => setProductForm({ ...productForm, name: e.target.value })}
+                              required
+                              placeholder="Enter product name"
+                              className="mt-1 border-2 border-slate-200 focus:border-blue-500"
+                              data-testid="product-name-input"
+                            />
+                          </div>
+                          <div>
+                            <Label className="text-slate-700 font-medium">Category *</Label>
+                            <Select value={productForm.category} onValueChange={(v) => setProductForm({ ...productForm, category: v })} required>
+                              <SelectTrigger className="mt-1 border-2 border-slate-200 focus:border-blue-500" data-testid="product-category-select">
+                                <SelectValue placeholder="Select category" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="Diagnostic Equipment">Diagnostic Equipment</SelectItem>
+                                <SelectItem value="Hospital Furniture">Hospital Furniture</SelectItem>
+                                <SelectItem value="Surgical Instruments">Surgical Instruments</SelectItem>
+                                <SelectItem value="Patient Monitoring">Patient Monitoring</SelectItem>
+                                <SelectItem value="Lab Equipment">Lab Equipment</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+                        </div>
+                        <div>
+                          <Label className="text-slate-700 font-medium">Description *</Label>
+                          <Textarea
+                            value={productForm.description}
+                            onChange={(e) => setProductForm({ ...productForm, description: e.target.value })}
+                            required
+                            rows={3}
+                            placeholder="Enter detailed product description"
+                            className="mt-1 border-2 border-slate-200 focus:border-blue-500"
+                            data-testid="product-description-input"
+                          />
+                        </div>
+                        <div>
+                          <Label className="text-slate-700 font-medium">Image URL *</Label>
+                          <Input
+                            value={productForm.image}
+                            onChange={(e) => setProductForm({ ...productForm, image: e.target.value })}
+                            required
+                            placeholder="https://example.com/image.jpg"
+                            className="mt-1 border-2 border-slate-200 focus:border-blue-500"
+                            data-testid="product-image-input"
+                          />
+                        </div>
                       </div>
-                      <div>
-                        <Label>Description *</Label>
-                        <Textarea
-                          value={productForm.description}
-                          onChange={(e) => setProductForm({ ...productForm, description: e.target.value })}
-                          required
-                          rows={3}
-                          data-testid="product-description-input"
-                        />
+
+                      {/* Pricing Section */}
+                      <div className="space-y-4 border-t border-slate-200 pt-4">
+                        <h3 className="text-sm font-semibold text-slate-700 flex items-center">
+                          <Percent className="w-4 h-4 mr-2 text-green-500" />
+                          Pricing & Discount
+                        </h3>
+                        <div className="grid md:grid-cols-3 gap-4">
+                          <div>
+                            <Label className="text-slate-700 font-medium">Selling Price (₹) *</Label>
+                            <Input
+                              type="number"
+                              value={productForm.price}
+                              onChange={(e) => setProductForm({ ...productForm, price: e.target.value })}
+                              required
+                              placeholder="2499"
+                              className="mt-1 border-2 border-slate-200 focus:border-blue-500"
+                              data-testid="product-price-input"
+                            />
+                          </div>
+                          <div>
+                            <Label className="text-slate-700 font-medium">Original Price (₹)</Label>
+                            <Input
+                              type="number"
+                              value={productForm.originalPrice}
+                              onChange={(e) => setProductForm({ ...productForm, originalPrice: e.target.value })}
+                              placeholder="2999"
+                              className="mt-1 border-2 border-slate-200 focus:border-blue-500"
+                              data-testid="product-original-price-input"
+                            />
+                          </div>
+                          <div>
+                            <Label className="text-slate-700 font-medium">Discount (%)</Label>
+                            <Input
+                              type="number"
+                              value={productForm.discount}
+                              onChange={(e) => setProductForm({ ...productForm, discount: e.target.value })}
+                              placeholder="15"
+                              max="100"
+                              className="mt-1 border-2 border-slate-200 focus:border-blue-500"
+                              data-testid="product-discount-input"
+                            />
+                          </div>
+                        </div>
                       </div>
-                      <div>
-                        <Label>Category *</Label>
-                        <Select value={productForm.category} onValueChange={(v) => setProductForm({ ...productForm, category: v })} required>
-                          <SelectTrigger data-testid="product-category-select">
-                            <SelectValue placeholder="Select category" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="Diagnostic Equipment">Diagnostic Equipment</SelectItem>
-                            <SelectItem value="Hospital Furniture">Hospital Furniture</SelectItem>
-                            <SelectItem value="Surgical Instruments">Surgical Instruments</SelectItem>
-                            <SelectItem value="Patient Monitoring">Patient Monitoring</SelectItem>
-                            <SelectItem value="Lab Equipment">Lab Equipment</SelectItem>
-                          </SelectContent>
-                        </Select>
+
+                      {/* Stock Section */}
+                      <div className="space-y-4 border-t border-slate-200 pt-4">
+                        <h3 className="text-sm font-semibold text-slate-700 flex items-center">
+                          <Box className="w-4 h-4 mr-2 text-blue-500" />
+                          Inventory & Stock
+                        </h3>
+                        <div className="grid md:grid-cols-2 gap-4">
+                          <div>
+                            <Label className="text-slate-700 font-medium">Stock Quantity</Label>
+                            <Input
+                              type="number"
+                              value={productForm.stockQuantity}
+                              onChange={(e) => setProductForm({ ...productForm, stockQuantity: e.target.value })}
+                              placeholder="100"
+                              className="mt-1 border-2 border-slate-200 focus:border-blue-500"
+                              data-testid="product-stock-input"
+                            />
+                          </div>
+                          <div>
+                            <Label className="text-slate-700 font-medium">Min Order Quantity</Label>
+                            <Input
+                              type="number"
+                              value={productForm.minOrderQuantity}
+                              onChange={(e) => setProductForm({ ...productForm, minOrderQuantity: e.target.value })}
+                              placeholder="1"
+                              min="1"
+                              className="mt-1 border-2 border-slate-200 focus:border-blue-500"
+                              data-testid="product-min-order-input"
+                            />
+                          </div>
+                        </div>
                       </div>
-                      <div>
-                        <Label>Price *</Label>
-                        <Input
-                          type="number"
-                          value={productForm.price}
-                          onChange={(e) => setProductForm({ ...productForm, price: e.target.value })}
-                          required
-                          data-testid="product-price-input"
-                        />
+
+                      {/* Options Section */}
+                      <div className="space-y-4 border-t border-slate-200 pt-4">
+                        <h3 className="text-sm font-semibold text-slate-700">Product Options</h3>
+                        <div className="grid md:grid-cols-3 gap-4">
+                          <div className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
+                            <Label className="text-slate-700 font-medium cursor-pointer">Available</Label>
+                            <Switch
+                              checked={productForm.availability}
+                              onCheckedChange={(checked) => setProductForm({ ...productForm, availability: checked })}
+                              data-testid="product-availability-switch"
+                            />
+                          </div>
+                          <div className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
+                            <Label className="text-slate-700 font-medium cursor-pointer">Featured</Label>
+                            <Switch
+                              checked={productForm.featured}
+                              onCheckedChange={(checked) => setProductForm({ ...productForm, featured: checked })}
+                              data-testid="product-featured-switch"
+                            />
+                          </div>
+                          <div className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
+                            <Label className="text-slate-700 font-medium cursor-pointer">Limited Stock</Label>
+                            <Switch
+                              checked={productForm.limitedStock}
+                              onCheckedChange={(checked) => setProductForm({ ...productForm, limitedStock: checked })}
+                              data-testid="product-limited-switch"
+                            />
+                          </div>
+                        </div>
                       </div>
-                      <div>
-                        <Label>Image URL *</Label>
-                        <Input
-                          value={productForm.image}
-                          onChange={(e) => setProductForm({ ...productForm, image: e.target.value })}
-                          required
-                          data-testid="product-image-input"
-                        />
+
+                      <div className="flex space-x-3 pt-4 border-t border-slate-200">
+                        <Button 
+                          type="submit" 
+                          className="flex-1 bg-gradient-to-r from-blue-500 to-green-500 hover:from-blue-600 hover:to-green-600 text-white shadow-lg"
+                          data-testid="submit-product-button"
+                        >
+                          <Plus className="w-4 h-4 mr-2" />
+                          Create Product
+                        </Button>
+                        <Button 
+                          type="button" 
+                          variant="outline" 
+                          onClick={() => setProductDialogOpen(false)}
+                          className="border-2"
+                        >
+                          Cancel
+                        </Button>
                       </div>
-                      <Button type="submit" className="w-full" data-testid="submit-product-button">
-                        Create Product
-                      </Button>
                     </form>
                   </DialogContent>
                 </Dialog>
