@@ -265,43 +265,73 @@ const ProductDetail = () => {
             {user && (
               <Dialog open={reviewOpen} onOpenChange={setReviewOpen}>
                 <DialogTrigger asChild>
-                  <Button data-testid="write-review-button">Write a Review</Button>
+                  <Button className="bg-gradient-to-r from-blue-500 to-green-500 hover:from-blue-600 hover:to-green-600" data-testid="write-review-button">
+                    <Star className="w-4 h-4 mr-2" />
+                    Write a Review
+                  </Button>
                 </DialogTrigger>
-                <DialogContent>
-                  <DialogHeader>
-                    <DialogTitle>Write a Review</DialogTitle>
+                <DialogContent className="max-w-md bg-white border-2 border-blue-100 shadow-xl">
+                  <DialogHeader className="border-b border-slate-200 pb-4">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-10 h-10 bg-gradient-to-br from-amber-400 to-orange-500 rounded-xl flex items-center justify-center">
+                        <Star className="w-5 h-5 text-white fill-white" />
+                      </div>
+                      <div>
+                        <DialogTitle className="text-xl font-bold text-slate-900">Write a Review</DialogTitle>
+                        <p className="text-sm text-slate-500">Share your experience with this product</p>
+                      </div>
+                    </div>
                   </DialogHeader>
-                  <form onSubmit={handleSubmitReview} className="space-y-4">
+                  <form onSubmit={handleSubmitReview} className="space-y-6 pt-4">
                     <div>
-                      <Label>Rating *</Label>
-                      <Select value={rating.toString()} onValueChange={(v) => setRating(parseInt(v))} required>
-                        <SelectTrigger data-testid="rating-select">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {[5, 4, 3, 2, 1].map((r) => (
-                            <SelectItem key={r} value={r.toString()}>
-                              {r} Star{r > 1 ? 's' : ''}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
+                      <Label className="text-slate-700 font-medium">Your Rating *</Label>
+                      <div className="flex items-center space-x-1 mt-2">
+                        {[1, 2, 3, 4, 5].map((r) => (
+                          <button
+                            key={r}
+                            type="button"
+                            onClick={() => setRating(r)}
+                            className="p-1 hover:scale-110 transition-transform"
+                          >
+                            <Star 
+                              className={`w-8 h-8 ${r <= rating ? 'text-amber-400 fill-amber-400' : 'text-slate-300'}`}
+                            />
+                          </button>
+                        ))}
+                        <span className="ml-2 text-sm text-slate-600">({rating} star{rating > 1 ? 's' : ''})</span>
+                      </div>
                     </div>
                     
                     <div>
-                      <Label>Comment *</Label>
+                      <Label className="text-slate-700 font-medium">Your Review *</Label>
                       <Textarea
                         value={comment}
                         onChange={(e) => setComment(e.target.value)}
                         rows={4}
                         required
+                        placeholder="Share your thoughts about this product..."
+                        className="mt-1 border-2 border-slate-200 focus:border-blue-500"
                         data-testid="review-comment-textarea"
                       />
                     </div>
                     
-                    <Button type="submit" className="w-full" data-testid="submit-review-button">
-                      Submit Review
-                    </Button>
+                    <div className="flex space-x-3 pt-2">
+                      <Button 
+                        type="submit" 
+                        className="flex-1 bg-gradient-to-r from-blue-500 to-green-500 hover:from-blue-600 hover:to-green-600 text-white shadow-lg"
+                        data-testid="submit-review-button"
+                      >
+                        Submit Review
+                      </Button>
+                      <Button 
+                        type="button" 
+                        variant="outline" 
+                        onClick={() => setReviewOpen(false)}
+                        className="border-2"
+                      >
+                        Cancel
+                      </Button>
+                    </div>
                   </form>
                 </DialogContent>
               </Dialog>
