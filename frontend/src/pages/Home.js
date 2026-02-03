@@ -76,7 +76,6 @@ const Home = () => {
 
   return (
     <div className="animate-fade-in" data-testid="home-page">
-      {/* Hero Section with 3D Animations */}
       {/* Hero Slider */}
       <HeroSlider />
 
