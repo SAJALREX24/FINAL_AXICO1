@@ -1,4 +1,4 @@
-from fastapi import FastAPI, APIRouter, HTTPException, Depends, status
+from fastapi import FastAPI, APIRouter, HTTPException, Depends, status, Request, Response
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
@@ -13,6 +13,7 @@ from datetime import datetime, timezone, timedelta
 import bcrypt
 import jwt
 import razorpay
+import httpx
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
@@ -30,8 +31,11 @@ JWT_SECRET = os.environ['JWT_SECRET']
 JWT_ALGORITHM = "HS256"
 JWT_EXPIRATION_HOURS = 72
 
+# Session configuration for Google OAuth
+SESSION_EXPIRATION_DAYS = 7
+
 # Security
-security = HTTPBearer()
+security = HTTPBearer(auto_error=False)  # Allow optional auth for Google OAuth
 
 app = FastAPI()
 api_router = APIRouter(prefix="/api")
