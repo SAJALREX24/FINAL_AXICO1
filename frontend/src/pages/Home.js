@@ -104,8 +104,8 @@ const Home = () => {
           ></div>
         </div>
 
-        {/* Floating 3D Medical Icons */}
-        <div className="absolute inset-0 pointer-events-none">
+        {/* Floating 3D Medical Icons - Hidden on mobile */}
+        <div className="absolute inset-0 pointer-events-none hidden lg:block">
           {[Stethoscope, Heart, Activity, Microscope, Scissors, BedDouble].map((Icon, i) => {
             const positions = [
               { top: '10%', left: '5%' },
@@ -135,29 +135,29 @@ const Home = () => {
         </div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div>
-              <div className="inline-flex items-center px-4 py-2 bg-blue-100 rounded-full mb-6 animate-bounce-slow">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+            <div className="text-center lg:text-left">
+              <div className="inline-flex items-center px-3 sm:px-4 py-2 bg-blue-100 rounded-full mb-4 sm:mb-6 animate-bounce-slow">
                 <Sparkles className="w-4 h-4 text-blue-600 mr-2" />
-                <span className="text-sm font-semibold text-blue-700">Trusted by 1000+ Healthcare Facilities</span>
+                <span className="text-xs sm:text-sm font-semibold text-blue-700">Trusted by 1000+ Healthcare Facilities</span>
               </div>
               
-              <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-slate-900 mb-6 leading-tight" data-testid="hero-title">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight text-slate-900 mb-4 sm:mb-6 leading-tight" data-testid="hero-title">
                 Premium <span className="bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent">Medical Equipment</span> for Healthcare Excellence
               </h1>
               
-              <p className="text-xl text-slate-600 mb-8 leading-relaxed" data-testid="hero-description">
+              <p className="text-base sm:text-lg lg:text-xl text-slate-600 mb-6 sm:mb-8 leading-relaxed max-w-xl mx-auto lg:mx-0" data-testid="hero-description">
                 Quality equipment with certified standards. Fast delivery, verified sellers, and 24/7 support for hospitals, clinics, and healthcare professionals.
               </p>
               
-              <div className="flex flex-wrap gap-4 mb-12">
-                <Link to="/products" data-testid="browse-products-button">
-                  <Button size="lg" className="shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 text-lg px-8 py-6">
+              <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-3 sm:gap-4 mb-8 sm:mb-12">
+                <Link to="/products" data-testid="browse-products-button" className="w-full sm:w-auto">
+                  <Button size="lg" className="w-full sm:w-auto shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 text-base sm:text-lg px-6 sm:px-8 py-5 sm:py-6">
                     Browse Products
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
                 </Link>
-                <Link to="/bulk-order" data-testid="hero-bulk-enquiry-button">
+                <Link to="/bulk-order" data-testid="hero-bulk-enquiry-button" className="w-full sm:w-auto">
                   <Button size="lg" variant="outline" className="border-2 border-blue-600 hover:bg-blue-50 transition-all duration-300 transform hover:scale-105 text-lg px-8 py-6">
                     Get Bulk Quote
                   </Button>
