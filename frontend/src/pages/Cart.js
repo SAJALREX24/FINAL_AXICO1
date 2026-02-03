@@ -143,8 +143,12 @@ const Cart = () => {
                           className="p-1 border border-slate-200 rounded hover:bg-slate-100"
                           data-testid="increase-quantity-button"
                         >
-                          <Plus className="h-4 w-4" />
+                          <Plus className="h-3 w-3 sm:h-4 sm:w-4" />
                         </button>
+                        
+                        <span className="text-base sm:text-lg lg:text-xl font-bold text-primary sm:hidden" data-testid="cart-item-price-mobile">
+                          ₹{((item.product?.price || 0) * item.quantity).toLocaleString()}
+                        </span>
                       </div>
                       
                       <button
@@ -152,16 +156,16 @@ const Cart = () => {
                         className="text-red-600 hover:text-red-700 transition-colors"
                         data-testid="remove-item-button"
                       >
-                        <Trash2 className="h-5 w-5" />
+                        <Trash2 className="h-4 w-4 sm:h-5 sm:w-5" />
                       </button>
                     </div>
                   </div>
                   
-                  <div className="text-right">
-                    <p className="text-2xl font-bold text-primary" data-testid="cart-item-price">
+                  <div className="text-right hidden sm:block">
+                    <p className="text-xl lg:text-2xl font-bold text-primary" data-testid="cart-item-price">
                       ₹{((item.product?.price || 0) * item.quantity).toLocaleString()}
                     </p>
-                    <p className="text-sm text-slate-600 mt-1">
+                    <p className="text-xs sm:text-sm text-slate-600 mt-1">
                       ₹{item.product?.price.toLocaleString()} each
                     </p>
                   </div>
@@ -171,19 +175,19 @@ const Cart = () => {
 
             {/* Order Summary */}
             <div>
-              <div className="bg-white border border-slate-200 rounded-xl p-6 sticky top-24" data-testid="order-summary">
-                <h2 className="text-xl font-semibold text-slate-900 mb-6">Order Summary</h2>
+              <div className="bg-white border border-slate-200 rounded-xl p-4 sm:p-6 sticky top-20 sm:top-24" data-testid="order-summary">
+                <h2 className="text-lg sm:text-xl font-semibold text-slate-900 mb-4 sm:mb-6">Order Summary</h2>
                 
-                <div className="space-y-3 mb-6">
-                  <div className="flex justify-between text-slate-600">
+                <div className="space-y-2 sm:space-y-3 mb-4 sm:mb-6">
+                  <div className="flex justify-between text-sm sm:text-base text-slate-600">
                     <span>Subtotal</span>
                     <span data-testid="subtotal-amount">₹{calculateTotal().toLocaleString()}</span>
                   </div>
-                  <div className="flex justify-between text-slate-600">
+                  <div className="flex justify-between text-sm sm:text-base text-slate-600">
                     <span>Shipping</span>
                     <span className="text-green-600">FREE</span>
                   </div>
-                  <div className="border-t border-slate-200 pt-3 flex justify-between text-lg font-semibold">
+                  <div className="border-t border-slate-200 pt-3 flex justify-between text-base sm:text-lg font-semibold">
                     <span>Total</span>
                     <span className="text-primary" data-testid="total-amount">₹{calculateTotal().toLocaleString()}</span>
                   </div>
