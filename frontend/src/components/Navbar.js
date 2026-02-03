@@ -89,34 +89,6 @@ const Navbar = ({ cartCount = 0 }) => {
 
   return (
     <>
-      {/* Top Bar */}
-      <div className="bg-gradient-to-r from-blue-600 to-green-600 text-white text-xs sm:text-sm py-2 hidden sm:block">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center">
-            <div className="flex items-center space-x-4 md:space-x-6">
-              <a href="tel:+919045660485" className="flex items-center hover:text-blue-100 transition-colors">
-                <Phone className="w-3 h-3 mr-1" />
-                <span>+91 9045660485</span>
-              </a>
-              <a href="mailto:support@medequipmart.com" className="flex items-center hover:text-blue-100 transition-colors hidden md:flex">
-                <Mail className="w-3 h-3 mr-1" />
-                <span>support@medequipmart.com</span>
-              </a>
-            </div>
-            <div className="flex items-center space-x-4 md:space-x-6">
-              <span className="flex items-center">
-                <Truck className="w-3 h-3 mr-1" />
-                Free Delivery Above ₹10,000
-              </span>
-              <span className="flex items-center hidden md:flex">
-                <ShieldCheck className="w-3 h-3 mr-1" />
-                ISO Certified
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-
       {/* Main Navbar */}
       <nav className="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm" data-testid="main-navbar">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
