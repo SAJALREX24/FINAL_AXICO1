@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../utils/api';
 import ProductCard from '../components/ProductCard';
+import RecentlyViewed from '../components/RecentlyViewed';
 import { Activity, ShieldCheck, Truck, UserCheck, ArrowRight, Star, Stethoscope, BedDouble, Scissors, Heart, Microscope, Building2, Users, Award, TrendingUp, CheckCircle2, Sparkles } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { toast } from 'sonner';
