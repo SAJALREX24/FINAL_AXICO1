@@ -790,6 +790,421 @@ async def approve_verification(verification_id: str, approval: VerificationAppro
     
     return {"message": "Verification updated"}
 
+# ============= SALES DASHBOARD ROUTES =============
+
+@api_router.get("/admin/dashboard/stats", dependencies=[Depends(get_admin_user)])
+async def get_dashboard_stats():
+    """Get comprehensive sales statistics for admin dashboard"""
+    
+    # Total revenue from completed orders
+    orders = await db.orders.find({"payment_status": "paid"}, {"_id": 0}).to_list(1000)
+    total_revenue = sum(order.get("total_amount", 0) for order in orders)
+    
+    # Order counts
+    total_orders = await db.orders.count_documents({})
+    pending_orders = await db.orders.count_documents({"payment_status": "pending"})
+    completed_orders = await db.orders.count_documents({"payment_status": "paid"})
+    
+    # Product stats
+    total_products = await db.products.count_documents({})
+    low_stock_products = await db.products.count_documents({
+        "specifications.stockQuantity": {"$exists": True, "$lte": 10}
+    })
+    out_of_stock = await db.products.count_documents({"availability": False})
+    
+    # User stats
+    total_users = await db.users.count_documents({"role": "user"})
+    verified_users = await db.users.count_documents({"verification_status": "verified"})
+    
+    # Bulk enquiries
+    total_enquiries = await db.bulk_enquiries.count_documents({})
+    pending_enquiries = await db.bulk_enquiries.count_documents({"status": "pending"})
+    
+    # Monthly revenue (last 6 months)
+    monthly_revenue = []
+    for i in range(5, -1, -1):
+        month_start = datetime.now(timezone.utc).replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+        month_start = month_start - timedelta(days=i*30)
+        month_end = month_start + timedelta(days=30)
+        
+        month_orders = await db.orders.find({
+            "payment_status": "paid",
+            "created_at": {
+                "$gte": month_start.isoformat(),
+                "$lt": month_end.isoformat()
+            }
+        }, {"_id": 0}).to_list(1000)
+        
+        revenue = sum(order.get("total_amount", 0) for order in month_orders)
+        monthly_revenue.append({
+            "month": month_start.strftime("%b %Y"),
+            "revenue": revenue,
+            "orders": len(month_orders)
+        })
+    
+    # Top selling products
+    product_sales = {}
+    for order in orders:
+        for item in order.get("items", []):
+            pid = item.get("product_id")
+            if pid:
+                if pid not in product_sales:
+                    product_sales[pid] = {"quantity": 0, "revenue": 0}
+                product_sales[pid]["quantity"] += item.get("quantity", 1)
+                product_sales[pid]["revenue"] += item.get("price", 0) * item.get("quantity", 1)
+    
+    top_products = []
+    for pid, stats in sorted(product_sales.items(), key=lambda x: x[1]["revenue"], reverse=True)[:5]:
+        product = await db.products.find_one({"id": pid}, {"_id": 0, "name": 1, "category": 1, "price": 1})
+        if product:
+            top_products.append({
+                **product,
+                "total_sold": stats["quantity"],
+                "total_revenue": stats["revenue"]
+            })
+    
+    # Category-wise sales
+    category_sales = {}
+    for order in orders:
+        for item in order.get("items", []):
+            product = await db.products.find_one({"id": item.get("product_id")}, {"_id": 0, "category": 1})
+            if product:
+                cat = product.get("category", "Other")
+                if cat not in category_sales:
+                    category_sales[cat] = 0
+                category_sales[cat] += item.get("price", 0) * item.get("quantity", 1)
+    
+    return {
+        "revenue": {
+            "total": total_revenue,
+            "monthly": monthly_revenue
+        },
+        "orders": {
+            "total": total_orders,
+            "pending": pending_orders,
+            "completed": completed_orders
+        },
+        "products": {
+            "total": total_products,
+            "low_stock": low_stock_products,
+            "out_of_stock": out_of_stock
+        },
+        "users": {
+            "total": total_users,
+            "verified": verified_users
+        },
+        "enquiries": {
+            "total": total_enquiries,
+            "pending": pending_enquiries
+        },
+        "top_products": top_products,
+        "category_sales": [{"category": k, "revenue": v} for k, v in category_sales.items()]
+    }
+
+@api_router.get("/admin/low-stock-alerts", dependencies=[Depends(get_admin_user)])
+async def get_low_stock_alerts():
+    """Get products with low stock (10 or less)"""
+    
+    # Products with explicit stock quantity <= 10
+    low_stock = await db.products.find({
+        "specifications.stockQuantity": {"$exists": True, "$lte": 10}
+    }, {"_id": 0}).to_list(100)
+    
+    # Products marked as unavailable
+    out_of_stock = await db.products.find({"availability": False}, {"_id": 0}).to_list(100)
+    
+    alerts = []
+    for product in low_stock:
+        stock = product.get("specifications", {}).get("stockQuantity", 0)
+        alerts.append({
+            "id": product["id"],
+            "name": product["name"],
+            "category": product["category"],
+            "stock": stock,
+            "status": "critical" if stock <= 5 else "low",
+            "price": product["price"]
+        })
+    
+    for product in out_of_stock:
+        if not any(a["id"] == product["id"] for a in alerts):
+            alerts.append({
+                "id": product["id"],
+                "name": product["name"],
+                "category": product["category"],
+                "stock": 0,
+                "status": "out_of_stock",
+                "price": product["price"]
+            })
+    
+    # Sort by stock level
+    alerts.sort(key=lambda x: x["stock"])
+    
+    return alerts
+
+@api_router.put("/admin/products/{product_id}/stock", dependencies=[Depends(get_admin_user)])
+async def update_product_stock(product_id: str, stock_update: dict):
+    """Update product stock quantity"""
+    new_stock = stock_update.get("stock_quantity")
+    if new_stock is None:
+        raise HTTPException(status_code=400, detail="stock_quantity is required")
+    
+    result = await db.products.update_one(
+        {"id": product_id},
+        {
+            "$set": {
+                "specifications.stockQuantity": new_stock,
+                "availability": new_stock > 0
+            }
+        }
+    )
+    
+    if result.matched_count == 0:
+        raise HTTPException(status_code=404, detail="Product not found")
+    
+    return {"message": "Stock updated", "new_stock": new_stock}
+
+# ============= EMI ROUTES =============
+
+@api_router.get("/emi/calculate")
+async def calculate_emi(amount: float, tenure_months: int = 12):
+    """Calculate EMI options for a given amount"""
+    
+    if amount < 50000:
+        raise HTTPException(status_code=400, detail="EMI available for purchases above ₹50,000")
+    
+    # Interest rates for different tenures
+    interest_rates = {
+        3: 0,      # No cost EMI for 3 months
+        6: 12,     # 12% p.a. for 6 months
+        9: 13,     # 13% p.a. for 9 months
+        12: 14,    # 14% p.a. for 12 months
+        18: 15,    # 15% p.a. for 18 months
+        24: 16     # 16% p.a. for 24 months
+    }
+    
+    emi_options = []
+    for months, rate in interest_rates.items():
+        monthly_rate = rate / 12 / 100
+        
+        if rate == 0:
+            # No cost EMI
+            emi = amount / months
+            total_amount = amount
+            interest_amount = 0
+        else:
+            # Standard EMI calculation: EMI = P * r * (1+r)^n / ((1+r)^n - 1)
+            if monthly_rate > 0:
+                emi = amount * monthly_rate * pow(1 + monthly_rate, months) / (pow(1 + monthly_rate, months) - 1)
+            else:
+                emi = amount / months
+            total_amount = emi * months
+            interest_amount = total_amount - amount
+        
+        emi_options.append({
+            "tenure_months": months,
+            "interest_rate": rate,
+            "monthly_emi": round(emi, 2),
+            "total_amount": round(total_amount, 2),
+            "interest_amount": round(interest_amount, 2),
+            "is_no_cost": rate == 0
+        })
+    
+    return {
+        "principal_amount": amount,
+        "emi_options": emi_options
+    }
+
+@api_router.get("/products/{product_id}/emi")
+async def get_product_emi(product_id: str):
+    """Get EMI options for a specific product"""
+    
+    product = await db.products.find_one({"id": product_id}, {"_id": 0})
+    if not product:
+        raise HTTPException(status_code=404, detail="Product not found")
+    
+    price = product["price"]
+    
+    if price < 50000:
+        return {
+            "product": product["name"],
+            "price": price,
+            "emi_available": False,
+            "message": "EMI available for products above ₹50,000"
+        }
+    
+    # Get EMI options
+    emi_response = await calculate_emi(price)
+    
+    return {
+        "product": product["name"],
+        "price": price,
+        "emi_available": True,
+        "emi_options": emi_response["emi_options"]
+    }
+
+# ============= INVOICE ROUTES =============
+
+@api_router.get("/orders/{order_id}/invoice")
+async def generate_invoice(order_id: str, user: User = Depends(get_current_user)):
+    """Generate PDF invoice for an order"""
+    
+    # Get order
+    order = await db.orders.find_one({"id": order_id}, {"_id": 0})
+    if not order:
+        raise HTTPException(status_code=404, detail="Order not found")
+    
+    # Check if user owns this order or is admin
+    if order["user_id"] != user.id and user.role != "admin":
+        raise HTTPException(status_code=403, detail="Access denied")
+    
+    # Get user details
+    order_user = await db.users.find_one({"id": order["user_id"]}, {"_id": 0, "password": 0})
+    
+    # Create PDF
+    buffer = io.BytesIO()
+    doc = SimpleDocTemplate(buffer, pagesize=A4, rightMargin=30, leftMargin=30, topMargin=30, bottomMargin=30)
+    
+    styles = getSampleStyleSheet()
+    title_style = ParagraphStyle('Title', parent=styles['Heading1'], fontSize=24, textColor=colors.HexColor('#1e40af'), alignment=TA_CENTER)
+    header_style = ParagraphStyle('Header', parent=styles['Normal'], fontSize=12, textColor=colors.HexColor('#374151'))
+    
+    elements = []
+    
+    # Company Header
+    elements.append(Paragraph("MedEquipMart", title_style))
+    elements.append(Paragraph("Your Trusted Medical Equipment Partner", ParagraphStyle('Subtitle', parent=styles['Normal'], fontSize=10, textColor=colors.gray, alignment=TA_CENTER)))
+    elements.append(Spacer(1, 20))
+    
+    # Invoice Title
+    elements.append(Paragraph(f"<b>TAX INVOICE</b>", ParagraphStyle('InvoiceTitle', parent=styles['Heading2'], fontSize=16, alignment=TA_CENTER)))
+    elements.append(Spacer(1, 10))
+    
+    # Invoice Details
+    invoice_date = datetime.now(timezone.utc).strftime("%d-%m-%Y")
+    invoice_data = [
+        ["Invoice No:", f"INV-{order_id[:8].upper()}", "Invoice Date:", invoice_date],
+        ["Order ID:", order_id[:12], "Payment Status:", order.get("payment_status", "Pending").upper()]
+    ]
+    
+    invoice_table = Table(invoice_data, colWidths=[80, 150, 80, 150])
+    invoice_table.setStyle(TableStyle([
+        ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),
+        ('FONTSIZE', (0, 0), (-1, -1), 10),
+        ('FONTNAME', (0, 0), (0, -1), 'Helvetica-Bold'),
+        ('FONTNAME', (2, 0), (2, -1), 'Helvetica-Bold'),
+        ('TEXTCOLOR', (0, 0), (-1, -1), colors.HexColor('#374151')),
+    ]))
+    elements.append(invoice_table)
+    elements.append(Spacer(1, 20))
+    
+    # Customer Details
+    elements.append(Paragraph("<b>Bill To:</b>", header_style))
+    customer_name = order_user.get("name", "Customer") if order_user else "Customer"
+    customer_email = order_user.get("email", "") if order_user else ""
+    customer_phone = order_user.get("phone", "") if order_user else ""
+    customer_org = order_user.get("organization_name", "") if order_user else ""
+    
+    elements.append(Paragraph(f"{customer_name}", styles['Normal']))
+    if customer_org:
+        elements.append(Paragraph(f"{customer_org}", styles['Normal']))
+    elements.append(Paragraph(f"Email: {customer_email}", styles['Normal']))
+    if customer_phone:
+        elements.append(Paragraph(f"Phone: {customer_phone}", styles['Normal']))
+    elements.append(Spacer(1, 20))
+    
+    # Items Table
+    items_data = [["#", "Product", "HSN Code", "Qty", "Unit Price", "GST (18%)", "Amount"]]
+    
+    subtotal = 0
+    total_gst = 0
+    
+    for idx, item in enumerate(order.get("items", []), 1):
+        product = await db.products.find_one({"id": item.get("product_id")}, {"_id": 0})
+        product_name = product.get("name", "Product") if product else item.get("name", "Product")
+        quantity = item.get("quantity", 1)
+        unit_price = item.get("price", 0)
+        
+        # Calculate GST (18%)
+        base_price = unit_price / 1.18  # Price is inclusive of GST
+        gst_amount = unit_price - base_price
+        line_total = unit_price * quantity
+        
+        subtotal += base_price * quantity
+        total_gst += gst_amount * quantity
+        
+        items_data.append([
+            str(idx),
+            product_name[:30] + "..." if len(product_name) > 30 else product_name,
+            "9018",  # HSN code for medical equipment
+            str(quantity),
+            f"₹{base_price:,.2f}",
+            f"₹{gst_amount * quantity:,.2f}",
+            f"₹{line_total:,.2f}"
+        ])
+    
+    items_table = Table(items_data, colWidths=[25, 150, 50, 35, 70, 70, 70])
+    items_table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#1e40af')),
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
+        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+        ('FONTSIZE', (0, 0), (-1, -1), 9),
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+        ('ALIGN', (1, 1), (1, -1), 'LEFT'),
+        ('GRID', (0, 0), (-1, -1), 0.5, colors.HexColor('#d1d5db')),
+        ('ROWBACKGROUNDS', (0, 1), (-1, -1), [colors.white, colors.HexColor('#f3f4f6')]),
+        ('TOPPADDING', (0, 0), (-1, -1), 8),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 8),
+    ]))
+    elements.append(items_table)
+    elements.append(Spacer(1, 20))
+    
+    # Totals
+    total_amount = order.get("total_amount", subtotal + total_gst)
+    
+    totals_data = [
+        ["", "", "", "", "Subtotal:", f"₹{subtotal:,.2f}"],
+        ["", "", "", "", "GST (18%):", f"₹{total_gst:,.2f}"],
+        ["", "", "", "", "Total Amount:", f"₹{total_amount:,.2f}"],
+    ]
+    
+    totals_table = Table(totals_data, colWidths=[25, 150, 50, 35, 100, 110])
+    totals_table.setStyle(TableStyle([
+        ('FONTNAME', (4, 0), (4, -1), 'Helvetica-Bold'),
+        ('FONTNAME', (5, -1), (5, -1), 'Helvetica-Bold'),
+        ('FONTSIZE', (0, 0), (-1, -1), 10),
+        ('ALIGN', (4, 0), (-1, -1), 'RIGHT'),
+        ('LINEABOVE', (4, -1), (-1, -1), 1, colors.HexColor('#1e40af')),
+        ('TEXTCOLOR', (4, -1), (-1, -1), colors.HexColor('#1e40af')),
+    ]))
+    elements.append(totals_table)
+    elements.append(Spacer(1, 30))
+    
+    # GST Details
+    elements.append(Paragraph("<b>GST Details:</b>", header_style))
+    elements.append(Paragraph("GSTIN: 27AABCM1234A1Z5 (Sample)", styles['Normal']))
+    elements.append(Paragraph("Place of Supply: Maharashtra", styles['Normal']))
+    elements.append(Spacer(1, 20))
+    
+    # Footer
+    elements.append(Paragraph("<b>Terms & Conditions:</b>", header_style))
+    elements.append(Paragraph("1. Goods once sold will not be taken back.", styles['Normal']))
+    elements.append(Paragraph("2. Warranty as per manufacturer's terms.", styles['Normal']))
+    elements.append(Paragraph("3. Subject to Mumbai jurisdiction.", styles['Normal']))
+    elements.append(Spacer(1, 20))
+    
+    elements.append(Paragraph("Thank you for your business!", ParagraphStyle('Footer', parent=styles['Normal'], fontSize=12, textColor=colors.HexColor('#1e40af'), alignment=TA_CENTER)))
+    
+    # Build PDF
+    doc.build(elements)
+    buffer.seek(0)
+    
+    # Return PDF
+    return StreamingResponse(
+        buffer,
+        media_type="application/pdf",
+        headers={"Content-Disposition": f"attachment; filename=invoice_{order_id[:8]}.pdf"}
+    )
+
 # ============= CONFIG ROUTES =============
 
 @api_router.get("/config")
