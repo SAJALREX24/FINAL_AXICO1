@@ -131,16 +131,16 @@ const Products = () => {
             {loading ? (
               <div className="flex items-center justify-center py-12">
                 <div className="text-center">
-                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
-                  <p className="mt-4 text-slate-600">Loading products...</p>
+                  <div className="animate-spin rounded-full h-10 w-10 sm:h-12 sm:w-12 border-b-2 border-primary mx-auto"></div>
+                  <p className="mt-4 text-slate-600 text-sm sm:text-base">Loading products...</p>
                 </div>
               </div>
             ) : products.length === 0 ? (
               <div className="text-center py-12" data-testid="no-products-message">
-                <p className="text-slate-600 text-lg">No products found</p>
+                <p className="text-slate-600 text-base sm:text-lg">No products found</p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" data-testid="products-grid">
+              <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-6" data-testid="products-grid">
                 {products.map((product) => (
                   <ProductCard
                     key={product.id}
