@@ -16,6 +16,7 @@ import useRecentlyViewed from '../hooks/useRecentlyViewed';
 const ProductDetail = () => {
   const { id } = useParams();
   const { user } = useAuth();
+  const { addToRecentlyViewed } = useRecentlyViewed();
   const [product, setProduct] = useState(null);
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
