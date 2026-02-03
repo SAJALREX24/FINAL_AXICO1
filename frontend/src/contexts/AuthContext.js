@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import api from '../utils/api';
 
 const AuthContext = createContext();
@@ -30,6 +30,7 @@ export const AuthProvider = ({ children }) => {
       setUser(response.data);
     } catch (error) {
       localStorage.removeItem('token');
+      setUser(null);
     } finally {
       setLoading(false);
     }
@@ -49,13 +50,25 @@ export const AuthProvider = ({ children }) => {
     return response.data;
   };
 
-  const logout = () => {
+  const logout = useCallback(() => {
+    // Clear token first
     localStorage.removeItem('token');
+    // Then clear user state
     setUser(null);
-  };
+  }, []);
+
+  // Memoize the context value to prevent unnecessary re-renders
+  const value = React.useMemo(() => ({
+    user,
+    loading,
+    login,
+    register,
+    logout,
+    fetchUser
+  }), [user, loading, logout]);
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, register, logout, fetchUser }}>
+    <AuthContext.Provider value={value}>
       {children}
     </AuthContext.Provider>
   );
