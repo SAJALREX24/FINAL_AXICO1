@@ -23,8 +23,10 @@ const Navbar = ({ cartCount = 0 }) => {
   };
 
   const handleLogout = () => {
-    logout();
+    // Navigate first to avoid rendering issues during state change
     navigate('/');
+    // Then logout after navigation starts
+    setTimeout(() => logout(), 0);
   };
 
   return (
