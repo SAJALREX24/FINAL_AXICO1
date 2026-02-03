@@ -318,6 +318,9 @@ const Home = () => {
         </div>
       </section>
 
+      {/* Recently Viewed Products */}
+      <RecentlyViewed />
+
       {/* Why Choose Us */}
       <section className="py-20 bg-gradient-to-br from-blue-600 to-green-600">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
