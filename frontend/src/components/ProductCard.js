@@ -5,9 +5,13 @@ import { Button } from './ui/button';
 
 const ProductCard = ({ product, onAddToCart }) => {
   return (
-    <div className="product-card bg-white rounded-xl sm:rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 border border-purple-100" data-testid={`product-card-${product.id}`}>
-      <Link to={`/product/${product.id}`}>
-        <div className="aspect-square overflow-hidden">
+    <div 
+      className="product-card bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 flex flex-col h-full" 
+      data-testid={`product-card-${product.id}`}
+    >
+      {/* Image Container - Fixed Aspect Ratio */}
+      <Link to={`/product/${product.id}`} className="block">
+        <div className="aspect-square overflow-hidden bg-gray-50">
           <img
             src={product.image}
             alt={product.name}
@@ -20,35 +24,68 @@ const ProductCard = ({ product, onAddToCart }) => {
         </div>
       </Link>
       
-      <div className="p-3 sm:p-4">
+      {/* Content Container - Flex grow to fill remaining space */}
+      <div className="p-3 flex flex-col flex-1">
+        {/* Product Name - Fixed Height */}
         <Link to={`/product/${product.id}`}>
-          <h3 className="font-semibold text-sm sm:text-base lg:text-lg text-gray-900 mb-1 sm:mb-2 hover:text-purple-600 transition-colors line-clamp-2" data-testid="product-name">
+          <h3 
+            className="font-medium text-sm text-gray-900 mb-1 hover:text-purple-600 transition-colors line-clamp-2 h-10 leading-5" 
+            data-testid="product-name"
+          >
             {product.name}
           </h3>
         </Link>
         
-        <p className="text-xs sm:text-sm text-gray-500 mb-2 sm:mb-3 line-clamp-2 hidden sm:block" data-testid="product-description">
-          {product.description}
+        {/* Brand/Category - Fixed Height */}
+        <p className="text-xs text-gray-500 mb-2 line-clamp-1 h-4">
+          By {product.brand || 'Alaxico'}
         </p>
         
-        <div className="flex items-center justify-between mb-2 sm:mb-3">
-          <span className="text-lg sm:text-xl lg:text-2xl font-semibold text-purple-600" data-testid="product-price">
-            ₹{product.price.toLocaleString()}
-          </span>
-          <span className={`text-[10px] sm:text-xs px-1.5 sm:px-2 py-0.5 sm:py-1 rounded ${product.availability ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`} data-testid="product-availability">
-            {product.availability ? 'In Stock' : 'Out of Stock'}
-          </span>
-        </div>
+        {/* Original Price (if discounted) */}
+        {product.original_price && product.original_price > product.price && (
+          <p className="text-[10px] text-gray-400 line-through h-3">
+            MRP ₹{product.original_price.toLocaleString()}
+          </p>
+        )}
         
-        <Button
-          onClick={() => onAddToCart(product)}
-          disabled={!product.availability}
-          className="w-full text-xs sm:text-sm h-8 sm:h-10 bg-purple-600 hover:bg-purple-700 text-white"
-          data-testid="add-to-cart-button"
-        >
-          <ShoppingCart className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
-          <span className="hidden xs:inline">Add to </span>Cart
-        </Button>
+        {/* Price Section - Push to bottom */}
+        <div className="mt-auto">
+          <div className="flex items-center gap-2 mb-2">
+            <span className="text-base font-semibold text-gray-900" data-testid="product-price">
+              ₹{product.price.toLocaleString()}
+            </span>
+            {product.discount_percentage > 0 && (
+              <span className="text-[10px] text-green-600 font-medium bg-green-50 px-1.5 py-0.5 rounded">
+                {product.discount_percentage}% OFF
+              </span>
+            )}
+          </div>
+          
+          {/* Stock Status */}
+          <div className="flex items-center gap-2 mb-2">
+            <span 
+              className={`text-[10px] px-2 py-0.5 rounded-full ${
+                product.availability 
+                  ? 'bg-green-100 text-green-700' 
+                  : 'bg-red-100 text-red-700'
+              }`} 
+              data-testid="product-availability"
+            >
+              {product.availability ? 'In Stock' : 'Out of Stock'}
+            </span>
+          </div>
+          
+          {/* Add to Cart Button */}
+          <Button
+            onClick={() => onAddToCart(product)}
+            disabled={!product.availability}
+            className="w-full text-xs h-9 bg-purple-600 hover:bg-purple-700 text-white disabled:bg-gray-300"
+            data-testid="add-to-cart-button"
+          >
+            <ShoppingCart className="h-3.5 w-3.5 mr-1.5" />
+            Add to Cart
+          </Button>
+        </div>
       </div>
     </div>
   );
