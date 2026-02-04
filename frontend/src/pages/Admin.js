@@ -164,57 +164,57 @@ const Admin = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
+      <div className="flex items-center justify-center min-h-screen bg-purple-50">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
-          <p className="mt-4 text-slate-600">Loading...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto"></div>
+          <p className="mt-4 text-gray-500">Loading...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen py-8" data-testid="admin-page">
+    <div className="min-h-screen bg-purple-50 py-8" data-testid="admin-page">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 className="text-3xl font-bold text-slate-900 mb-8" data-testid="admin-title">
-          Admin Dashboard
+        <h1 className="text-3xl font-bold text-gray-900 mb-8" data-testid="admin-title">
+          Admin <span className="text-purple-600">Dashboard</span>
         </h1>
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white border border-slate-200 rounded-xl p-6" data-testid="stat-products">
-            <Package className="h-8 w-8 text-primary mb-2" />
-            <p className="text-2xl font-bold text-slate-900">{products.length}</p>
-            <p className="text-slate-600">Products</p>
+          <div className="bg-white border border-purple-100 rounded-xl p-6 shadow-sm" data-testid="stat-products">
+            <Package className="h-8 w-8 text-purple-600 mb-2" />
+            <p className="text-2xl font-bold text-gray-900">{products.length}</p>
+            <p className="text-gray-500">Products</p>
           </div>
-          <div className="bg-white border border-slate-200 rounded-xl p-6" data-testid="stat-orders">
+          <div className="bg-white border border-purple-100 rounded-xl p-6 shadow-sm" data-testid="stat-orders">
             <ShoppingCart className="h-8 w-8 text-green-500 mb-2" />
-            <p className="text-2xl font-bold text-slate-900">{orders.length}</p>
-            <p className="text-slate-600">Orders</p>
+            <p className="text-2xl font-bold text-gray-900">{orders.length}</p>
+            <p className="text-gray-500">Orders</p>
           </div>
-          <div className="bg-white border border-slate-200 rounded-xl p-6" data-testid="stat-enquiries">
-            <FileText className="h-8 w-8 text-blue-500 mb-2" />
-            <p className="text-2xl font-bold text-slate-900">{bulkEnquiries.length}</p>
-            <p className="text-slate-600">Bulk Enquiries</p>
+          <div className="bg-white border border-purple-100 rounded-xl p-6 shadow-sm" data-testid="stat-enquiries">
+            <FileText className="h-8 w-8 text-purple-500 mb-2" />
+            <p className="text-2xl font-bold text-gray-900">{bulkEnquiries.length}</p>
+            <p className="text-gray-500">Bulk Enquiries</p>
           </div>
-          <div className="bg-white border border-slate-200 rounded-xl p-6" data-testid="stat-verifications">
-            <ShieldCheck className="h-8 w-8 text-blue-500 mb-2" />
-            <p className="text-2xl font-bold text-slate-900">{verifications.filter(v => v.status === 'pending').length}</p>
-            <p className="text-slate-600">Pending Verifications</p>
+          <div className="bg-white border border-purple-100 rounded-xl p-6 shadow-sm" data-testid="stat-verifications">
+            <ShieldCheck className="h-8 w-8 text-purple-500 mb-2" />
+            <p className="text-2xl font-bold text-gray-900">{verifications.filter(v => v.status === 'pending').length}</p>
+            <p className="text-gray-500">Pending Verifications</p>
           </div>
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-6">
-            <TabsTrigger value="dashboard" data-testid="admin-dashboard-tab">
+          <TabsList className="grid w-full grid-cols-6 bg-white border border-purple-100 rounded-xl p-1 shadow-sm">
+            <TabsTrigger value="dashboard" className="data-[state=active]:bg-purple-600 data-[state=active]:text-white" data-testid="admin-dashboard-tab">
               <BarChart3 className="w-4 h-4 mr-1" />
               Dashboard
             </TabsTrigger>
-            <TabsTrigger value="products" data-testid="admin-products-tab">Products</TabsTrigger>
-            <TabsTrigger value="orders" data-testid="admin-orders-tab">Orders</TabsTrigger>
-            <TabsTrigger value="enquiries" data-testid="admin-enquiries-tab">Enquiries</TabsTrigger>
-            <TabsTrigger value="reviews" data-testid="admin-reviews-tab">Reviews</TabsTrigger>
-            <TabsTrigger value="verifications" data-testid="admin-verifications-tab">Verifications</TabsTrigger>
+            <TabsTrigger value="products" className="data-[state=active]:bg-purple-600 data-[state=active]:text-white" data-testid="admin-products-tab">Products</TabsTrigger>
+            <TabsTrigger value="orders" className="data-[state=active]:bg-purple-600 data-[state=active]:text-white" data-testid="admin-orders-tab">Orders</TabsTrigger>
+            <TabsTrigger value="enquiries" className="data-[state=active]:bg-purple-600 data-[state=active]:text-white" data-testid="admin-enquiries-tab">Enquiries</TabsTrigger>
+            <TabsTrigger value="reviews" className="data-[state=active]:bg-purple-600 data-[state=active]:text-white" data-testid="admin-reviews-tab">Reviews</TabsTrigger>
+            <TabsTrigger value="verifications" className="data-[state=active]:bg-purple-600 data-[state=active]:text-white" data-testid="admin-verifications-tab">Verifications</TabsTrigger>
           </TabsList>
 
           {/* Sales Dashboard Tab */}
@@ -224,9 +224,9 @@ const Admin = () => {
 
           {/* Products Tab */}
           <TabsContent value="products">
-            <div className="bg-white border border-slate-200 rounded-xl p-6">
+            <div className="bg-white border border-purple-100 rounded-xl p-6 shadow-sm">
               <div className="flex justify-between items-center mb-6">
-                <h2 className="text-xl font-semibold text-slate-900">Products Management</h2>
+                <h2 className="text-xl font-semibold text-gray-900">Products Management</h2>
                 <Dialog open={productDialogOpen} onOpenChange={setProductDialogOpen}>
                   <DialogTrigger asChild>
                     <Button className="bg-gradient-to-r from-blue-500 to-green-500 hover:from-blue-600 hover:to-green-600" data-testid="add-product-button">
