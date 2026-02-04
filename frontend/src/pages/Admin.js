@@ -35,9 +35,19 @@ const Admin = () => {
     originalPrice: '',
     discount: '',
     image: '',
+    images: '',  // Comma-separated URLs
     stockQuantity: '',
     minOrderQuantity: '1',
     specifications: {},
+    keyFeatures: '',  // Comma-separated features
+    featureHighlights: [
+      { icon: 'zap', title: '', description: '' },
+      { icon: 'shield', title: '', description: '' },
+      { icon: 'timer', title: '', description: '' },
+      { icon: 'award', title: '', description: '' },
+    ],
+    warrantyInfo: '',
+    shippingInfo: '',
     availability: true,
     featured: false,
     limitedStock: false,
