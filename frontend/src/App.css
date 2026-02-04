@@ -1,26 +1,26 @@
 .App {
   min-height: 100vh;
-  background: #F8FAFC;
+  background: #FFFFFF;
 }
 
 .product-card {
   background: white;
-  border: 1px solid #e2e8f0;
+  border: 1px solid #E5E7EB;
   border-radius: 12px;
   transition: all 0.3s ease;
   overflow: hidden;
 }
 
 .product-card:hover {
-  box-shadow: 0 10px 25px rgba(15, 103, 177, 0.15);
-  border-color: #3FA2F6;
+  box-shadow: 0 10px 25px rgba(37, 99, 235, 0.12);
+  border-color: #2563EB;
   transform: translateY(-4px);
 }
 
 .glass-nav {
   backdrop-filter: blur(12px);
   background: rgba(255, 255, 255, 0.95);
-  border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+  border-bottom: 1px solid #E5E7EB;
 }
 
 .whatsapp-float {
