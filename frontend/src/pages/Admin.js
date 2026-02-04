@@ -658,7 +658,14 @@ const Admin = () => {
                   <tbody>
                     {products.map((product) => (
                       <tr key={product.id} className="border-b border-purple-50" data-testid={`admin-product-${product.id}`}>
-                        <td className="py-3 text-gray-700">{product.name}</td>
+                        <td className="py-3">
+                          <div className="flex items-center gap-3">
+                            {product.image && (
+                              <img src={product.image} alt={product.name} className="w-10 h-10 rounded-lg object-cover" />
+                            )}
+                            <span className="text-gray-700 font-medium">{product.name}</span>
+                          </div>
+                        </td>
                         <td className="py-3 text-gray-500">{product.category}</td>
                         <td className="py-3 text-purple-600 font-medium">₹{product.price.toLocaleString()}</td>
                         <td className="py-3">
@@ -667,14 +674,26 @@ const Admin = () => {
                           </span>
                         </td>
                         <td className="py-3">
-                          <Button
-                            variant="destructive"
-                            size="sm"
-                            onClick={() => handleDeleteProduct(product.id)}
-                            data-testid={`delete-product-${product.id}`}
-                          >
-                            Delete
-                          </Button>
+                          <div className="flex gap-2">
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => handleEditProduct(product)}
+                              className="border-purple-200 text-purple-600 hover:bg-purple-50"
+                              data-testid={`edit-product-${product.id}`}
+                            >
+                              <Pencil className="w-3 h-3 mr-1" />
+                              Edit
+                            </Button>
+                            <Button
+                              variant="destructive"
+                              size="sm"
+                              onClick={() => handleDeleteProduct(product.id)}
+                              data-testid={`delete-product-${product.id}`}
+                            >
+                              Delete
+                            </Button>
+                          </div>
                         </td>
                       </tr>
                     ))}
