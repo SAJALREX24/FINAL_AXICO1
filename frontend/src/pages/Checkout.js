@@ -418,6 +418,14 @@ const Checkout = () => {
                 </div>
 
                 {/* Payment Info based on selected method */}
+                {selectedPaymentMethod === 'upi' && (
+                  <div className="mt-4 p-4 bg-green-50 rounded-xl border border-green-200">
+                    <p className="text-sm text-green-700">
+                      <strong>UPI Payment:</strong> Pay instantly using GPay, PhonePe, Paytm, or any UPI app. Scan QR or enter UPI ID.
+                    </p>
+                  </div>
+                )}
+                
                 {selectedPaymentMethod === 'cod' && (
                   <div className="mt-4 p-4 bg-green-50 rounded-xl border border-green-200">
                     <p className="text-sm text-green-700">
@@ -450,7 +458,7 @@ const Checkout = () => {
                     data-testid="place-order-button"
                   >
                     {processing ? 'Processing...' : (
-                      selectedPaymentMethod === 'razorpay' || selectedPaymentMethod === 'emi'
+                      selectedPaymentMethod === 'razorpay' || selectedPaymentMethod === 'emi' || selectedPaymentMethod === 'upi'
                         ? `Pay ₹${calculateTotal().toLocaleString()}`
                         : `Place Order - ₹${calculateTotal().toLocaleString()}`
                     )}
