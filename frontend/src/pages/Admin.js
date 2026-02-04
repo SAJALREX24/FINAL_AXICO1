@@ -56,10 +56,6 @@ const Admin = () => {
   
   // Enhanced Product form with more fields
   const [productForm, setProductForm] = useState(defaultProductForm);
-    availability: true,
-    featured: false,
-    limitedStock: false,
-  });
 
   useEffect(() => {
     if (authLoading) return;
