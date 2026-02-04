@@ -307,9 +307,12 @@ const Admin = () => {
             <div className="bg-white border border-purple-100 rounded-xl p-6 shadow-sm">
               <div className="flex justify-between items-center mb-6">
                 <h2 className="text-xl font-semibold text-gray-900">Products Management</h2>
-                <Dialog open={productDialogOpen} onOpenChange={setProductDialogOpen}>
+                <Dialog open={productDialogOpen} onOpenChange={(open) => {
+                  if (!open) handleCloseDialog();
+                  else setProductDialogOpen(true);
+                }}>
                   <DialogTrigger asChild>
-                    <Button className="bg-purple-600 hover:bg-purple-700" data-testid="add-product-button">
+                    <Button className="bg-purple-600 hover:bg-purple-700" data-testid="add-product-button" onClick={() => { setEditingProduct(null); setProductForm(defaultProductForm); }}>
                       <Plus className="w-4 h-4 mr-2" />
                       Add Product
                     </Button>
@@ -318,11 +321,15 @@ const Admin = () => {
                     <DialogHeader className="border-b border-gray-100 pb-4">
                       <div className="flex items-center space-x-3">
                         <div className="w-10 h-10 bg-purple-100 rounded-xl flex items-center justify-center">
-                          <Package className="w-5 h-5 text-purple-600" />
+                          {editingProduct ? <Pencil className="w-5 h-5 text-purple-600" /> : <Package className="w-5 h-5 text-purple-600" />}
                         </div>
                         <div>
-                          <DialogTitle className="text-xl font-bold text-gray-900">Add New Product</DialogTitle>
-                          <p className="text-sm text-gray-500">Fill in the product details below</p>
+                          <DialogTitle className="text-xl font-bold text-gray-900">
+                            {editingProduct ? 'Edit Product' : 'Add New Product'}
+                          </DialogTitle>
+                          <p className="text-sm text-gray-500">
+                            {editingProduct ? 'Update the product details below' : 'Fill in the product details below'}
+                          </p>
                         </div>
                       </div>
                     </DialogHeader>
