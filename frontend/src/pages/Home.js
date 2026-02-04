@@ -65,10 +65,10 @@ const Home = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
+      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-purple-900 via-purple-800 to-indigo-900">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#2563EB] mx-auto"></div>
-          <p className="mt-4 text-[#6B7280]">Loading...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-400 mx-auto"></div>
+          <p className="mt-4 text-purple-200">Loading...</p>
         </div>
       </div>
     );
@@ -80,25 +80,27 @@ const Home = () => {
       <HeroSlider />
 
       {/* Trust Badges Section */}
-      <section className="py-8 sm:py-12 bg-white border-b border-[#E5E7EB]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-8 sm:py-12 bg-gradient-to-br from-purple-900 via-purple-800 to-indigo-900 relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-64 h-64 bg-purple-600/30 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
+        <div className="absolute bottom-0 right-0 w-64 h-64 bg-indigo-600/30 rounded-full blur-3xl translate-x-1/2 translate-y-1/2"></div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
             {[
-              { icon: ShieldCheck, title: 'ISO Certified', desc: 'Quality Assured', bgColor: 'bg-[#F5F3FF]', iconColor: 'text-[#2563EB]' },
-              { icon: Truck, title: 'Fast Delivery', desc: 'Pan India', bgColor: 'bg-[#F5F3FF]', iconColor: 'text-[#10B981]' },
-              { icon: Award, title: 'Warranty', desc: 'On All Products', bgColor: 'bg-[#F5F3FF]', iconColor: 'text-[#2563EB]' },
-              { icon: UserCheck, title: '24/7 Support', desc: 'Expert Help', bgColor: 'bg-[#F5F3FF]', iconColor: 'text-[#10B981]' },
+              { icon: ShieldCheck, title: 'ISO Certified', desc: 'Quality Assured', color: 'text-teal-400' },
+              { icon: Truck, title: 'Fast Delivery', desc: 'Pan India', color: 'text-pink-400' },
+              { icon: Award, title: 'Warranty', desc: 'On All Products', color: 'text-cyan-400' },
+              { icon: UserCheck, title: '24/7 Support', desc: 'Expert Help', color: 'text-green-400' },
             ].map((feature, index) => (
               <div 
                 key={index}
-                className="flex items-center space-x-3 p-3 sm:p-4 rounded-xl bg-[#F5F3FF] hover:shadow-md transition-shadow"
+                className="flex items-center space-x-3 p-3 sm:p-4 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 transition-all"
               >
-                <div className={`w-10 h-10 sm:w-12 sm:h-12 ${feature.bgColor} rounded-xl flex items-center justify-center flex-shrink-0 border border-[#E9D5FF]`}>
-                  <feature.icon className={`w-5 h-5 sm:w-6 sm:h-6 ${feature.iconColor}`} />
+                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <feature.icon className={`w-5 h-5 sm:w-6 sm:h-6 ${feature.color}`} />
                 </div>
                 <div>
-                  <h3 className="text-sm sm:text-base font-semibold text-[#374151]">{feature.title}</h3>
-                  <p className="text-xs sm:text-sm text-[#6B7280]">{feature.desc}</p>
+                  <h3 className="text-sm sm:text-base font-semibold text-white">{feature.title}</h3>
+                  <p className="text-xs sm:text-sm text-purple-200">{feature.desc}</p>
                 </div>
               </div>
             ))}
