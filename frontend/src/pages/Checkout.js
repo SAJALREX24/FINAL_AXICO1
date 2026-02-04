@@ -6,11 +6,12 @@ import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
 import { Textarea } from '../components/ui/textarea';
-import { CreditCard, Truck, ShieldCheck, Banknote, Building, Calendar, Clock, Check } from 'lucide-react';
+import { CreditCard, Truck, ShieldCheck, Banknote, Building, Calendar, Clock, Check, Smartphone } from 'lucide-react';
 import { toast } from 'sonner';
 
 const PAYMENT_METHOD_ICONS = {
   razorpay: CreditCard,
+  upi: Smartphone,
   cod: Banknote,
   bank_transfer: Building,
   emi: Calendar,
@@ -18,7 +19,8 @@ const PAYMENT_METHOD_ICONS = {
 };
 
 const PAYMENT_METHOD_DETAILS = {
-  razorpay: { name: 'Online Payment', description: 'Pay via Cards, UPI, NetBanking', color: 'purple' },
+  razorpay: { name: 'Card Payment', description: 'Pay via Debit/Credit Cards, NetBanking', color: 'purple' },
+  upi: { name: 'UPI Payment', description: 'GPay, PhonePe, Paytm, BHIM UPI', color: 'green' },
   cod: { name: 'Cash on Delivery', description: 'Pay when you receive', color: 'green' },
   bank_transfer: { name: 'Bank Transfer', description: 'Direct bank transfer (NEFT/RTGS)', color: 'blue' },
   emi: { name: 'EMI', description: 'Easy monthly installments', color: 'orange' },
