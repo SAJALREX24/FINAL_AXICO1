@@ -62,7 +62,7 @@ const HeroSlider = () => {
   }, [emblaApi, onSelect]);
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-purple-50 to-white" data-testid="hero-slider">
+    <section className="relative overflow-hidden" data-testid="hero-slider">
       {/* Main Carousel */}
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex">
@@ -72,8 +72,7 @@ const HeroSlider = () => {
                 <img
                   src={slide.image}
                   alt={slide.alt}
-                  className="w-full h-auto object-contain max-h-[400px] sm:max-h-[500px] lg:max-h-[600px]"
-                  style={{ objectFit: 'contain' }}
+                  className="w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[550px] object-cover object-center"
                 />
               </Link>
             </div>
