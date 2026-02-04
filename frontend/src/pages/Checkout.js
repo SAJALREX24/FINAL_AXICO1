@@ -6,8 +6,24 @@ import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
 import { Textarea } from '../components/ui/textarea';
-import { CreditCard, Truck, ShieldCheck } from 'lucide-react';
+import { CreditCard, Truck, ShieldCheck, Banknote, Building, Calendar, Clock, Check } from 'lucide-react';
 import { toast } from 'sonner';
+
+const PAYMENT_METHOD_ICONS = {
+  razorpay: CreditCard,
+  cod: Banknote,
+  bank_transfer: Building,
+  emi: Calendar,
+  pay_later: Clock,
+};
+
+const PAYMENT_METHOD_DETAILS = {
+  razorpay: { name: 'Online Payment', description: 'Pay via Cards, UPI, NetBanking', color: 'purple' },
+  cod: { name: 'Cash on Delivery', description: 'Pay when you receive', color: 'green' },
+  bank_transfer: { name: 'Bank Transfer', description: 'Direct bank transfer (NEFT/RTGS)', color: 'blue' },
+  emi: { name: 'EMI', description: 'Easy monthly installments', color: 'orange' },
+  pay_later: { name: 'Pay Later', description: 'Buy now, pay within 30 days', color: 'teal' },
+};
 
 const Checkout = () => {
   const { user, loading: authLoading } = useAuth();
@@ -16,6 +32,8 @@ const Checkout = () => {
   const [loading, setLoading] = useState(true);
   const [processing, setProcessing] = useState(false);
   const [razorpayKey, setRazorpayKey] = useState('');
+  const [availablePaymentMethods, setAvailablePaymentMethods] = useState([]);
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('');
   
   const [address, setAddress] = useState({
     street: '',
@@ -38,12 +56,19 @@ const Checkout = () => {
 
   const fetchData = async () => {
     try {
-      const [cartRes, configRes] = await Promise.all([
+      const [cartRes, configRes, paymentMethodsRes] = await Promise.all([
         api.get('/cart'),
         api.get('/config'),
+        api.get('/cart/payment-methods'),
       ]);
       setCart(cartRes.data);
       setRazorpayKey(configRes.data.razorpay_key_id);
+      setAvailablePaymentMethods(paymentMethodsRes.data.payment_methods || []);
+      
+      // Set default payment method
+      if (paymentMethodsRes.data.payment_methods?.length > 0) {
+        setSelectedPaymentMethod(paymentMethodsRes.data.payment_methods[0]);
+      }
     } catch (error) {
       console.error('Error fetching data:', error);
     } finally {
@@ -67,22 +92,12 @@ const Checkout = () => {
     });
   };
 
-  const handlePayment = async (e) => {
-    e.preventDefault();
-    
-    if (cart.items.length === 0) {
-      toast.error('Your cart is empty');
-      return;
-    }
-    
-    setProcessing(true);
-    
+  const handleRazorpayPayment = async () => {
     try {
       // Load Razorpay script
       const scriptLoaded = await loadRazorpayScript();
       if (!scriptLoaded) {
         toast.error('Failed to load payment gateway');
-        setProcessing(false);
         return;
       }
       
@@ -152,6 +167,57 @@ const Checkout = () => {
           description: error.response?.data?.detail || 'Please try again',
         });
       }
+    }
+  };
+
+  const handleCODPayment = async () => {
+    try {
+      const orderData = {
+        items: cart.items.map(item => ({
+          product_id: item.product_id,
+          product_name: item.product?.name,
+          quantity: item.quantity,
+          price: item.product?.price,
+        })),
+        total_amount: calculateTotal(),
+        delivery_address: address,
+        payment_method: selectedPaymentMethod,
+      };
+      
+      const response = await api.post('/orders/create-cod-order', orderData);
+      
+      toast.success('Order placed successfully!', {
+        description: response.data.message,
+      });
+      navigate('/dashboard?tab=orders');
+    } catch (error) {
+      toast.error('Failed to place order', {
+        description: error.response?.data?.detail || 'Please try again',
+      });
+    }
+  };
+
+  const handlePayment = async (e) => {
+    e.preventDefault();
+    
+    if (cart.items.length === 0) {
+      toast.error('Your cart is empty');
+      return;
+    }
+    
+    if (!selectedPaymentMethod) {
+      toast.error('Please select a payment method');
+      return;
+    }
+    
+    setProcessing(true);
+    
+    try {
+      if (selectedPaymentMethod === 'razorpay' || selectedPaymentMethod === 'emi') {
+        await handleRazorpayPayment();
+      } else {
+        await handleCODPayment();
+      }
     } finally {
       setProcessing(false);
     }
@@ -188,15 +254,16 @@ const Checkout = () => {
           </div>
 
           <div className="grid lg:grid-cols-3 gap-8">
-            {/* Delivery Address Form */}
-            <div className="lg:col-span-2">
+            {/* Left Column - Address & Payment */}
+            <div className="lg:col-span-2 space-y-6">
+              {/* Delivery Address Form */}
               <div className="bg-white border border-purple-100 rounded-2xl p-6 shadow-sm">
                 <div className="flex items-center mb-6">
                   <Truck className="h-6 w-6 text-purple-600 mr-3" />
                   <h2 className="text-xl font-semibold text-gray-900">Delivery Address</h2>
                 </div>
                 
-                <form onSubmit={handlePayment} className="space-y-4">
+                <div className="space-y-4">
                   <div>
                     <Label htmlFor="street" className="text-gray-700">Street Address *</Label>
                     <Textarea
@@ -267,14 +334,102 @@ const Checkout = () => {
                       />
                     </div>
                   </div>
-                  
+                </div>
+              </div>
+
+              {/* Payment Methods */}
+              <div className="bg-white border border-purple-100 rounded-2xl p-6 shadow-sm">
+                <div className="flex items-center mb-6">
+                  <CreditCard className="h-6 w-6 text-purple-600 mr-3" />
+                  <h2 className="text-xl font-semibold text-gray-900">Payment Method</h2>
+                </div>
+                
+                <div className="space-y-3">
+                  {availablePaymentMethods.length === 0 ? (
+                    <p className="text-gray-500 text-center py-4">No payment methods available for these products</p>
+                  ) : (
+                    availablePaymentMethods.map((methodId) => {
+                      const method = PAYMENT_METHOD_DETAILS[methodId];
+                      const IconComponent = PAYMENT_METHOD_ICONS[methodId] || CreditCard;
+                      
+                      if (!method) return null;
+                      
+                      return (
+                        <div
+                          key={methodId}
+                          onClick={() => setSelectedPaymentMethod(methodId)}
+                          className={`flex items-center justify-between p-4 rounded-xl cursor-pointer border-2 transition-all ${
+                            selectedPaymentMethod === methodId
+                              ? 'border-purple-500 bg-purple-50'
+                              : 'border-gray-200 hover:border-purple-200'
+                          }`}
+                          data-testid={`payment-method-${methodId}`}
+                        >
+                          <div className="flex items-center gap-4">
+                            <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
+                              selectedPaymentMethod === methodId ? 'bg-purple-600' : 'bg-gray-100'
+                            }`}>
+                              <IconComponent className={`w-6 h-6 ${
+                                selectedPaymentMethod === methodId ? 'text-white' : 'text-gray-600'
+                              }`} />
+                            </div>
+                            <div>
+                              <p className="font-semibold text-gray-900">{method.name}</p>
+                              <p className="text-sm text-gray-500">{method.description}</p>
+                            </div>
+                          </div>
+                          <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
+                            selectedPaymentMethod === methodId
+                              ? 'border-purple-600 bg-purple-600'
+                              : 'border-gray-300'
+                          }`}>
+                            {selectedPaymentMethod === methodId && (
+                              <Check className="w-4 h-4 text-white" />
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })
+                  )}
+                </div>
+
+                {/* Payment Info based on selected method */}
+                {selectedPaymentMethod === 'cod' && (
+                  <div className="mt-4 p-4 bg-green-50 rounded-xl border border-green-200">
+                    <p className="text-sm text-green-700">
+                      <strong>Cash on Delivery:</strong> Pay in cash when your order is delivered. Please keep exact change ready.
+                    </p>
+                  </div>
+                )}
+                
+                {selectedPaymentMethod === 'bank_transfer' && (
+                  <div className="mt-4 p-4 bg-blue-50 rounded-xl border border-blue-200">
+                    <p className="text-sm text-blue-700">
+                      <strong>Bank Transfer:</strong> After placing order, you'll receive bank details via email. Complete payment within 24 hours.
+                    </p>
+                  </div>
+                )}
+                
+                {selectedPaymentMethod === 'pay_later' && (
+                  <div className="mt-4 p-4 bg-teal-50 rounded-xl border border-teal-200">
+                    <p className="text-sm text-teal-700">
+                      <strong>Pay Later:</strong> Get your order now and pay within 30 days. No additional charges.
+                    </p>
+                  </div>
+                )}
+
+                <form onSubmit={handlePayment}>
                   <Button
                     type="submit"
-                    className="w-full mt-6 h-12 bg-purple-600 hover:bg-purple-700 text-white font-semibold text-lg shadow-md"
-                    disabled={processing}
+                    className="w-full mt-6 h-14 bg-purple-600 hover:bg-purple-700 text-white font-semibold text-lg shadow-md"
+                    disabled={processing || !selectedPaymentMethod}
                     data-testid="place-order-button"
                   >
-                    {processing ? 'Processing...' : `Pay ₹${calculateTotal().toLocaleString()}`}
+                    {processing ? 'Processing...' : (
+                      selectedPaymentMethod === 'razorpay' || selectedPaymentMethod === 'emi'
+                        ? `Pay ₹${calculateTotal().toLocaleString()}`
+                        : `Place Order - ₹${calculateTotal().toLocaleString()}`
+                    )}
                   </Button>
                 </form>
 
@@ -283,7 +438,7 @@ const Checkout = () => {
                   <div className="flex items-center justify-center space-x-6 text-gray-500 text-sm">
                     <div className="flex items-center">
                       <ShieldCheck className="h-4 w-4 mr-1 text-purple-600" />
-                      Secure Payment
+                      Secure Checkout
                     </div>
                     <div className="flex items-center">
                       <Truck className="h-4 w-4 mr-1 text-purple-600" />
@@ -301,14 +456,19 @@ const Checkout = () => {
                 
                 <div className="space-y-4 mb-6">
                   {cart.items.map((item) => (
-                    <div key={item.product_id} className="flex justify-between" data-testid={`checkout-item-${item.product_id}`}>
+                    <div key={item.product_id} className="flex gap-3" data-testid={`checkout-item-${item.product_id}`}>
+                      <img 
+                        src={item.product?.image} 
+                        alt={item.product?.name}
+                        className="w-16 h-16 rounded-lg object-cover"
+                      />
                       <div className="flex-1">
-                        <p className="font-medium text-gray-900 text-sm">{item.product?.name}</p>
+                        <p className="font-medium text-gray-900 text-sm line-clamp-2">{item.product?.name}</p>
                         <p className="text-gray-500 text-sm">Qty: {item.quantity}</p>
+                        <p className="font-semibold text-purple-600">
+                          ₹{((item.product?.price || 0) * item.quantity).toLocaleString()}
+                        </p>
                       </div>
-                      <p className="font-semibold text-purple-600">
-                        ₹{((item.product?.price || 0) * item.quantity).toLocaleString()}
-                      </p>
                     </div>
                   ))}
                 </div>
