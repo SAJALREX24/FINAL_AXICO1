@@ -19,20 +19,21 @@ module.exports = {
       colors: {
         border: "#E5E7EB",
         input: "#E5E7EB",
-        ring: "#2563EB",
+        ring: "#8B5CF6",
         background: "#FFFFFF",
         foreground: "#374151",
         primary: {
-          DEFAULT: "#2563EB",
+          DEFAULT: "#8B5CF6",
           foreground: "#FFFFFF",
-          hover: "#1D4ED8",
+          hover: "#7C3AED",
+          light: "#A78BFA",
         },
         secondary: {
           DEFAULT: "#F5F3FF",
           foreground: "#374151",
         },
         accent: {
-          DEFAULT: "#E9D5FF",
+          DEFAULT: "#EDE9FE",
           foreground: "#374151",
         },
         success: {
@@ -58,6 +59,18 @@ module.exports = {
         card: {
           DEFAULT: "#FFFFFF",
           foreground: "#374151",
+        },
+        purple: {
+          50: "#FAF5FF",
+          100: "#F3E8FF",
+          200: "#E9D5FF",
+          300: "#D8B4FE",
+          400: "#C084FC",
+          500: "#A855F7",
+          600: "#9333EA",
+          700: "#7E22CE",
+          800: "#6B21A8",
+          900: "#581C87",
         },
       },
       borderRadius: {
