@@ -90,7 +90,7 @@ const Navbar = ({ cartCount = 0 }) => {
   return (
     <>
       {/* Main Navbar */}
-      <nav className="bg-purple-700 sticky top-0 z-50 shadow-lg" data-testid="main-navbar">
+      <nav className="bg-white border-b border-[#E5E7EB] sticky top-0 z-50 shadow-sm" data-testid="main-navbar">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 lg:h-20">
             {/* Logo */}
@@ -101,8 +101,8 @@ const Navbar = ({ cartCount = 0 }) => {
                 className="h-10 lg:h-12 w-auto rounded-lg"
               />
               <div className="hidden sm:block">
-                <span className="text-xl lg:text-2xl font-bold text-white tracking-wide">ALAXICO</span>
-                <p className="text-[10px] text-purple-200 -mt-1">Trusted Healthcare Partner</p>
+                <span className="text-xl lg:text-2xl font-semibold text-[#374151] tracking-wide">ALAXICO</span>
+                <p className="text-[10px] text-[#6B7280] -mt-1">Trusted Healthcare Partner</p>
               </div>
             </Link>
 
@@ -114,12 +114,12 @@ const Navbar = ({ cartCount = 0 }) => {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search for medical equipment..."
-                  className="w-full h-11 px-5 pr-12 text-sm border-2 border-purple-300 rounded-full focus:border-white focus:ring-2 focus:ring-white/20 outline-none transition-all bg-white/95"
+                  className="w-full h-11 px-5 pr-12 text-sm border-2 border-[#E5E7EB] rounded-full focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/20 outline-none transition-all text-[#374151]"
                   data-testid="search-input"
                 />
                 <button 
                   type="submit" 
-                  className="absolute right-1 top-1/2 -translate-y-1/2 w-9 h-9 bg-purple-600 rounded-full flex items-center justify-center text-white hover:bg-purple-800 transition-colors"
+                  className="absolute right-1 top-1/2 -translate-y-1/2 w-9 h-9 bg-[#2563EB] rounded-full flex items-center justify-center text-white hover:bg-[#1D4ED8] transition-colors"
                 >
                   <Search className="h-4 w-4" />
                 </button>
