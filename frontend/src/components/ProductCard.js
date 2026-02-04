@@ -5,7 +5,7 @@ import { Button } from './ui/button';
 
 const ProductCard = ({ product, onAddToCart }) => {
   return (
-    <div className="product-card bg-white rounded-xl sm:rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-slate-100" data-testid={`product-card-${product.id}`}>
+    <div className="product-card bg-white rounded-xl sm:rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-[#E5E7EB]" data-testid={`product-card-${product.id}`}>
       <Link to={`/product/${product.id}`}>
         <div className="aspect-square overflow-hidden">
           <img
@@ -22,20 +22,20 @@ const ProductCard = ({ product, onAddToCart }) => {
       
       <div className="p-3 sm:p-4">
         <Link to={`/product/${product.id}`}>
-          <h3 className="font-semibold text-sm sm:text-base lg:text-lg text-slate-900 mb-1 sm:mb-2 hover:text-primary transition-colors line-clamp-2" data-testid="product-name">
+          <h3 className="font-semibold text-sm sm:text-base lg:text-lg text-[#374151] mb-1 sm:mb-2 hover:text-[#2563EB] transition-colors line-clamp-2" data-testid="product-name">
             {product.name}
           </h3>
         </Link>
         
-        <p className="text-xs sm:text-sm text-slate-600 mb-2 sm:mb-3 line-clamp-2 hidden sm:block" data-testid="product-description">
+        <p className="text-xs sm:text-sm text-[#6B7280] mb-2 sm:mb-3 line-clamp-2 hidden sm:block" data-testid="product-description">
           {product.description}
         </p>
         
         <div className="flex items-center justify-between mb-2 sm:mb-3">
-          <span className="text-lg sm:text-xl lg:text-2xl font-bold text-primary" data-testid="product-price">
+          <span className="text-lg sm:text-xl lg:text-2xl font-semibold text-[#2563EB]" data-testid="product-price">
             ₹{product.price.toLocaleString()}
           </span>
-          <span className={`text-[10px] sm:text-xs px-1.5 sm:px-2 py-0.5 sm:py-1 rounded ${product.availability ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`} data-testid="product-availability">
+          <span className={`text-[10px] sm:text-xs px-1.5 sm:px-2 py-0.5 sm:py-1 rounded ${product.availability ? 'bg-[#10B981]/10 text-[#10B981]' : 'bg-red-100 text-red-700'}`} data-testid="product-availability">
             {product.availability ? 'In Stock' : 'Out of Stock'}
           </span>
         </div>
@@ -43,7 +43,7 @@ const ProductCard = ({ product, onAddToCart }) => {
         <Button
           onClick={() => onAddToCart(product)}
           disabled={!product.availability}
-          className="w-full text-xs sm:text-sm h-8 sm:h-10"
+          className="w-full text-xs sm:text-sm h-8 sm:h-10 bg-[#2563EB] hover:bg-[#1D4ED8] text-white"
           data-testid="add-to-cart-button"
         >
           <ShoppingCart className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
