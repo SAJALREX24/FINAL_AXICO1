@@ -9,7 +9,7 @@ import { Label } from '../components/ui/label';
 import { Textarea } from '../components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '../components/ui/dialog';
-import { Package, ShoppingCart, FileText, Star, ShieldCheck, Users, Plus, Percent, Box, Tag, BarChart3, Download } from 'lucide-react';
+import { Package, ShoppingCart, FileText, Star, ShieldCheck, Users, Plus, Percent, Box, Tag, BarChart3, Download, Pencil } from 'lucide-react';
 import { toast } from 'sonner';
 import { Switch } from '../components/ui/switch';
 import SalesDashboard from '../components/SalesDashboard';
@@ -25,9 +25,10 @@ const Admin = () => {
   const [verifications, setVerifications] = useState([]);
   const [loading, setLoading] = useState(true);
   const [productDialogOpen, setProductDialogOpen] = useState(false);
+  const [editingProduct, setEditingProduct] = useState(null); // Track which product is being edited
   
-  // Enhanced Product form with more fields
-  const [productForm, setProductForm] = useState({
+  // Default empty form state
+  const defaultProductForm = {
     name: '',
     description: '',
     category: '',
@@ -35,11 +36,11 @@ const Admin = () => {
     originalPrice: '',
     discount: '',
     image: '',
-    images: '',  // Comma-separated URLs
+    images: '',
     stockQuantity: '',
     minOrderQuantity: '1',
     specifications: {},
-    keyFeatures: '',  // Comma-separated features
+    keyFeatures: '',
     featureHighlights: [
       { icon: 'zap', title: '', description: '' },
       { icon: 'shield', title: '', description: '' },
@@ -48,6 +49,13 @@ const Admin = () => {
     ],
     warrantyInfo: '',
     shippingInfo: '',
+    availability: true,
+    featured: false,
+    limitedStock: false,
+  };
+  
+  // Enhanced Product form with more fields
+  const [productForm, setProductForm] = useState(defaultProductForm);
     availability: true,
     featured: false,
     limitedStock: false,
