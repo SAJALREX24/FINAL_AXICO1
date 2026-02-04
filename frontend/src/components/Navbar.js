@@ -96,7 +96,7 @@ const Navbar = ({ cartCount = 0 }) => {
             {/* Logo */}
             <Link to="/" className="flex items-center space-x-2 flex-shrink-0" data-testid="logo-link">
               <img 
-                src="https://static.prod-images.emergentagent.com/jobs/6cf4d218-daa4-4ddd-a299-e0a623bdb977/images/59da0ee6121ef60ab2e73cfb00e07b8a7488f9caa58b23bf564626c0fa4afa46.png" 
+                src="https://static.prod-images.emergentagent.com/jobs/6cf4d218-daa4-4ddd-a299-e0a623bdb977/images/d3770b5a9523d5568d6c7973d42854fe8894c77d08540390259252085bd84a9f.png" 
                 alt="Alaxico Logo" 
                 className="h-10 lg:h-12 w-auto rounded-lg"
               />
