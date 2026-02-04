@@ -440,20 +440,20 @@ const Admin = () => {
               <div className="overflow-x-auto">
                 <table className="w-full">
                   <thead>
-                    <tr className="border-b border-slate-200 text-left">
-                      <th className="pb-3 font-semibold text-slate-900">Product</th>
-                      <th className="pb-3 font-semibold text-slate-900">Category</th>
-                      <th className="pb-3 font-semibold text-slate-900">Price</th>
-                      <th className="pb-3 font-semibold text-slate-900">Status</th>
-                      <th className="pb-3 font-semibold text-slate-900">Actions</th>
+                    <tr className="border-b border-purple-100 text-left">
+                      <th className="pb-3 font-semibold text-gray-900">Product</th>
+                      <th className="pb-3 font-semibold text-gray-900">Category</th>
+                      <th className="pb-3 font-semibold text-gray-900">Price</th>
+                      <th className="pb-3 font-semibold text-gray-900">Status</th>
+                      <th className="pb-3 font-semibold text-gray-900">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
                     {products.map((product) => (
-                      <tr key={product.id} className="border-b border-slate-100" data-testid={`admin-product-${product.id}`}>
-                        <td className="py-3">{product.name}</td>
-                        <td className="py-3">{product.category}</td>
-                        <td className="py-3">₹{product.price.toLocaleString()}</td>
+                      <tr key={product.id} className="border-b border-purple-50" data-testid={`admin-product-${product.id}`}>
+                        <td className="py-3 text-gray-700">{product.name}</td>
+                        <td className="py-3 text-gray-500">{product.category}</td>
+                        <td className="py-3 text-purple-600 font-medium">₹{product.price.toLocaleString()}</td>
                         <td className="py-3">
                           <span className={`px-2 py-1 rounded text-xs ${product.availability ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
                             {product.availability ? 'Available' : 'Out of Stock'}
@@ -479,21 +479,21 @@ const Admin = () => {
 
           {/* Orders Tab */}
           <TabsContent value="orders">
-            <div className="bg-white border border-slate-200 rounded-xl p-6">
-              <h2 className="text-xl font-semibold text-slate-900 mb-6">Orders Management</h2>
+            <div className="bg-white border border-purple-100 rounded-xl p-6 shadow-sm">
+              <h2 className="text-xl font-semibold text-gray-900 mb-6">Orders Management</h2>
               <div className="space-y-4">
                 {orders.map((order) => (
-                  <div key={order.id} className="border border-slate-200 rounded-lg p-4" data-testid={`admin-order-${order.id}`}>
+                  <div key={order.id} className="border border-purple-100 bg-purple-50 rounded-lg p-4" data-testid={`admin-order-${order.id}`}>
                     <div className="flex justify-between items-start mb-3">
                       <div>
-                        <p className="font-semibold">Order #{order.id.slice(0, 8)}</p>
-                        <p className="text-sm text-slate-600">{new Date(order.created_at).toLocaleDateString()}</p>
+                        <p className="font-semibold text-gray-900">Order #{order.id.slice(0, 8)}</p>
+                        <p className="text-sm text-gray-500">{new Date(order.created_at).toLocaleDateString()}</p>
                       </div>
                       <span className={`px-3 py-1 rounded-full text-xs font-medium ${order.payment_status === 'completed' ? 'bg-green-100 text-green-700' : 'bg-blue-100 text-blue-700'}`}>
                         {order.payment_status}
                       </span>
                     </div>
-                    <p className="text-sm font-semibold text-primary">Total: ₹{order.total_amount.toLocaleString()}</p>
+                    <p className="text-sm font-semibold text-purple-600">Total: ₹{order.total_amount.toLocaleString()}</p>
                   </div>
                 ))}
               </div>
@@ -502,16 +502,16 @@ const Admin = () => {
 
           {/* Bulk Enquiries Tab */}
           <TabsContent value="enquiries">
-            <div className="bg-white border border-slate-200 rounded-xl p-6">
-              <h2 className="text-xl font-semibold text-slate-900 mb-6">Bulk Enquiries Management</h2>
+            <div className="bg-white border border-purple-100 rounded-xl p-6 shadow-sm">
+              <h2 className="text-xl font-semibold text-gray-900 mb-6">Bulk Enquiries Management</h2>
               <div className="space-y-4">
                 {bulkEnquiries.map((enquiry) => (
-                  <div key={enquiry.id} className="border border-slate-200 rounded-lg p-4" data-testid={`admin-enquiry-${enquiry.id}`}>
+                  <div key={enquiry.id} className="border border-purple-100 bg-purple-50 rounded-lg p-4" data-testid={`admin-enquiry-${enquiry.id}`}>
                     <div className="flex justify-between items-start mb-3">
                       <div>
-                        <p className="font-semibold">{enquiry.product?.name}</p>
-                        <p className="text-sm text-slate-600">{enquiry.organization_name} - {enquiry.buyer_type}</p>
-                        <p className="text-sm text-slate-600">Quantity: {enquiry.quantity}</p>
+                        <p className="font-semibold text-gray-900">{enquiry.product?.name}</p>
+                        <p className="text-sm text-gray-500">{enquiry.organization_name} - {enquiry.buyer_type}</p>
+                        <p className="text-sm text-gray-500">Quantity: {enquiry.quantity}</p>
                       </div>
                       <Select value={enquiry.status} onValueChange={(v) => handleEnquiryStatus(enquiry.id, v)}>
                         <SelectTrigger className="w-32" data-testid={`enquiry-status-${enquiry.id}`}>
@@ -532,22 +532,23 @@ const Admin = () => {
 
           {/* Reviews Tab */}
           <TabsContent value="reviews">
-            <div className="bg-white border border-slate-200 rounded-xl p-6">
-              <h2 className="text-xl font-semibold text-slate-900 mb-6">Reviews Management</h2>
+            <div className="bg-white border border-purple-100 rounded-xl p-6 shadow-sm">
+              <h2 className="text-xl font-semibold text-gray-900 mb-6">Reviews Management</h2>
               <div className="space-y-4">
                 {reviews.map((review) => (
-                  <div key={review.id} className="border border-slate-200 rounded-lg p-4" data-testid={`admin-review-${review.id}`}>
+                  <div key={review.id} className="border border-purple-100 bg-purple-50 rounded-lg p-4" data-testid={`admin-review-${review.id}`}>
                     <div className="flex justify-between items-start mb-3">
                       <div>
-                        <p className="font-semibold">{review.user?.name}</p>
-                        <p className="text-sm text-slate-600">{review.product?.name}</p>
-                        <p className="text-sm mt-2">{review.comment}</p>
+                        <p className="font-semibold text-gray-900">{review.user?.name}</p>
+                        <p className="text-sm text-gray-500">{review.product?.name}</p>
+                        <p className="text-sm mt-2 text-gray-600">{review.comment}</p>
                       </div>
                       <div className="flex space-x-2">
                         {!review.approved && (
                           <>
                             <Button
                               size="sm"
+                              className="bg-purple-600 hover:bg-purple-700"
                               onClick={() => handleApproveReview(review.id, true)}
                               data-testid={`approve-review-${review.id}`}
                             >
@@ -576,21 +577,22 @@ const Admin = () => {
 
           {/* Verifications Tab */}
           <TabsContent value="verifications">
-            <div className="bg-white border border-slate-200 rounded-xl p-6">
-              <h2 className="text-xl font-semibold text-slate-900 mb-6">Verification Requests</h2>
+            <div className="bg-white border border-purple-100 rounded-xl p-6 shadow-sm">
+              <h2 className="text-xl font-semibold text-gray-900 mb-6">Verification Requests</h2>
               <div className="space-y-4">
                 {verifications.map((verification) => (
-                  <div key={verification.id} className="border border-slate-200 rounded-lg p-4" data-testid={`admin-verification-${verification.id}`}>
+                  <div key={verification.id} className="border border-purple-100 bg-purple-50 rounded-lg p-4" data-testid={`admin-verification-${verification.id}`}>
                     <div className="flex justify-between items-start mb-3">
                       <div>
-                        <p className="font-semibold">{verification.user?.name}</p>
-                        <p className="text-sm text-slate-600">{verification.organization_name} - {verification.buyer_type}</p>
-                        <p className="text-sm text-slate-600">Document: {verification.documents?.info}</p>
+                        <p className="font-semibold text-gray-900">{verification.user?.name}</p>
+                        <p className="text-sm text-gray-500">{verification.organization_name} - {verification.buyer_type}</p>
+                        <p className="text-sm text-gray-500">Document: {verification.documents?.info}</p>
                       </div>
                       {verification.status === 'pending' && (
                         <div className="flex space-x-2">
                           <Button
                             size="sm"
+                            className="bg-purple-600 hover:bg-purple-700"
                             onClick={() => handleVerificationAction(verification.id, 'approved')}
                             data-testid={`approve-verification-${verification.id}`}
                           >
