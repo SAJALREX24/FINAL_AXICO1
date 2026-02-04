@@ -135,7 +135,7 @@ const Navbar = ({ cartCount = 0 }) => {
                 onMouseLeave={() => setShowCategoryDropdown(false)}
               >
                 <button 
-                  className="flex items-center px-4 py-2 text-white hover:text-purple-200 font-medium transition-colors"
+                  className="flex items-center px-4 py-2 text-[#374151] hover:text-[#2563EB] font-medium transition-colors"
                   data-testid="categories-dropdown-trigger"
                 >
                   <Grid className="w-4 h-4 mr-2" />
@@ -145,29 +145,29 @@ const Navbar = ({ cartCount = 0 }) => {
                 
                 {/* Dropdown Menu */}
                 {showCategoryDropdown && (
-                  <div className="absolute top-full left-0 w-72 bg-white rounded-xl shadow-xl border border-slate-200 py-2 z-50 animate-fade-in">
+                  <div className="absolute top-full left-0 w-72 bg-white rounded-xl shadow-xl border border-[#E5E7EB] py-2 z-50 animate-fade-in">
                     {CATEGORIES.map((category) => (
                       <Link
                         key={category.name}
                         to={category.link}
-                        className="flex items-center px-4 py-3 hover:bg-purple-50 transition-colors group"
+                        className="flex items-center px-4 py-3 hover:bg-[#F5F3FF] transition-colors group"
                         data-testid={`category-dropdown-${category.name.toLowerCase().replace(/\s+/g, '-')}`}
                       >
                         <div className={`w-10 h-10 ${category.bgColor} rounded-lg flex items-center justify-center mr-3 group-hover:scale-110 transition-transform`}>
                           <category.icon className={`w-5 h-5 ${category.color}`} />
                         </div>
                         <div>
-                          <p className="font-medium text-slate-900 group-hover:text-purple-700 transition-colors">
+                          <p className="font-medium text-[#374151] group-hover:text-[#2563EB] transition-colors">
                             {category.name}
                           </p>
-                          <p className="text-xs text-slate-500">{category.description}</p>
+                          <p className="text-xs text-[#6B7280]">{category.description}</p>
                         </div>
                       </Link>
                     ))}
-                    <div className="border-t border-slate-100 mt-2 pt-2 px-4">
+                    <div className="border-t border-[#E5E7EB] mt-2 pt-2 px-4">
                       <Link 
                         to="/products" 
-                        className="flex items-center justify-center py-2 text-purple-700 font-medium hover:text-purple-800 transition-colors"
+                        className="flex items-center justify-center py-2 text-[#2563EB] font-medium hover:text-[#1D4ED8] transition-colors"
                       >
                         View All Products →
                       </Link>
@@ -178,7 +178,7 @@ const Navbar = ({ cartCount = 0 }) => {
 
               <Link 
                 to="/products" 
-                className="px-4 py-2 text-white hover:text-purple-200 font-medium transition-colors"
+                className="px-4 py-2 text-[#374151] hover:text-[#2563EB] font-medium transition-colors"
                 data-testid="products-nav-link"
               >
                 All Products
@@ -186,7 +186,7 @@ const Navbar = ({ cartCount = 0 }) => {
               
               <Link 
                 to="/bulk-order" 
-                className="px-4 py-2 text-white hover:text-purple-200 font-medium transition-colors"
+                className="px-4 py-2 text-[#374151] hover:text-[#2563EB] font-medium transition-colors"
                 data-testid="bulk-order-nav-link"
               >
                 Bulk Orders
@@ -195,7 +195,7 @@ const Navbar = ({ cartCount = 0 }) => {
               {/* Contact */}
               <a 
                 href="tel:+917617617178"
-                className="flex items-center px-4 py-2 text-white hover:text-purple-200 font-medium transition-colors"
+                className="flex items-center px-4 py-2 text-[#374151] hover:text-[#2563EB] font-medium transition-colors"
               >
                 <HeadphonesIcon className="w-4 h-4 mr-2" />
                 Support
@@ -207,7 +207,7 @@ const Navbar = ({ cartCount = 0 }) => {
               {/* Mobile Search Button */}
               <Link 
                 to="/products" 
-                className="lg:hidden p-2 text-white hover:text-purple-200 transition-colors"
+                className="lg:hidden p-2 text-[#374151] hover:text-[#2563EB] transition-colors"
               >
                 <Search className="h-5 w-5" />
               </Link>
