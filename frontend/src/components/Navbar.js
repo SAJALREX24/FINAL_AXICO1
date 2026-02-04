@@ -413,14 +413,14 @@ const Navbar = ({ cartCount = 0 }) => {
 const MobileMenuItem = ({ icon: Icon, label, badge, onClick, className = '' }) => (
   <button
     onClick={onClick}
-    className={`w-full flex items-center justify-between px-4 py-3 hover:bg-white/10 transition-colors ${className}`}
+    className={`w-full flex items-center justify-between px-4 py-3 hover:bg-purple-50 transition-colors ${className}`}
   >
     <div className="flex items-center space-x-3">
-      <Icon className="h-5 w-5 text-purple-300" />
-      <span className="font-medium text-white">{label}</span>
+      <Icon className="h-5 w-5 text-gray-500" />
+      <span className="font-medium text-gray-900">{label}</span>
     </div>
     {badge > 0 && (
-      <span className="bg-teal-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+      <span className="bg-purple-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
         {badge}
       </span>
     )}
