@@ -83,6 +83,15 @@ class RichContentSection(BaseModel):
     image: Optional[str] = None
     features: Optional[List[str]] = None
 
+# Available payment methods
+PAYMENT_METHODS = [
+    "razorpay",      # Online payment (Cards, UPI, NetBanking)
+    "cod",           # Cash on Delivery
+    "bank_transfer", # Direct Bank Transfer
+    "emi",           # EMI/Installments
+    "pay_later"      # Pay Later option
+]
+
 class Product(BaseModel):
     model_config = ConfigDict(extra="ignore")
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
@@ -99,6 +108,7 @@ class Product(BaseModel):
     rich_content: Optional[List[dict]] = None  # Sections with images
     warranty_info: Optional[str] = None
     shipping_info: Optional[str] = None
+    payment_methods: Optional[List[str]] = None  # Allowed payment methods for this product
     availability: bool = True
     likes_count: int = 0
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
@@ -117,6 +127,7 @@ class ProductCreate(BaseModel):
     rich_content: Optional[List[dict]] = None
     warranty_info: Optional[str] = None
     shipping_info: Optional[str] = None
+    payment_methods: Optional[List[str]] = None
     availability: bool = True
 
 class CartItem(BaseModel):
