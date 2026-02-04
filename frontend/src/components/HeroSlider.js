@@ -83,7 +83,7 @@ const HeroSlider = () => {
       {/* Navigation Arrows */}
       <button
         onClick={scrollPrev}
-        className="absolute left-2 sm:left-4 lg:left-8 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 bg-purple-600/80 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-purple-700 transition-colors z-10 shadow-lg"
+        className="absolute left-2 sm:left-4 lg:left-8 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 bg-[#2563EB]/80 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-[#1D4ED8] transition-colors z-10 shadow-lg"
         aria-label="Previous slide"
         data-testid="hero-prev-button"
       >
@@ -91,7 +91,7 @@ const HeroSlider = () => {
       </button>
       <button
         onClick={scrollNext}
-        className="absolute right-2 sm:right-4 lg:right-8 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 bg-purple-600/80 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-purple-700 transition-colors z-10 shadow-lg"
+        className="absolute right-2 sm:right-4 lg:right-8 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 bg-[#2563EB]/80 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-[#1D4ED8] transition-colors z-10 shadow-lg"
         aria-label="Next slide"
         data-testid="hero-next-button"
       >
@@ -106,8 +106,8 @@ const HeroSlider = () => {
             onClick={() => scrollTo(index)}
             className={`transition-all duration-300 rounded-full ${
               index === selectedIndex
-                ? 'w-8 sm:w-10 h-2.5 sm:h-3 bg-purple-600'
-                : 'w-2.5 sm:w-3 h-2.5 sm:h-3 bg-purple-300 hover:bg-purple-400'
+                ? 'w-8 sm:w-10 h-2.5 sm:h-3 bg-[#2563EB]'
+                : 'w-2.5 sm:w-3 h-2.5 sm:h-3 bg-[#E9D5FF] hover:bg-[#2563EB]/50'
             }`}
             aria-label={`Go to slide ${index + 1}`}
             data-testid={`hero-dot-${index}`}
