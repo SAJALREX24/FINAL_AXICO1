@@ -736,6 +736,43 @@ async def verify_payment(verification: PaymentVerification, user: User = Depends
     except Exception as e:
         raise HTTPException(status_code=400, detail="Payment verification failed")
 
+class CODOrderCreate(BaseModel):
+    items: List[dict]
+    total_amount: float
+    delivery_address: dict
+    payment_method: str
+
+@api_router.post("/orders/create-cod-order")
+async def create_cod_order(order_data: CODOrderCreate, user: User = Depends(get_current_user)):
+    """Create order with Cash on Delivery or Bank Transfer"""
+    if order_data.payment_method not in ["cod", "bank_transfer", "pay_later"]:
+        raise HTTPException(status_code=400, detail="Invalid payment method")
+    
+    order_id = str(uuid.uuid4())
+    
+    order = {
+        "id": order_id,
+        "user_id": user.id,
+        "items": order_data.items,
+        "total_amount": order_data.total_amount,
+        "delivery_address": order_data.delivery_address,
+        "payment_method": order_data.payment_method,
+        "payment_status": "pending",
+        "order_status": "confirmed",
+        "created_at": datetime.now(timezone.utc).isoformat()
+    }
+    
+    await db.orders.insert_one(order)
+    
+    # Clear cart
+    await db.carts.delete_one({"user_id": user.id})
+    
+    return {
+        "order_id": order_id,
+        "message": f"Order placed successfully with {order_data.payment_method.upper()}",
+        "payment_method": order_data.payment_method
+    }
+
 @api_router.get("/orders/my-orders")
 async def get_my_orders(user: User = Depends(get_current_user)):
     orders = await db.orders.find({"user_id": user.id}, {"_id": 0}).sort("created_at", -1).to_list(1000)
