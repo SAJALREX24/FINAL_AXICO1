@@ -384,7 +384,7 @@ const Navbar = ({ cartCount = 0 }) => {
                   <div className="my-2 border-t border-slate-200"></div>
                   <div className="p-4">
                     <Link to="/login" onClick={closeMobileMenu}>
-                      <Button className="w-full bg-gradient-to-r from-blue-500 to-green-500">Login / Sign Up</Button>
+                      <Button className="w-full bg-purple-700 hover:bg-purple-800">Login / Sign Up</Button>
                     </Link>
                   </div>
                 </>
@@ -392,15 +392,15 @@ const Navbar = ({ cartCount = 0 }) => {
             </div>
 
             {/* Contact Info */}
-            <div className="p-4 border-t border-slate-200 bg-slate-50">
-              <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">Contact Us</p>
-              <a href="tel:+919045660485" className="flex items-center text-sm text-slate-700 mb-2">
-                <Phone className="w-4 h-4 mr-2 text-blue-600" />
-                +91 9045660485
+            <div className="p-4 border-t border-slate-200 bg-purple-50">
+              <p className="text-xs font-semibold text-purple-700 uppercase tracking-wider mb-3">Contact Us</p>
+              <a href="tel:+917617617178" className="flex items-center text-sm text-slate-700 mb-2">
+                <Phone className="w-4 h-4 mr-2 text-purple-600" />
+                +91 7617617178
               </a>
-              <a href="mailto:support@alaxico.com" className="flex items-center text-sm text-slate-700">
-                <Mail className="w-4 h-4 mr-2 text-blue-600" />
-                support@alaxico.com
+              <a href="mailto:alaxicohealthcare@gmail.com" className="flex items-center text-sm text-slate-700">
+                <Mail className="w-4 h-4 mr-2 text-purple-600" />
+                alaxicohealthcare@gmail.com
               </a>
             </div>
           </div>
@@ -413,14 +413,14 @@ const Navbar = ({ cartCount = 0 }) => {
 const MobileMenuItem = ({ icon: Icon, label, badge, onClick, className = '' }) => (
   <button
     onClick={onClick}
-    className={`w-full flex items-center justify-between px-4 py-3 hover:bg-slate-50 transition-colors ${className}`}
+    className={`w-full flex items-center justify-between px-4 py-3 hover:bg-purple-50 transition-colors ${className}`}
   >
     <div className="flex items-center space-x-3">
       <Icon className="h-5 w-5 text-slate-500" />
       <span className="font-medium text-slate-900">{label}</span>
     </div>
     {badge > 0 && (
-      <span className="bg-gradient-to-r from-blue-500 to-green-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+      <span className="bg-purple-700 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
         {badge}
       </span>
     )}
