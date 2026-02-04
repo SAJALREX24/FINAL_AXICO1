@@ -156,10 +156,10 @@ const Home = () => {
       <section className="py-12 sm:py-16 lg:py-20 bg-white" data-testid="featured-products-section">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-slate-900 mb-4" data-testid="featured-products-title">
+            <h2 className="text-4xl md:text-5xl font-semibold tracking-tight text-[#374151] mb-4" data-testid="featured-products-title">
               Featured Products
             </h2>
-            <p className="text-xl text-slate-600">Top-quality medical equipment for professionals</p>
+            <p className="text-xl text-[#6B7280]">Top-quality medical equipment for professionals</p>
           </div>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -175,7 +175,7 @@ const Home = () => {
           
           <div className="text-center mt-12">
             <Link to="/products">
-              <Button size="lg" variant="outline" className="shadow-lg hover:shadow-xl">
+              <Button size="lg" className="bg-[#2563EB] hover:bg-[#1D4ED8] text-white shadow-lg hover:shadow-xl">
                 View All Products
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
