@@ -48,27 +48,31 @@ const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-green-50 py-12 px-4" data-testid="auth-page">
+    <div className="min-h-screen flex items-center justify-center bg-[#F5F3FF] py-12 px-4" data-testid="auth-page">
       <div className="max-w-md w-full">
         <div className="text-center mb-8">
           <Link to="/" className="inline-flex items-center space-x-2 mb-4">
-            <Package className="h-10 w-10 text-primary" />
-            <span className="text-2xl font-bold text-slate-900">MedEquipMart</span>
+            <img 
+              src="https://static.prod-images.emergentagent.com/jobs/6cf4d218-daa4-4ddd-a299-e0a623bdb977/images/e5a31b411711f18830e3796523ecde606cc58657dc6f9079272040fdd33d30d8.png" 
+              alt="Alaxico Logo" 
+              className="h-10 w-auto rounded-lg"
+            />
+            <span className="text-2xl font-semibold text-[#374151]">ALAXICO</span>
           </Link>
-          <h2 className="text-3xl font-bold text-slate-900 mb-2" data-testid="auth-title">
+          <h2 className="text-3xl font-semibold text-[#374151] mb-2" data-testid="auth-title">
             {isLogin ? 'Welcome Back' : 'Create Account'}
           </h2>
-          <p className="text-slate-600">
+          <p className="text-[#6B7280]">
             {isLogin ? 'Sign in to your account' : 'Sign up to get started'}
           </p>
         </div>
 
-        <div className="bg-white rounded-xl shadow-lg p-8 border-2 border-blue-100">
+        <div className="bg-white rounded-xl shadow-lg p-8 border border-[#E5E7EB]">
           {/* Google Login Button */}
           <Button
             type="button"
             variant="outline"
-            className="w-full mb-6 h-12 border-2 border-slate-200 hover:border-blue-400 hover:bg-blue-50 transition-all"
+            className="w-full mb-6 h-12 border-2 border-[#E5E7EB] hover:border-[#2563EB] hover:bg-[#F5F3FF] transition-all"
             onClick={handleGoogleLogin}
             data-testid="google-login-button"
           >
