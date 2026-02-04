@@ -45,9 +45,9 @@ h1, h2, h3, h4, h5, h6 {
         --card-foreground: 220 13% 28%;
         --popover: 0 0% 100%;
         --popover-foreground: 220 13% 28%;
-        --primary: 217 91% 60%;
+        --primary: 263 84% 66%;
         --primary-foreground: 0 0% 100%;
-        --secondary: 263 90% 96%;
+        --secondary: 263 90% 98%;
         --secondary-foreground: 220 13% 28%;
         --muted: 263 90% 98%;
         --muted-foreground: 220 9% 46%;
@@ -57,9 +57,9 @@ h1, h2, h3, h4, h5, h6 {
         --destructive-foreground: 0 0% 100%;
         --border: 220 13% 91%;
         --input: 220 13% 91%;
-        --ring: 217 91% 60%;
+        --ring: 263 84% 66%;
         --radius: 0.5rem;
-        --chart-1: 217 91% 60%;
+        --chart-1: 263 84% 66%;
         --chart-2: 160 84% 39%;
         --chart-3: 263 70% 85%;
         --chart-4: 48 96% 53%;
