@@ -619,13 +619,22 @@ const Admin = () => {
                           className="flex-1 bg-purple-600 hover:bg-purple-700 text-white shadow-md"
                           data-testid="submit-product-button"
                         >
-                          <Plus className="w-4 h-4 mr-2" />
-                          Create Product
+                          {editingProduct ? (
+                            <>
+                              <Pencil className="w-4 h-4 mr-2" />
+                              Update Product
+                            </>
+                          ) : (
+                            <>
+                              <Plus className="w-4 h-4 mr-2" />
+                              Create Product
+                            </>
+                          )}
                         </Button>
                         <Button 
                           type="button" 
                           variant="outline" 
-                          onClick={() => setProductDialogOpen(false)}
+                          onClick={handleCloseDialog}
                           className="border-gray-200"
                         >
                           Cancel
