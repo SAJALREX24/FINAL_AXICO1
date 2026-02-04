@@ -506,6 +506,34 @@ const Admin = () => {
                         </div>
                       </div>
 
+                      {/* Warranty & Shipping Section */}
+                      <div className="space-y-4 border-t border-gray-100 pt-4">
+                        <h3 className="text-sm font-semibold text-gray-700 flex items-center">
+                          <ShieldCheck className="w-4 h-4 mr-2 text-purple-500" />
+                          Warranty & Shipping
+                        </h3>
+                        <div>
+                          <Label className="text-gray-700 font-medium">Warranty Information</Label>
+                          <Textarea
+                            value={productForm.warrantyInfo}
+                            onChange={(e) => setProductForm({ ...productForm, warrantyInfo: e.target.value })}
+                            placeholder="1 Year Manufacturer Warranty covering manufacturing defects"
+                            rows={2}
+                            className="mt-1 border-gray-200 focus:border-purple-500"
+                          />
+                        </div>
+                        <div>
+                          <Label className="text-gray-700 font-medium">Shipping Information</Label>
+                          <Textarea
+                            value={productForm.shippingInfo}
+                            onChange={(e) => setProductForm({ ...productForm, shippingInfo: e.target.value })}
+                            placeholder="Free shipping on all orders across India. Delivery in 2-4 days."
+                            rows={2}
+                            className="mt-1 border-gray-200 focus:border-purple-500"
+                          />
+                        </div>
+                      </div>
+
                       {/* Options Section */}
                       <div className="space-y-4 border-t border-gray-100 pt-4">
                         <h3 className="text-sm font-semibold text-gray-700">Product Options</h3>
