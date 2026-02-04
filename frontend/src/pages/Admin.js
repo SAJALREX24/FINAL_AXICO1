@@ -229,20 +229,20 @@ const Admin = () => {
                 <h2 className="text-xl font-semibold text-gray-900">Products Management</h2>
                 <Dialog open={productDialogOpen} onOpenChange={setProductDialogOpen}>
                   <DialogTrigger asChild>
-                    <Button className="bg-gradient-to-r from-blue-500 to-green-500 hover:from-blue-600 hover:to-green-600" data-testid="add-product-button">
+                    <Button className="bg-purple-600 hover:bg-purple-700" data-testid="add-product-button">
                       <Plus className="w-4 h-4 mr-2" />
                       Add Product
                     </Button>
                   </DialogTrigger>
-                  <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto bg-white border-2 border-blue-100 shadow-xl">
-                    <DialogHeader className="border-b border-slate-200 pb-4">
+                  <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto bg-white border border-purple-100 shadow-xl">
+                    <DialogHeader className="border-b border-gray-100 pb-4">
                       <div className="flex items-center space-x-3">
-                        <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-green-500 rounded-xl flex items-center justify-center">
-                          <Package className="w-5 h-5 text-white" />
+                        <div className="w-10 h-10 bg-purple-100 rounded-xl flex items-center justify-center">
+                          <Package className="w-5 h-5 text-purple-600" />
                         </div>
                         <div>
-                          <DialogTitle className="text-xl font-bold text-slate-900">Add New Product</DialogTitle>
-                          <p className="text-sm text-slate-500">Fill in the product details below</p>
+                          <DialogTitle className="text-xl font-bold text-gray-900">Add New Product</DialogTitle>
+                          <p className="text-sm text-gray-500">Fill in the product details below</p>
                         </div>
                       </div>
                     </DialogHeader>
