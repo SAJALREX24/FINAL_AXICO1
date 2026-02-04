@@ -48,36 +48,27 @@ const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen flex relative overflow-hidden" data-testid="auth-page">
-      {/* Purple Gradient Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-purple-900 via-purple-800 to-indigo-900">
-        {/* Organic Blob Shapes */}
-        <div className="absolute top-0 left-0 w-96 h-96 bg-purple-600/30 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
-        <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-indigo-600/30 rounded-full blur-3xl translate-x-1/3 translate-y-1/3"></div>
-        <div className="absolute top-1/2 left-1/4 w-72 h-72 bg-purple-500/20 rounded-full blur-2xl"></div>
-        <div className="absolute bottom-1/4 right-1/3 w-64 h-64 bg-teal-500/10 rounded-full blur-2xl"></div>
-      </div>
-
+    <div className="min-h-screen flex relative overflow-hidden bg-purple-50" data-testid="auth-page">
       {/* Left Side - Branding */}
-      <div className="hidden lg:flex lg:w-1/2 relative z-10 items-center justify-center p-12">
+      <div className="hidden lg:flex lg:w-1/2 bg-purple-600 relative items-center justify-center p-12">
         <div className="max-w-lg text-center">
           {/* Floating Medical Icons */}
           <div className="relative mb-8">
-            <div className="absolute -top-4 -left-8 w-16 h-16 bg-teal-500/20 backdrop-blur-sm rounded-2xl flex items-center justify-center animate-bounce" style={{animationDuration: '3s'}}>
-              <Stethoscope className="w-8 h-8 text-teal-400" />
+            <div className="absolute -top-4 -left-8 w-16 h-16 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center animate-bounce" style={{animationDuration: '3s'}}>
+              <Stethoscope className="w-8 h-8 text-white" />
             </div>
-            <div className="absolute -top-8 right-0 w-14 h-14 bg-pink-500/20 backdrop-blur-sm rounded-2xl flex items-center justify-center animate-bounce" style={{animationDuration: '2.5s', animationDelay: '0.5s'}}>
-              <Heart className="w-7 h-7 text-pink-400" />
+            <div className="absolute -top-8 right-0 w-14 h-14 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center animate-bounce" style={{animationDuration: '2.5s', animationDelay: '0.5s'}}>
+              <Heart className="w-7 h-7 text-white" />
             </div>
-            <div className="absolute -bottom-4 left-1/4 w-12 h-12 bg-cyan-500/20 backdrop-blur-sm rounded-xl flex items-center justify-center animate-bounce" style={{animationDuration: '2.8s', animationDelay: '1s'}}>
-              <Shield className="w-6 h-6 text-cyan-400" />
+            <div className="absolute -bottom-4 left-1/4 w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center animate-bounce" style={{animationDuration: '2.8s', animationDelay: '1s'}}>
+              <Shield className="w-6 h-6 text-white" />
             </div>
-            <div className="absolute bottom-0 right-1/4 w-14 h-14 bg-green-500/20 backdrop-blur-sm rounded-2xl flex items-center justify-center animate-bounce" style={{animationDuration: '3.2s', animationDelay: '0.3s'}}>
-              <Activity className="w-7 h-7 text-green-400" />
+            <div className="absolute bottom-0 right-1/4 w-14 h-14 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center animate-bounce" style={{animationDuration: '3.2s', animationDelay: '0.3s'}}>
+              <Activity className="w-7 h-7 text-white" />
             </div>
             
             {/* Main Logo */}
-            <div className="w-32 h-32 mx-auto bg-white/10 backdrop-blur-md rounded-3xl flex items-center justify-center border border-white/20 shadow-2xl">
+            <div className="w-32 h-32 mx-auto bg-white/20 backdrop-blur-md rounded-3xl flex items-center justify-center border border-white/30 shadow-2xl">
               <img 
                 src="https://customer-assets.emergentagent.com/job_alaxico-store/artifacts/ahkqpypd_Capture6.PNG" 
                 alt="Alaxico Logo" 
@@ -87,32 +78,32 @@ const Auth = () => {
           </div>
           
           <h1 className="text-4xl font-bold text-white mb-4">
-            Your Trusted <span className="text-teal-400">Healthcare</span> Partner
+            Your Trusted Healthcare Partner
           </h1>
-          <p className="text-lg text-purple-200 mb-8">
+          <p className="text-lg text-purple-100 mb-8">
             Quality medical equipment for hospitals, clinics, and healthcare professionals across India.
           </p>
           
           {/* Trust Indicators */}
-          <div className="flex justify-center space-x-8 text-white/80">
+          <div className="flex justify-center space-x-8 text-white/90">
             <div className="text-center">
-              <div className="text-2xl font-bold text-teal-400">1000+</div>
-              <div className="text-sm">Happy Clients</div>
+              <div className="text-2xl font-bold">1000+</div>
+              <div className="text-sm text-purple-200">Happy Clients</div>
             </div>
             <div className="text-center">
-              <div className="text-2xl font-bold text-teal-400">5000+</div>
-              <div className="text-sm">Products</div>
+              <div className="text-2xl font-bold">5000+</div>
+              <div className="text-sm text-purple-200">Products</div>
             </div>
             <div className="text-center">
-              <div className="text-2xl font-bold text-teal-400">24/7</div>
-              <div className="text-sm">Support</div>
+              <div className="text-2xl font-bold">24/7</div>
+              <div className="text-sm text-purple-200">Support</div>
             </div>
           </div>
         </div>
       </div>
 
       {/* Right Side - Form */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center p-8 relative z-10">
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-8">
         <div className="w-full max-w-md">
           {/* Mobile Logo */}
           <div className="lg:hidden text-center mb-8">
@@ -122,17 +113,17 @@ const Auth = () => {
                 alt="Alaxico Logo" 
                 className="h-12 w-auto"
               />
-              <span className="text-2xl font-semibold text-white">ALAXICO</span>
+              <span className="text-2xl font-semibold text-purple-700">ALAXICO</span>
             </Link>
           </div>
 
           {/* Form Card */}
-          <div className="bg-white/10 backdrop-blur-xl rounded-3xl shadow-2xl p-8 border border-white/20">
+          <div className="bg-white rounded-2xl shadow-xl p-8 border border-purple-100">
             <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold text-white mb-2" data-testid="auth-title">
+              <h2 className="text-3xl font-bold text-gray-900 mb-2" data-testid="auth-title">
                 {isLogin ? 'Welcome Back' : 'Create Account'}
               </h2>
-              <p className="text-purple-200">
+              <p className="text-gray-500">
                 {isLogin ? 'Sign in to your account' : 'Sign up to get started'}
               </p>
             </div>
@@ -140,7 +131,7 @@ const Auth = () => {
             {/* Google Login Button */}
             <Button
               type="button"
-              className="w-full mb-6 h-12 bg-white text-gray-700 hover:bg-gray-100 font-medium"
+              className="w-full mb-6 h-12 bg-white text-gray-700 hover:bg-gray-50 font-medium border border-gray-200 shadow-sm"
               onClick={handleGoogleLogin}
               data-testid="google-login-button"
             >
@@ -156,24 +147,24 @@ const Auth = () => {
             {/* Divider */}
             <div className="relative mb-6">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-white/20"></div>
+                <div className="w-full border-t border-gray-200"></div>
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-4 bg-transparent text-purple-200">or continue with email</span>
+                <span className="px-4 bg-white text-gray-500">or continue with email</span>
               </div>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-5">
               {!isLogin && (
                 <div>
-                  <Label htmlFor="name" className="text-white font-medium">Full Name *</Label>
+                  <Label htmlFor="name" className="text-gray-700 font-medium">Full Name *</Label>
                   <Input
                     id="name"
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     required
-                    className="mt-2 bg-white/10 border-white/20 text-white placeholder:text-purple-300 focus:border-teal-400 focus:ring-teal-400/20"
+                    className="mt-2 border-gray-200 focus:border-purple-500 focus:ring-purple-500"
                     placeholder="Enter your name"
                     data-testid="name-input"
                   />
@@ -181,21 +172,21 @@ const Auth = () => {
               )}
               
               <div>
-                <Label htmlFor="email" className="text-white font-medium">Email *</Label>
+                <Label htmlFor="email" className="text-gray-700 font-medium">Email *</Label>
                 <Input
                   id="email"
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="mt-2 bg-white/10 border-white/20 text-white placeholder:text-purple-300 focus:border-teal-400 focus:ring-teal-400/20"
+                  className="mt-2 border-gray-200 focus:border-purple-500 focus:ring-purple-500"
                   placeholder="Enter your email"
                   data-testid="email-input"
                 />
               </div>
               
               <div>
-                <Label htmlFor="password" className="text-white font-medium">Password *</Label>
+                <Label htmlFor="password" className="text-gray-700 font-medium">Password *</Label>
                 <Input
                   id="password"
                   type="password"
@@ -203,7 +194,7 @@ const Auth = () => {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                   minLength={6}
-                  className="mt-2 bg-white/10 border-white/20 text-white placeholder:text-purple-300 focus:border-teal-400 focus:ring-teal-400/20"
+                  className="mt-2 border-gray-200 focus:border-purple-500 focus:ring-purple-500"
                   placeholder="Enter your password"
                   data-testid="password-input"
                 />
@@ -211,13 +202,13 @@ const Auth = () => {
               
               {!isLogin && (
                 <div>
-                  <Label htmlFor="phone" className="text-white font-medium">Phone Number</Label>
+                  <Label htmlFor="phone" className="text-gray-700 font-medium">Phone Number</Label>
                   <Input
                     id="phone"
                     type="tel"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
-                    className="mt-2 bg-white/10 border-white/20 text-white placeholder:text-purple-300 focus:border-teal-400 focus:ring-teal-400/20"
+                    className="mt-2 border-gray-200 focus:border-purple-500 focus:ring-purple-500"
                     placeholder="+91 XXXXX XXXXX"
                     data-testid="phone-input"
                   />
@@ -226,7 +217,7 @@ const Auth = () => {
               
               <Button
                 type="submit"
-                className="w-full h-12 bg-teal-500 hover:bg-teal-600 text-white font-semibold text-lg shadow-lg shadow-teal-500/30"
+                className="w-full h-12 bg-purple-600 hover:bg-purple-700 text-white font-semibold text-lg shadow-md"
                 disabled={loading}
                 data-testid="auth-submit-button"
               >
@@ -237,7 +228,7 @@ const Auth = () => {
             <div className="mt-6 text-center">
               <button
                 onClick={() => setIsLogin(!isLogin)}
-                className="text-teal-400 hover:text-teal-300 font-medium transition-colors"
+                className="text-purple-600 hover:text-purple-700 font-medium transition-colors"
                 data-testid="toggle-auth-mode-button"
               >
                 {isLogin ? "Don't have an account? Sign up" : 'Already have an account? Sign in'}
@@ -247,7 +238,7 @@ const Auth = () => {
 
           {/* Back to Home */}
           <div className="mt-6 text-center">
-            <Link to="/" className="text-purple-200 hover:text-white transition-colors">
+            <Link to="/" className="text-gray-500 hover:text-purple-600 transition-colors">
               ← Back to Home
             </Link>
           </div>
