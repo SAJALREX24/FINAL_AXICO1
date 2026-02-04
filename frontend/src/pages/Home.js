@@ -192,13 +192,15 @@ const Home = () => {
       <RecentlyViewed />
 
       {/* Why Choose Us */}
-      <section className="py-20 bg-[#2563EB]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-20 bg-gradient-to-br from-purple-900 via-purple-800 to-indigo-900 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-purple-600/30 rounded-full blur-3xl translate-x-1/3 -translate-y-1/3"></div>
+        <div className="absolute bottom-0 left-0 w-80 h-80 bg-teal-500/20 rounded-full blur-3xl -translate-x-1/3 translate-y-1/3"></div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-semibold text-white mb-4">
-              Why Healthcare Professionals Choose Us
+              Why Healthcare Professionals <span className="text-teal-400">Choose Us</span>
             </h2>
-            <p className="text-xl text-white/90">Join 1000+ satisfied healthcare facilities</p>
+            <p className="text-xl text-purple-200">Join 1000+ satisfied healthcare facilities</p>
           </div>
           
           <div className="grid md:grid-cols-3 gap-8">
