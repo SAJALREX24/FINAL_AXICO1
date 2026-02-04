@@ -237,6 +237,8 @@ const Checkout = () => {
     try {
       if (selectedPaymentMethod === 'razorpay' || selectedPaymentMethod === 'emi') {
         await handleRazorpayPayment();
+      } else if (selectedPaymentMethod === 'upi') {
+        await handleRazorpayPayment('upi');
       } else {
         await handleCODPayment();
       }
