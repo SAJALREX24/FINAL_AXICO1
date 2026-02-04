@@ -90,7 +90,7 @@ const Navbar = ({ cartCount = 0 }) => {
   return (
     <>
       {/* Main Navbar */}
-      <nav className="bg-gradient-to-r from-purple-900 to-indigo-900 sticky top-0 z-50 shadow-lg" data-testid="main-navbar">
+      <nav className="bg-white border-b border-purple-100 sticky top-0 z-50 shadow-sm" data-testid="main-navbar">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 lg:h-20">
             {/* Logo */}
@@ -101,8 +101,8 @@ const Navbar = ({ cartCount = 0 }) => {
                 className="h-10 lg:h-12 w-auto rounded-lg"
               />
               <div className="hidden sm:block">
-                <span className="text-xl lg:text-2xl font-semibold text-white tracking-wide">ALAXICO</span>
-                <p className="text-[10px] text-purple-200 -mt-1">Trusted Healthcare Partner</p>
+                <span className="text-xl lg:text-2xl font-semibold text-purple-700 tracking-wide">ALAXICO</span>
+                <p className="text-[10px] text-gray-500 -mt-1">Trusted Healthcare Partner</p>
               </div>
             </Link>
 
@@ -114,12 +114,12 @@ const Navbar = ({ cartCount = 0 }) => {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search for medical equipment..."
-                  className="w-full h-11 px-5 pr-12 text-sm border-2 border-white/20 rounded-full focus:border-teal-400 focus:ring-2 focus:ring-teal-400/20 outline-none transition-all bg-white/10 text-white placeholder:text-purple-300"
+                  className="w-full h-11 px-5 pr-12 text-sm border-2 border-purple-100 rounded-full focus:border-purple-400 focus:ring-2 focus:ring-purple-100 outline-none transition-all bg-purple-50/50 text-gray-700 placeholder:text-gray-400"
                   data-testid="search-input"
                 />
                 <button 
                   type="submit" 
-                  className="absolute right-1 top-1/2 -translate-y-1/2 w-9 h-9 bg-teal-500 rounded-full flex items-center justify-center text-white hover:bg-teal-600 transition-colors"
+                  className="absolute right-1 top-1/2 -translate-y-1/2 w-9 h-9 bg-purple-600 rounded-full flex items-center justify-center text-white hover:bg-purple-700 transition-colors"
                 >
                   <Search className="h-4 w-4" />
                 </button>
@@ -135,7 +135,7 @@ const Navbar = ({ cartCount = 0 }) => {
                 onMouseLeave={() => setShowCategoryDropdown(false)}
               >
                 <button 
-                  className="flex items-center px-4 py-2 text-white hover:text-teal-400 font-medium transition-colors"
+                  className="flex items-center px-4 py-2 text-gray-700 hover:text-purple-600 font-medium transition-colors"
                   data-testid="categories-dropdown-trigger"
                 >
                   <Grid className="w-4 h-4 mr-2" />
@@ -145,7 +145,7 @@ const Navbar = ({ cartCount = 0 }) => {
                 
                 {/* Dropdown Menu */}
                 {showCategoryDropdown && (
-                  <div className="absolute top-full left-0 w-72 bg-white rounded-xl shadow-xl border border-gray-200 py-2 z-50 animate-fade-in">
+                  <div className="absolute top-full left-0 w-72 bg-white rounded-xl shadow-xl border border-purple-100 py-2 z-50 animate-fade-in">
                     {CATEGORIES.map((category) => (
                       <Link
                         key={category.name}
@@ -164,10 +164,10 @@ const Navbar = ({ cartCount = 0 }) => {
                         </div>
                       </Link>
                     ))}
-                    <div className="border-t border-gray-100 mt-2 pt-2 px-4">
+                    <div className="border-t border-purple-100 mt-2 pt-2 px-4">
                       <Link 
                         to="/products" 
-                        className="flex items-center justify-center py-2 text-purple-700 font-medium hover:text-purple-800 transition-colors"
+                        className="flex items-center justify-center py-2 text-purple-600 font-medium hover:text-purple-700 transition-colors"
                       >
                         View All Products →
                       </Link>
@@ -178,7 +178,7 @@ const Navbar = ({ cartCount = 0 }) => {
 
               <Link 
                 to="/products" 
-                className="px-4 py-2 text-white hover:text-teal-400 font-medium transition-colors"
+                className="px-4 py-2 text-gray-700 hover:text-purple-600 font-medium transition-colors"
                 data-testid="products-nav-link"
               >
                 All Products
@@ -186,7 +186,7 @@ const Navbar = ({ cartCount = 0 }) => {
               
               <Link 
                 to="/bulk-order" 
-                className="px-4 py-2 text-white hover:text-teal-400 font-medium transition-colors"
+                className="px-4 py-2 text-gray-700 hover:text-purple-600 font-medium transition-colors"
                 data-testid="bulk-order-nav-link"
               >
                 Bulk Orders
@@ -195,7 +195,7 @@ const Navbar = ({ cartCount = 0 }) => {
               {/* Contact */}
               <a 
                 href="tel:+917617617178"
-                className="flex items-center px-4 py-2 text-white hover:text-teal-400 font-medium transition-colors"
+                className="flex items-center px-4 py-2 text-gray-700 hover:text-purple-600 font-medium transition-colors"
               >
                 <HeadphonesIcon className="w-4 h-4 mr-2" />
                 Support
@@ -207,16 +207,16 @@ const Navbar = ({ cartCount = 0 }) => {
               {/* Mobile Search Button */}
               <Link 
                 to="/products" 
-                className="lg:hidden p-2 text-white hover:text-teal-400 transition-colors"
+                className="lg:hidden p-2 text-gray-600 hover:text-purple-600 transition-colors"
               >
                 <Search className="h-5 w-5" />
               </Link>
 
               {/* Cart */}
               <Link to="/cart" className="relative p-2" data-testid="cart-link">
-                <ShoppingCart className="h-6 w-6 text-white hover:text-teal-400 transition-colors" />
+                <ShoppingCart className="h-6 w-6 text-gray-600 hover:text-purple-600 transition-colors" />
                 {cartCount > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-teal-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
+                  <span className="absolute -top-1 -right-1 bg-purple-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
                     {cartCount}
                   </span>
                 )}
@@ -228,10 +228,10 @@ const Navbar = ({ cartCount = 0 }) => {
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <button className="flex items-center space-x-2 focus:outline-none" data-testid="user-menu-trigger">
-                        <div className="h-10 w-10 rounded-full overflow-hidden border-2 border-teal-400 shadow-md hover:border-teal-300 transition-colors">
+                        <div className="h-10 w-10 rounded-full overflow-hidden border-2 border-purple-200 shadow-md hover:border-purple-400 transition-colors">
                           <img src={userAvatar} alt={user.name || 'User'} className="h-full w-full object-cover" />
                         </div>
-                        <ChevronDown className="w-4 h-4 text-white" />
+                        <ChevronDown className="w-4 h-4 text-gray-500" />
                       </button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="w-56">
@@ -263,7 +263,7 @@ const Navbar = ({ cartCount = 0 }) => {
                   </DropdownMenu>
                 ) : (
                   <Link to="/login">
-                    <Button className="bg-teal-500 text-white hover:bg-teal-600 font-medium">
+                    <Button className="bg-purple-600 text-white hover:bg-purple-700 font-medium">
                       Login
                     </Button>
                   </Link>
@@ -273,7 +273,7 @@ const Navbar = ({ cartCount = 0 }) => {
               {/* Mobile Menu Button */}
               <button 
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)} 
-                className="lg:hidden p-2 text-white hover:text-teal-400"
+                className="lg:hidden p-2 text-gray-600 hover:text-purple-600"
                 data-testid="mobile-menu-button"
               >
                 {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -283,15 +283,15 @@ const Navbar = ({ cartCount = 0 }) => {
         </div>
 
         {/* Mobile Category Bar */}
-        <div className="lg:hidden border-t border-purple-700 overflow-x-auto bg-purple-800/50">
+        <div className="lg:hidden border-t border-purple-100 overflow-x-auto bg-purple-50/50">
           <div className="flex px-4 py-2 space-x-1" style={{ minWidth: 'max-content' }}>
             {CATEGORIES.map((category) => (
               <Link
                 key={category.name}
                 to={category.link}
-                className="flex items-center px-3 py-1.5 bg-white/10 hover:bg-white/20 rounded-full text-xs font-medium text-white transition-colors whitespace-nowrap"
+                className="flex items-center px-3 py-1.5 bg-white hover:bg-purple-100 rounded-full text-xs font-medium text-gray-700 transition-colors whitespace-nowrap border border-purple-100"
               >
-                <category.icon className="w-3 h-3 mr-1 text-teal-400" />
+                <category.icon className="w-3 h-3 mr-1 text-purple-600" />
                 {category.name.split(' ')[0]}
               </Link>
             ))}
@@ -303,11 +303,11 @@ const Navbar = ({ cartCount = 0 }) => {
       {mobileMenuOpen && (
         <div className="fixed inset-0 z-40 lg:hidden">
           <div className="fixed inset-0 bg-black/50" onClick={closeMobileMenu}></div>
-          <div className="fixed right-0 top-0 h-full w-80 bg-gradient-to-b from-purple-900 to-indigo-900 shadow-xl overflow-y-auto">
-            <div className="p-4 border-b border-purple-700">
+          <div className="fixed right-0 top-0 h-full w-80 bg-white shadow-xl overflow-y-auto">
+            <div className="p-4 border-b border-purple-100 bg-purple-50">
               <div className="flex items-center justify-between">
-                <span className="text-lg font-semibold text-white">Menu</span>
-                <button onClick={closeMobileMenu} className="p-2 text-white/80 hover:text-white">
+                <span className="text-lg font-semibold text-purple-700">Menu</span>
+                <button onClick={closeMobileMenu} className="p-2 text-gray-500 hover:text-gray-700">
                   <X className="h-5 w-5" />
                 </button>
               </div>
@@ -315,30 +315,30 @@ const Navbar = ({ cartCount = 0 }) => {
 
             {/* User Info */}
             {user && (
-              <div className="p-4 bg-white/10 border-b border-purple-700">
+              <div className="p-4 bg-purple-50 border-b border-purple-100">
                 <div className="flex items-center space-x-3">
-                  <div className="h-12 w-12 rounded-full overflow-hidden border-2 border-teal-400">
+                  <div className="h-12 w-12 rounded-full overflow-hidden border-2 border-purple-200">
                     <img src={userAvatar} alt={user.name} className="h-full w-full object-cover" />
                   </div>
                   <div>
-                    <p className="font-semibold text-white">{user.name}</p>
-                    <p className="text-sm text-purple-200">{user.email}</p>
+                    <p className="font-semibold text-gray-900">{user.name}</p>
+                    <p className="text-sm text-gray-500">{user.email}</p>
                   </div>
                 </div>
               </div>
             )}
 
             {/* Search */}
-            <div className="p-4 border-b border-purple-700">
+            <div className="p-4 border-b border-purple-100">
               <form onSubmit={handleSearch} className="relative">
                 <input
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search products..."
-                  className="w-full h-10 px-4 pr-10 text-sm bg-white/10 border border-purple-600 rounded-lg focus:border-teal-400 outline-none text-white placeholder:text-purple-300"
+                  className="w-full h-10 px-4 pr-10 text-sm bg-purple-50 border border-purple-200 rounded-lg focus:border-purple-400 outline-none text-gray-700 placeholder:text-gray-400"
                 />
-                <button type="submit" className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400">
+                <button type="submit" className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400">
                   <Search className="h-5 w-5" />
                 </button>
               </form>
@@ -346,25 +346,25 @@ const Navbar = ({ cartCount = 0 }) => {
 
             {/* Categories */}
             <div className="py-2">
-              <p className="px-4 py-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">Categories</p>
+              <p className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">Categories</p>
               {CATEGORIES.map((category) => (
                 <Link
                   key={category.name}
                   to={category.link}
                   onClick={closeMobileMenu}
-                  className="flex items-center px-4 py-3 hover:bg-slate-50 transition-colors"
+                  className="flex items-center px-4 py-3 hover:bg-purple-50 transition-colors"
                 >
                   <div className={`w-8 h-8 ${category.bgColor} rounded-lg flex items-center justify-center mr-3`}>
                     <category.icon className={`w-4 h-4 ${category.color}`} />
                   </div>
-                  <span className="font-medium text-slate-900">{category.name}</span>
+                  <span className="font-medium text-gray-900">{category.name}</span>
                 </Link>
               ))}
             </div>
 
             {/* Menu Items */}
-            <div className="py-2 border-t border-slate-200">
-              <p className="px-4 py-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">Menu</p>
+            <div className="py-2 border-t border-purple-100">
+              <p className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">Menu</p>
               <MobileMenuItem icon={Home} label="Home" onClick={() => { navigate('/'); closeMobileMenu(); }} />
               <MobileMenuItem icon={Grid} label="All Products" onClick={() => { navigate('/products'); closeMobileMenu(); }} />
               <MobileMenuItem icon={FileText} label="Bulk Orders" onClick={() => { navigate('/bulk-order'); closeMobileMenu(); }} />
@@ -372,19 +372,19 @@ const Navbar = ({ cartCount = 0 }) => {
               
               {user ? (
                 <>
-                  <div className="my-2 border-t border-slate-200"></div>
+                  <div className="my-2 border-t border-purple-100"></div>
                   <MobileMenuItem icon={User} label="My Dashboard" onClick={() => { navigate('/dashboard'); closeMobileMenu(); }} />
                   {user.role === 'admin' && (
                     <MobileMenuItem icon={Settings} label="Admin Panel" onClick={() => { navigate('/admin'); closeMobileMenu(); }} />
                   )}
-                  <MobileMenuItem icon={LogOut} label="Logout" onClick={handleLogout} className="text-red-400" />
+                  <MobileMenuItem icon={LogOut} label="Logout" onClick={handleLogout} className="text-red-500" />
                 </>
               ) : (
                 <>
-                  <div className="my-2 border-t border-purple-700"></div>
+                  <div className="my-2 border-t border-purple-100"></div>
                   <div className="p-4">
                     <Link to="/login" onClick={closeMobileMenu}>
-                      <Button className="w-full bg-teal-500 hover:bg-teal-600 text-white font-medium">Login / Sign Up</Button>
+                      <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white font-medium">Login / Sign Up</Button>
                     </Link>
                   </div>
                 </>
@@ -392,14 +392,14 @@ const Navbar = ({ cartCount = 0 }) => {
             </div>
 
             {/* Contact Info */}
-            <div className="p-4 border-t border-purple-700 bg-white/5">
-              <p className="text-xs font-semibold text-teal-400 uppercase tracking-wider mb-3">Contact Us</p>
-              <a href="tel:+917617617178" className="flex items-center text-sm text-purple-200 mb-2">
-                <Phone className="w-4 h-4 mr-2 text-teal-400" />
+            <div className="p-4 border-t border-purple-100 bg-purple-50">
+              <p className="text-xs font-semibold text-purple-600 uppercase tracking-wider mb-3">Contact Us</p>
+              <a href="tel:+917617617178" className="flex items-center text-sm text-gray-600 mb-2">
+                <Phone className="w-4 h-4 mr-2 text-purple-600" />
                 +91 7617617178
               </a>
-              <a href="mailto:alaxicohealthcare@gmail.com" className="flex items-center text-sm text-purple-200">
-                <Mail className="w-4 h-4 mr-2 text-teal-400" />
+              <a href="mailto:alaxicohealthcare@gmail.com" className="flex items-center text-sm text-gray-600">
+                <Mail className="w-4 h-4 mr-2 text-purple-600" />
                 alaxicohealthcare@gmail.com
               </a>
             </div>
