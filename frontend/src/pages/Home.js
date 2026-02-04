@@ -209,12 +209,12 @@ const Home = () => {
               { icon: TrendingUp, title: 'Best Prices', desc: 'Competitive pricing with bulk order discounts' },
               { icon: Users, title: 'Expert Support', desc: 'Dedicated support team for all your needs' },
             ].map((item, i) => (
-              <div key={i} className="text-center text-white p-8 bg-white/10 backdrop-blur-sm rounded-2xl hover:bg-white/20 transition-all duration-300 hover:scale-105">
-                <div className="w-20 h-20 mx-auto mb-6 bg-white/20 rounded-2xl flex items-center justify-center">
-                  <item.icon className="w-10 h-10" />
+              <div key={i} className="text-center text-white p-8 bg-white/10 backdrop-blur-sm rounded-2xl border border-white/20 hover:bg-white/20 transition-all duration-300 hover:scale-105">
+                <div className="w-20 h-20 mx-auto mb-6 bg-teal-500/20 rounded-2xl flex items-center justify-center">
+                  <item.icon className="w-10 h-10 text-teal-400" />
                 </div>
                 <h3 className="text-2xl font-semibold mb-3">{item.title}</h3>
-                <p className="text-white/90">{item.desc}</p>
+                <p className="text-purple-200">{item.desc}</p>
               </div>
             ))}
           </div>
@@ -227,7 +227,7 @@ const Home = () => {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
               <h2 className="text-4xl md:text-5xl font-semibold tracking-tight text-[#374151] mb-4" data-testid="reviews-title">
-                What Our Customers Say
+                What Our <span className="text-purple-600">Customers Say</span>
               </h2>
               <p className="text-xl text-[#6B7280]">Trusted by healthcare professionals across India</p>
             </div>
@@ -236,7 +236,7 @@ const Home = () => {
               {featuredReviews.map((review, index) => (
                 <div
                   key={review.id}
-                  className="bg-[#F5F3FF] border-2 border-[#E9D5FF] rounded-2xl p-8 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2"
+                  className="bg-gradient-to-br from-purple-50 to-white border-2 border-purple-100 rounded-2xl p-8 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2"
                   data-testid={`review-card-${review.id}`}
                   style={{animationDelay: `${index * 0.15}s`}}
                 >
@@ -244,7 +244,7 @@ const Home = () => {
                     {[...Array(5)].map((_, i) => (
                       <Star
                         key={i}
-                        className={`h-5 w-5 ${i < review.rating ? 'text-[#FACC15] fill-[#FACC15]' : 'text-[#E5E7EB]'}`}
+                        className={`h-5 w-5 ${i < review.rating ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'}`}
                       />
                     ))}
                   </div>
@@ -271,17 +271,19 @@ const Home = () => {
       )}
 
       {/* CTA Section */}
-      <section className="py-20 bg-[#374151]" data-testid="cta-section">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <section className="py-20 bg-gradient-to-br from-purple-900 via-purple-800 to-indigo-900 relative overflow-hidden" data-testid="cta-section">
+        <div className="absolute top-0 left-1/4 w-72 h-72 bg-teal-500/20 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-pink-500/10 rounded-full blur-3xl"></div>
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
           <h2 className="text-4xl md:text-5xl font-semibold text-white mb-6" data-testid="cta-title">
-            Ready to Get Started?
+            Ready to <span className="text-teal-400">Get Started</span>?
           </h2>
-          <p className="text-xl text-white/90 mb-8">
+          <p className="text-xl text-purple-200 mb-8">
             Get special pricing for bulk orders. Our team will contact you within 24 hours.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <Link to="/bulk-order" data-testid="cta-bulk-enquiry-button">
-              <Button size="lg" className="bg-[#2563EB] text-white hover:bg-[#1D4ED8] shadow-2xl hover:shadow-white/20 transform hover:scale-105 transition-all duration-300 text-lg px-8 py-6">
+              <Button size="lg" className="bg-teal-500 text-white hover:bg-teal-600 shadow-2xl shadow-teal-500/30 transform hover:scale-105 transition-all duration-300 text-lg px-8 py-6">
                 Request Bulk Quote
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
