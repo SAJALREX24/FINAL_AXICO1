@@ -11,7 +11,7 @@ const Footer = () => {
           <div>
             <div className="flex items-center space-x-2 mb-4">
               <img 
-                src="https://static.prod-images.emergentagent.com/jobs/6cf4d218-daa4-4ddd-a299-e0a623bdb977/images/d3770b5a9523d5568d6c7973d42854fe8894c77d08540390259252085bd84a9f.png" 
+                src="https://customer-assets.emergentagent.com/job_alaxico-store/artifacts/ahkqpypd_Capture6.PNG" 
                 alt="Alaxico Logo" 
                 className="h-10 w-auto rounded-lg"
               />
