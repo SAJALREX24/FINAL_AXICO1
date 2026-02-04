@@ -6,7 +6,7 @@ import json
 from datetime import datetime
 
 class MedEquipMartAPITester:
-    def __init__(self, base_url="https://medshop-alaxico.preview.emergentagent.com/api"):
+    def __init__(self, base_url="https://care-devices-3.preview.emergentagent.com/api"):
         self.base_url = base_url
         self.token = None
         self.admin_token = None
