@@ -377,14 +377,14 @@ const Navbar = ({ cartCount = 0 }) => {
                   {user.role === 'admin' && (
                     <MobileMenuItem icon={Settings} label="Admin Panel" onClick={() => { navigate('/admin'); closeMobileMenu(); }} />
                   )}
-                  <MobileMenuItem icon={LogOut} label="Logout" onClick={handleLogout} className="text-red-600" />
+                  <MobileMenuItem icon={LogOut} label="Logout" onClick={handleLogout} className="text-red-400" />
                 </>
               ) : (
                 <>
-                  <div className="my-2 border-t border-[#E5E7EB]"></div>
+                  <div className="my-2 border-t border-purple-700"></div>
                   <div className="p-4">
                     <Link to="/login" onClick={closeMobileMenu}>
-                      <Button className="w-full bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-medium">Login / Sign Up</Button>
+                      <Button className="w-full bg-teal-500 hover:bg-teal-600 text-white font-medium">Login / Sign Up</Button>
                     </Link>
                   </div>
                 </>
@@ -392,14 +392,14 @@ const Navbar = ({ cartCount = 0 }) => {
             </div>
 
             {/* Contact Info */}
-            <div className="p-4 border-t border-[#E5E7EB] bg-[#F5F3FF]">
-              <p className="text-xs font-semibold text-[#374151] uppercase tracking-wider mb-3">Contact Us</p>
-              <a href="tel:+917617617178" className="flex items-center text-sm text-[#374151] mb-2">
-                <Phone className="w-4 h-4 mr-2 text-[#2563EB]" />
+            <div className="p-4 border-t border-purple-700 bg-white/5">
+              <p className="text-xs font-semibold text-teal-400 uppercase tracking-wider mb-3">Contact Us</p>
+              <a href="tel:+917617617178" className="flex items-center text-sm text-purple-200 mb-2">
+                <Phone className="w-4 h-4 mr-2 text-teal-400" />
                 +91 7617617178
               </a>
-              <a href="mailto:alaxicohealthcare@gmail.com" className="flex items-center text-sm text-[#374151]">
-                <Mail className="w-4 h-4 mr-2 text-[#2563EB]" />
+              <a href="mailto:alaxicohealthcare@gmail.com" className="flex items-center text-sm text-purple-200">
+                <Mail className="w-4 h-4 mr-2 text-teal-400" />
                 alaxicohealthcare@gmail.com
               </a>
             </div>
@@ -413,14 +413,14 @@ const Navbar = ({ cartCount = 0 }) => {
 const MobileMenuItem = ({ icon: Icon, label, badge, onClick, className = '' }) => (
   <button
     onClick={onClick}
-    className={`w-full flex items-center justify-between px-4 py-3 hover:bg-[#F5F3FF] transition-colors ${className}`}
+    className={`w-full flex items-center justify-between px-4 py-3 hover:bg-white/10 transition-colors ${className}`}
   >
     <div className="flex items-center space-x-3">
-      <Icon className="h-5 w-5 text-[#6B7280]" />
-      <span className="font-medium text-[#374151]">{label}</span>
+      <Icon className="h-5 w-5 text-purple-300" />
+      <span className="font-medium text-white">{label}</span>
     </div>
     {badge > 0 && (
-      <span className="bg-[#2563EB] text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+      <span className="bg-teal-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
         {badge}
       </span>
     )}
