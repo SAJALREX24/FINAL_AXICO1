@@ -27,6 +27,15 @@ const Admin = () => {
   const [productDialogOpen, setProductDialogOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null); // Track which product is being edited
   
+  // Available payment methods
+  const PAYMENT_METHODS = [
+    { id: 'razorpay', name: 'Online Payment', description: 'Cards, UPI, NetBanking' },
+    { id: 'cod', name: 'Cash on Delivery', description: 'Pay when you receive' },
+    { id: 'bank_transfer', name: 'Bank Transfer', description: 'NEFT/RTGS/IMPS' },
+    { id: 'emi', name: 'EMI', description: 'Monthly installments' },
+    { id: 'pay_later', name: 'Pay Later', description: 'Pay within 30 days' },
+  ];
+
   // Default empty form state
   const defaultProductForm = {
     name: '',
@@ -49,6 +58,7 @@ const Admin = () => {
     ],
     warrantyInfo: '',
     shippingInfo: '',
+    paymentMethods: ['razorpay', 'cod', 'bank_transfer', 'emi', 'pay_later'], // All enabled by default
     availability: true,
     featured: false,
     limitedStock: false,
