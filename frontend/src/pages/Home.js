@@ -182,27 +182,27 @@ const Home = () => {
       <RecentlyViewed />
 
       {/* Why Choose Us */}
-      <section className="py-20 bg-white">
+      <section className="py-12 sm:py-16 lg:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-semibold text-gray-900 mb-4">
+          <div className="text-center mb-8 sm:mb-12 lg:mb-16">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-gray-900 mb-2 sm:mb-4">
               Why Healthcare Professionals <span className="text-purple-600">Choose Us</span>
             </h2>
-            <p className="text-xl text-gray-500">Join 1000+ satisfied healthcare facilities</p>
+            <p className="text-sm sm:text-base lg:text-xl text-gray-500">Join 1000+ satisfied healthcare facilities</p>
           </div>
           
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
             {[
               { icon: Award, title: 'Quality Assured', desc: 'All products are quality checked and certified' },
               { icon: TrendingUp, title: 'Best Prices', desc: 'Competitive pricing with bulk order discounts' },
               { icon: Users, title: 'Expert Support', desc: 'Dedicated support team for all your needs' },
             ].map((item, i) => (
-              <div key={i} className="text-center p-8 bg-purple-50 rounded-2xl border border-purple-100 hover:border-purple-200 transition-all duration-300 hover:shadow-lg">
-                <div className="w-20 h-20 mx-auto mb-6 bg-purple-100 rounded-2xl flex items-center justify-center">
-                  <item.icon className="w-10 h-10 text-purple-600" />
+              <div key={i} className="text-center p-4 sm:p-6 lg:p-8 bg-purple-50 rounded-xl sm:rounded-2xl border border-purple-100 hover:border-purple-200 transition-all duration-300 hover:shadow-lg">
+                <div className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 mx-auto mb-3 sm:mb-4 lg:mb-6 bg-purple-100 rounded-xl sm:rounded-2xl flex items-center justify-center">
+                  <item.icon className="w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10 text-purple-600" />
                 </div>
-                <h3 className="text-2xl font-semibold mb-3 text-gray-900">{item.title}</h3>
-                <p className="text-gray-500">{item.desc}</p>
+                <h3 className="text-lg sm:text-xl lg:text-2xl font-semibold mb-1 sm:mb-2 lg:mb-3 text-gray-900">{item.title}</h3>
+                <p className="text-xs sm:text-sm lg:text-base text-gray-500">{item.desc}</p>
               </div>
             ))}
           </div>
@@ -211,37 +211,37 @@ const Home = () => {
 
       {/* Customer Reviews */}
       {featuredReviews.length > 0 && (
-        <section className="py-20 bg-purple-50" data-testid="reviews-section">
+        <section className="py-12 sm:py-16 lg:py-20 bg-purple-50" data-testid="reviews-section">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-12">
-              <h2 className="text-4xl md:text-5xl font-semibold tracking-tight text-gray-900 mb-4" data-testid="reviews-title">
+            <div className="text-center mb-6 sm:mb-8 lg:mb-12">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold tracking-tight text-gray-900 mb-2 sm:mb-4" data-testid="reviews-title">
                 What Our <span className="text-purple-600">Customers Say</span>
               </h2>
-              <p className="text-xl text-gray-500">Trusted by healthcare professionals across India</p>
+              <p className="text-sm sm:text-base lg:text-xl text-gray-500">Trusted by healthcare professionals across India</p>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
               {featuredReviews.map((review, index) => (
                 <div
                   key={review.id}
-                  className="bg-white border border-purple-100 rounded-2xl p-8 hover:shadow-xl transition-all duration-300 hover:-translate-y-2"
+                  className="bg-white border border-purple-100 rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-8 hover:shadow-xl transition-all duration-300 hover:-translate-y-2"
                   data-testid={`review-card-${review.id}`}
                   style={{animationDelay: `${index * 0.15}s`}}
                 >
-                  <div className="flex items-center mb-4">
+                  <div className="flex items-center mb-3 sm:mb-4">
                     {[...Array(5)].map((_, i) => (
                       <Star
                         key={i}
-                        className={`h-5 w-5 ${i < review.rating ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'}`}
+                        className={`h-4 w-4 sm:h-5 sm:w-5 ${i < review.rating ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'}`}
                       />
                     ))}
                   </div>
-                  <p className="text-gray-700 mb-6 leading-relaxed text-lg">&ldquo;{review.comment}&rdquo;</p>
+                  <p className="text-gray-700 mb-4 sm:mb-6 leading-relaxed text-sm sm:text-base lg:text-lg">&ldquo;{review.comment}&rdquo;</p>
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="font-semibold text-gray-900">{review.user?.name}</p>
+                      <p className="font-semibold text-gray-900 text-sm sm:text-base">{review.user?.name}</p>
                       {review.product && (
-                        <p className="text-sm text-gray-500">{review.product.name}</p>
+                        <p className="text-xs sm:text-sm text-gray-500">{review.product.name}</p>
                       )}
                     </div>
                     {review.user && (
@@ -259,23 +259,23 @@ const Home = () => {
       )}
 
       {/* CTA Section */}
-      <section className="py-20 bg-purple-600" data-testid="cta-section">
+      <section className="py-12 sm:py-16 lg:py-20 bg-purple-600" data-testid="cta-section">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl md:text-5xl font-semibold text-white mb-6" data-testid="cta-title">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-white mb-3 sm:mb-4 lg:mb-6" data-testid="cta-title">
             Ready to Get Started?
           </h2>
-          <p className="text-xl text-purple-100 mb-8">
+          <p className="text-sm sm:text-base lg:text-xl text-purple-100 mb-6 sm:mb-8">
             Get special pricing for bulk orders. Our team will contact you within 24 hours.
           </p>
-          <div className="flex flex-wrap justify-center gap-4">
+          <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4">
             <Link to="/bulk-order" data-testid="cta-bulk-enquiry-button">
-              <Button size="lg" className="bg-white text-purple-600 hover:bg-purple-50 shadow-xl transform hover:scale-105 transition-all duration-300 text-lg px-8 py-6">
+              <Button size="lg" className="w-full sm:w-auto bg-white text-purple-600 hover:bg-purple-50 shadow-xl transform hover:scale-105 transition-all duration-300 text-sm sm:text-base lg:text-lg px-6 sm:px-8 py-4 sm:py-6">
                 Request Bulk Quote
-                <ArrowRight className="ml-2 h-5 w-5" />
+                <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
               </Button>
             </Link>
             <Link to="/products">
-              <Button size="lg" variant="outline" className="border-2 border-white text-white hover:bg-white/10 shadow-xl transform hover:scale-105 transition-all duration-300 text-lg px-8 py-6">
+              <Button size="lg" variant="outline" className="w-full sm:w-auto border-2 border-white text-white hover:bg-white/10 shadow-xl transform hover:scale-105 transition-all duration-300 text-sm sm:text-base lg:text-lg px-6 sm:px-8 py-4 sm:py-6">
                 Browse Products
               </Button>
             </Link>
