@@ -13,6 +13,7 @@ import { Package, ShoppingCart, FileText, Star, ShieldCheck, Users, Plus, Percen
 import { toast } from 'sonner';
 import { Switch } from '../components/ui/switch';
 import SalesDashboard from '../components/SalesDashboard';
+import { FullPageLoader } from '../components/MedicalLoader';
 
 const Admin = () => {
   const { user, loading: authLoading } = useAuth();
