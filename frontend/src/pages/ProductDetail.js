@@ -13,6 +13,7 @@ import useRecentlyViewed from '../hooks/useRecentlyViewed';
 import EMICalculator from '../components/EMICalculator';
 import ProductCard from '../components/ProductCard';
 import { getMedicalAvatar } from '../utils/avatars';
+import { FullPageLoader } from '../components/MedicalLoader';
 
 const ProductDetail = () => {
   const { id } = useParams();
