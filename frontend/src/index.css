@@ -247,3 +247,59 @@ h1, h2, h3, h4, h5, h6 {
         width: 0%;
     }
 }
+
+
+/* Medical Loader Animations */
+.heartbeat-line {
+    stroke-dasharray: 300;
+    stroke-dashoffset: 300;
+    animation: heartbeat 2s ease-in-out infinite;
+}
+
+@keyframes heartbeat {
+    0% {
+        stroke-dashoffset: 300;
+    }
+    50% {
+        stroke-dashoffset: 0;
+    }
+    100% {
+        stroke-dashoffset: -300;
+    }
+}
+
+/* Medical Cross Pulse */
+@keyframes medicalPulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.4);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 10px rgba(139, 92, 246, 0);
+    }
+}
+
+.medical-pulse {
+    animation: medicalPulse 2s ease-in-out infinite;
+}
+
+/* DNA Helix Loader */
+@keyframes dnaRotate {
+    0% {
+        transform: rotateY(0deg);
+    }
+    100% {
+        transform: rotateY(360deg);
+    }
+}
+
+/* Stethoscope Animation */
+@keyframes stethoscopeBounce {
+    0%, 100% {
+        transform: translateY(0) rotate(-15deg);
+    }
+    50% {
+        transform: translateY(-5px) rotate(-15deg);
+    }
+}
