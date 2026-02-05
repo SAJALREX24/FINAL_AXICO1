@@ -875,7 +875,7 @@ async def get_featured_reviews():
     for review in reviews:
         user = await db.users.find_one(
             {"id": review["user_id"]},
-            {"_id": 0, "name": 1, "verification_status": 1, "buyer_type": 1}
+            {"_id": 0, "name": 1, "email": 1, "verification_status": 1, "buyer_type": 1}
         )
         product = await db.products.find_one(
             {"id": review["product_id"]},
