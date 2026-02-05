@@ -227,24 +227,36 @@ const Navbar = ({ cartCount = 0 }) => {
                 {user ? (
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <button className="flex items-center space-x-2 focus:outline-none" data-testid="user-menu-trigger">
-                        <div className="h-10 w-10 rounded-full overflow-hidden border-2 border-purple-200 shadow-md hover:border-purple-400 transition-colors">
+                      <button className="flex items-center space-x-2 focus:outline-none group" data-testid="user-menu-trigger">
+                        <div className="h-10 w-10 rounded-full overflow-hidden border-2 border-purple-200 shadow-md group-hover:border-purple-400 transition-all group-hover:shadow-lg">
                           <img src={userAvatar} alt={user.name || 'User'} className="h-full w-full object-cover" />
                         </div>
-                        <ChevronDown className="w-4 h-4 text-gray-500" />
+                        <ChevronDown className="w-4 h-4 text-gray-500 group-hover:text-purple-600 transition-colors" />
                       </button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="w-64 p-0 rounded-xl shadow-xl border border-purple-100">
+                    <DropdownMenuContent align="end" className="w-72 p-0 rounded-2xl shadow-2xl border border-purple-100 overflow-hidden">
                       {/* User Header */}
-                      <div className="px-4 py-3 bg-gradient-to-r from-purple-50 to-white border-b border-purple-100 rounded-t-xl">
+                      <div className="px-4 py-4 bg-gradient-to-br from-purple-600 to-purple-700 text-white">
                         <div className="flex items-center gap-3">
-                          <div className="h-12 w-12 rounded-full overflow-hidden border-2 border-purple-300 shadow-sm">
+                          <div className="h-14 w-14 rounded-full overflow-hidden border-3 border-white/30 shadow-lg">
                             <img src={userAvatar} alt={user.name || 'User'} className="h-full w-full object-cover" />
                           </div>
                           <div>
-                            <p className="font-semibold text-gray-900">{user.name}</p>
-                            <p className="text-xs text-gray-500 truncate max-w-[150px]">{user.email}</p>
+                            <p className="font-semibold text-lg">{user.name}</p>
+                            <p className="text-sm text-purple-200 truncate max-w-[160px]">{user.email}</p>
                           </div>
+                        </div>
+                      </div>
+                      
+                      {/* Quick Stats */}
+                      <div className="flex border-b border-purple-100 bg-purple-50/50">
+                        <div className="flex-1 text-center py-3 border-r border-purple-100">
+                          <p className="text-lg font-bold text-purple-600">{cartCount || 0}</p>
+                          <p className="text-xs text-gray-500">Cart Items</p>
+                        </div>
+                        <div className="flex-1 text-center py-3">
+                          <p className="text-lg font-bold text-purple-600">●</p>
+                          <p className="text-xs text-gray-500">{user.role === 'admin' ? 'Admin' : 'Member'}</p>
                         </div>
                       </div>
                       
@@ -252,47 +264,69 @@ const Navbar = ({ cartCount = 0 }) => {
                       <div className="py-2">
                         <DropdownMenuItem 
                           onClick={() => navigate('/dashboard')} 
-                          className="px-4 py-2.5 cursor-pointer hover:bg-purple-50 focus:bg-purple-50"
+                          className="px-4 py-3 cursor-pointer hover:bg-purple-50 focus:bg-purple-50 mx-2 rounded-lg"
                           data-testid="dashboard-menu-item"
                         >
-                          <User className="w-4 h-4 mr-3 text-purple-600" />
-                          <span>My Dashboard</span>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem 
-                          onClick={() => navigate('/cart')}
-                          className="px-4 py-2.5 cursor-pointer hover:bg-purple-50 focus:bg-purple-50"
-                        >
-                          <ShoppingCart className="w-4 h-4 mr-3 text-purple-600" />
-                          <span>My Cart</span>
+                          <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center mr-3">
+                            <User className="w-4 h-4 text-purple-600" />
+                          </div>
+                          <div>
+                            <span className="font-medium text-gray-900">My Dashboard</span>
+                            <p className="text-xs text-gray-500">View profile & settings</p>
+                          </div>
                         </DropdownMenuItem>
                         <DropdownMenuItem 
                           onClick={() => navigate('/dashboard?tab=orders')}
-                          className="px-4 py-2.5 cursor-pointer hover:bg-purple-50 focus:bg-purple-50"
+                          className="px-4 py-3 cursor-pointer hover:bg-purple-50 focus:bg-purple-50 mx-2 rounded-lg"
                         >
-                          <Package className="w-4 h-4 mr-3 text-purple-600" />
-                          <span>My Orders</span>
+                          <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center mr-3">
+                            <Package className="w-4 h-4 text-green-600" />
+                          </div>
+                          <div>
+                            <span className="font-medium text-gray-900">My Orders</span>
+                            <p className="text-xs text-gray-500">Track your orders</p>
+                          </div>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem 
+                          onClick={() => navigate('/cart')}
+                          className="px-4 py-3 cursor-pointer hover:bg-purple-50 focus:bg-purple-50 mx-2 rounded-lg"
+                        >
+                          <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
+                            <ShoppingCart className="w-4 h-4 text-blue-600" />
+                          </div>
+                          <div>
+                            <span className="font-medium text-gray-900">Shopping Cart</span>
+                            <p className="text-xs text-gray-500">{cartCount || 0} items in cart</p>
+                          </div>
                         </DropdownMenuItem>
                         {user.role === 'admin' && (
                           <DropdownMenuItem 
                             onClick={() => navigate('/admin')} 
-                            className="px-4 py-2.5 cursor-pointer hover:bg-purple-50 focus:bg-purple-50"
+                            className="px-4 py-3 cursor-pointer hover:bg-purple-50 focus:bg-purple-50 mx-2 rounded-lg"
                             data-testid="admin-menu-item"
                           >
-                            <Settings className="w-4 h-4 mr-3 text-purple-600" />
-                            <span>Admin Panel</span>
+                            <div className="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center mr-3">
+                              <Settings className="w-4 h-4 text-orange-600" />
+                            </div>
+                            <div>
+                              <span className="font-medium text-gray-900">Admin Panel</span>
+                              <p className="text-xs text-gray-500">Manage store</p>
+                            </div>
                           </DropdownMenuItem>
                         )}
                       </div>
                       
                       {/* Logout */}
-                      <div className="border-t border-purple-100 py-2">
+                      <div className="border-t border-purple-100 p-2">
                         <DropdownMenuItem 
                           onClick={handleLogout} 
-                          className="px-4 py-2.5 cursor-pointer hover:bg-red-50 focus:bg-red-50 text-red-600" 
+                          className="px-4 py-3 cursor-pointer hover:bg-red-50 focus:bg-red-50 rounded-lg mx-0 text-red-600" 
                           data-testid="logout-menu-item"
                         >
-                          <LogOut className="w-4 h-4 mr-3" />
-                          <span>Logout</span>
+                          <div className="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center mr-3">
+                            <LogOut className="w-4 h-4 text-red-600" />
+                          </div>
+                          <span className="font-medium">Sign Out</span>
                         </DropdownMenuItem>
                       </div>
                     </DropdownMenuContent>
