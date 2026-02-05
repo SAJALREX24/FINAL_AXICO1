@@ -155,15 +155,73 @@ const Cart = () => {
       <div className="py-6 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           {cart.items.length === 0 ? (
-            <div className="text-center py-16 bg-white rounded-2xl border border-gray-200 max-w-lg mx-auto shadow-sm" data-testid="empty-cart-message">
-              <ShoppingBag className="h-20 w-20 text-purple-300 mx-auto mb-6" />
-              <h2 className="text-2xl font-semibold text-gray-900 mb-2">Your cart is empty</h2>
-              <p className="text-gray-500 mb-8">Start shopping to add items to your cart</p>
-              <Link to="/products">
-                <Button className="bg-purple-600 hover:bg-purple-700 text-white px-8">
-                  Browse Products
-                </Button>
-              </Link>
+            <div className="max-w-2xl mx-auto" data-testid="empty-cart-message">
+              {/* Empty Cart Card */}
+              <div className="bg-white rounded-3xl border border-gray-100 shadow-lg overflow-hidden">
+                {/* Gradient Header */}
+                <div className="bg-gradient-to-br from-purple-500 via-purple-600 to-purple-700 px-8 py-12 text-center">
+                  <div className="w-24 h-24 bg-white/20 backdrop-blur-sm rounded-full mx-auto flex items-center justify-center mb-6 shadow-lg">
+                    <ShoppingCart className="h-12 w-12 text-white" />
+                  </div>
+                  <h2 className="text-3xl font-bold text-white mb-2">Your Cart is Empty</h2>
+                  <p className="text-purple-100 text-lg">Looks like you haven't added anything yet</p>
+                </div>
+                
+                {/* Content Section */}
+                <div className="p-8 text-center">
+                  <div className="grid grid-cols-3 gap-4 mb-8">
+                    <div className="p-4 bg-purple-50 rounded-xl">
+                      <Truck className="h-8 w-8 text-purple-600 mx-auto mb-2" />
+                      <p className="text-xs text-gray-600 font-medium">Free Delivery</p>
+                    </div>
+                    <div className="p-4 bg-green-50 rounded-xl">
+                      <ShieldCheck className="h-8 w-8 text-green-600 mx-auto mb-2" />
+                      <p className="text-xs text-gray-600 font-medium">Genuine Products</p>
+                    </div>
+                    <div className="p-4 bg-blue-50 rounded-xl">
+                      <Package className="h-8 w-8 text-blue-600 mx-auto mb-2" />
+                      <p className="text-xs text-gray-600 font-medium">Easy Returns</p>
+                    </div>
+                  </div>
+                  
+                  <Link to="/products">
+                    <Button className="bg-purple-600 hover:bg-purple-700 text-white px-10 py-6 text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all">
+                      <ShoppingBag className="h-5 w-5 mr-2" />
+                      Start Shopping
+                    </Button>
+                  </Link>
+                  
+                  <p className="text-gray-500 text-sm mt-6">
+                    Explore our wide range of medical equipment
+                  </p>
+                </div>
+              </div>
+              
+              {/* Featured Products Suggestion */}
+              {similarProducts.length > 0 && (
+                <div className="mt-8">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">Popular Products</h3>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                    {similarProducts.map((product) => (
+                      <Link key={product.id} to={`/product/${product.id}`} className="group">
+                        <div className="bg-white rounded-xl border border-gray-100 overflow-hidden hover:shadow-md transition-shadow">
+                          <div className="aspect-square bg-gray-50 overflow-hidden">
+                            <img 
+                              src={product.image} 
+                              alt={product.name}
+                              className="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                            />
+                          </div>
+                          <div className="p-3">
+                            <h4 className="text-xs font-medium text-gray-900 line-clamp-2">{product.name}</h4>
+                            <p className="text-sm font-semibold text-purple-600 mt-1">₹{product.price.toLocaleString()}</p>
+                          </div>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           ) : (
             <div className="flex flex-col lg:flex-row gap-6">
