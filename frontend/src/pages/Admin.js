@@ -814,23 +814,45 @@ const Admin = () => {
               <h2 className="text-xl font-semibold text-gray-900 mb-6">Reviews Management</h2>
               <div className="space-y-4">
                 {reviews.map((review) => (
-                  <div key={review.id} className="border border-purple-100 bg-purple-50 rounded-lg p-4" data-testid={`admin-review-${review.id}`}>
-                    <div className="flex justify-between items-start mb-3">
-                      <div>
-                        <p className="font-semibold text-gray-900">{review.user?.name}</p>
-                        <p className="text-sm text-gray-500">{review.product?.name}</p>
-                        <p className="text-sm mt-2 text-gray-600">{review.comment}</p>
+                  <div key={review.id} className="border border-purple-100 bg-purple-50 rounded-xl p-5" data-testid={`admin-review-${review.id}`}>
+                    <div className="flex justify-between items-start mb-4">
+                      <div className="flex items-start gap-3">
+                        <div className="w-12 h-12 bg-purple-200 rounded-full flex items-center justify-center text-purple-700 font-semibold text-lg">
+                          {review.user?.name?.charAt(0) || 'U'}
+                        </div>
+                        <div>
+                          <p className="font-semibold text-gray-900">{review.user?.name}</p>
+                          <div className="flex items-center gap-2 text-sm text-gray-500">
+                            <span className="flex items-center gap-1">
+                              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                              </svg>
+                              {review.user?.email}
+                            </span>
+                          </div>
+                          <div className="flex items-center mt-1">
+                            {[...Array(5)].map((_, i) => (
+                              <svg
+                                key={i}
+                                className={`w-4 h-4 ${i < review.rating ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'}`}
+                                viewBox="0 0 24 24"
+                              >
+                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                              </svg>
+                            ))}
+                          </div>
+                        </div>
                       </div>
                       <div className="flex space-x-2">
-                        {!review.approved && (
+                        {!review.approved ? (
                           <>
                             <Button
                               size="sm"
-                              className="bg-purple-600 hover:bg-purple-700"
+                              className="bg-green-600 hover:bg-green-700"
                               onClick={() => handleApproveReview(review.id, true)}
                               data-testid={`approve-review-${review.id}`}
                             >
-                              Approve
+                              ✓ Approve
                             </Button>
                             <Button
                               size="sm"
@@ -838,17 +860,46 @@ const Admin = () => {
                               onClick={() => handleApproveReview(review.id, false)}
                               data-testid={`reject-review-${review.id}`}
                             >
-                              Reject
+                              ✕ Reject
                             </Button>
                           </>
-                        )}
-                        {review.approved && (
-                          <span className="px-3 py-1 bg-green-100 text-green-700 rounded text-sm">Approved</span>
+                        ) : (
+                          <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">✓ Approved</span>
                         )}
                       </div>
                     </div>
+                    
+                    <div className="ml-15 pl-15">
+                      <p className="text-sm text-purple-600 font-medium mb-2">Product: {review.product?.name}</p>
+                      <p className="text-gray-700 bg-white p-3 rounded-lg border border-gray-100">{review.comment}</p>
+                      
+                      {/* Review Images */}
+                      {review.images && review.images.length > 0 && (
+                        <div className="flex flex-wrap gap-2 mt-3">
+                          <span className="text-xs text-gray-500 w-full">Attached Photos:</span>
+                          {review.images.map((img, idx) => (
+                            <a key={idx} href={img} target="_blank" rel="noopener noreferrer" className="w-16 h-16 rounded-lg overflow-hidden border border-gray-200 hover:border-purple-400">
+                              <img src={img} alt={`Review photo ${idx + 1}`} className="w-full h-full object-cover" />
+                            </a>
+                          ))}
+                        </div>
+                      )}
+                      
+                      {/* Review Video */}
+                      {review.video_url && (
+                        <div className="mt-3">
+                          <span className="text-xs text-gray-500">Attached Video: </span>
+                          <a href={review.video_url} target="_blank" rel="noopener noreferrer" className="text-sm text-purple-600 hover:underline">
+                            {review.video_url}
+                          </a>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 ))}
+                {reviews.length === 0 && (
+                  <p className="text-center text-gray-500 py-8">No reviews to manage</p>
+                )}
               </div>
             </div>
           </TabsContent>
