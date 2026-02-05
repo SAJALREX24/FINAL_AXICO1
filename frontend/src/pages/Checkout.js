@@ -225,7 +225,7 @@ const Checkout = () => {
     setProcessing(true);
     
     try {
-      if (selectedPaymentMethod === 'razorpay' || selectedPaymentMethod === 'emi') {
+      if (selectedPaymentMethod === 'razorpay') {
         await handleRazorpayPayment();
       } else if (selectedPaymentMethod === 'upi') {
         await handleRazorpayPayment('upi');
