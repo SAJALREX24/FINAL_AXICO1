@@ -11,6 +11,7 @@ import {
   MapPin, Lock, Package, ChevronRight, BadgeCheck
 } from 'lucide-react';
 import { toast } from 'sonner';
+import { FullPageLoader } from '../components/MedicalLoader';
 
 const PAYMENT_METHOD_ICONS = {
   razorpay: CreditCard,
