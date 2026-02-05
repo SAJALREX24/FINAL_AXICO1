@@ -247,14 +247,7 @@ const Checkout = () => {
   };
 
   if (loading) {
-    return (
-      <div className="min-h-screen bg-gradient-to-b from-purple-50 to-white flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto"></div>
-          <p className="mt-4 text-gray-500">Loading checkout...</p>
-        </div>
-      </div>
-    );
+    return <FullPageLoader text="Preparing secure checkout..." />;
   }
 
   if (cart.items.length === 0) {
