@@ -141,14 +141,7 @@ const Products = () => {
 
             {/* Products Grid */}
             <main className="flex-1">
-              {loading ? (
-                <div className="flex items-center justify-center py-12">
-                  <div className="text-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto"></div>
-                    <p className="mt-4 text-gray-500">Loading products...</p>
-                  </div>
-                </div>
-              ) : products.length === 0 ? (
+              {products.length === 0 ? (
                 <div className="text-center py-12 bg-white rounded-2xl border border-purple-100" data-testid="no-products-message">
                   <Stethoscope className="h-16 w-16 text-purple-300 mx-auto mb-4" />
                   <p className="text-gray-900 text-lg">No products found</p>
