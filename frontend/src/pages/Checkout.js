@@ -7,8 +7,8 @@ import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
 import { Textarea } from '../components/ui/textarea';
 import { 
-  CreditCard, Truck, ShieldCheck, Banknote, Building, Calendar, Clock, Check, Smartphone,
-  MapPin, Lock, Package, ChevronRight, BadgeCheck, Percent, Gift
+  CreditCard, Truck, ShieldCheck, Banknote, Building, Clock, Check, Smartphone,
+  MapPin, Lock, Package, ChevronRight, BadgeCheck
 } from 'lucide-react';
 import { toast } from 'sonner';
 
