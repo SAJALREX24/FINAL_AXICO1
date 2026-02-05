@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import api from '../utils/api';
 import ProductCard from '../components/ProductCard';
+import { FullPageLoader, CardSkeleton } from '../components/MedicalLoader';
 import { Filter, Package, Stethoscope } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { toast } from 'sonner';
