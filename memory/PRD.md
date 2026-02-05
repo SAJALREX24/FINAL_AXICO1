@@ -22,12 +22,12 @@ Build a professional, trustworthy, and scalable medical equipment e-commerce pla
 - ✅ Bulk Order Generation (B2B) via form
 - ✅ Search & Filter capabilities
 - ✅ Retail Cart & Checkout
-- ✅ Multiple Payment Methods (Razorpay, COD, Bank Transfer, EMI, Pay Later)
+- ✅ Multiple Payment Methods (Razorpay, UPI, COD, Bank Transfer, Pay Later)
 - ✅ User Accounts (Email/Password & Google Login)
 - ✅ User Dashboard with order history
-- ✅ Verified customer reviews and testimonials
+- ✅ Verified customer reviews with photo/video uploads
 - ✅ Floating WhatsApp chat integration
-- ✅ EMI Calculator for high-value products
+- ✅ Full Mobile Responsiveness (2-column grids, drawer navigation)
 
 ### Admin Panel Features
 - ✅ Full Product Management (Create/Edit/Delete)
@@ -36,7 +36,7 @@ Build a professional, trustworthy, and scalable medical equipment e-commerce pla
 - ✅ Category Management
 - ✅ Order Management (Retail & Bulk)
 - ✅ User and Verification Management
-- ✅ Customer Reviews Management (Approve/Reject)
+- ✅ Customer Reviews Management (with media preview)
 - ✅ Sales Analytics Dashboard
 
 ## Tech Stack
@@ -44,9 +44,23 @@ Build a professional, trustworthy, and scalable medical equipment e-commerce pla
 - **Backend**: FastAPI, Pydantic
 - **Database**: MongoDB (Motor async driver)
 - **Authentication**: JWT + Emergent Google OAuth
-- **Payments**: Razorpay (Cards, UPI, NetBanking), COD, Bank Transfer, EMI, Pay Later
+- **Payments**: Razorpay (Cards, UPI, NetBanking), COD, Bank Transfer, Pay Later
 
 ## What's Been Implemented
+
+### February 2026
+- ✅ **Mobile Responsiveness Fixes**:
+  - 2-column product grid on all mobile views (Home, Products, Cart)
+  - Mobile navigation drawer with slide-in animation
+  - Responsive text sizing across all sections
+  - Improved spacing and padding for mobile viewports
+
+### January 2026
+- ✅ Custom Medical-themed Heartbeat Loader
+- ✅ Cart Page Redesign (Medkart-inspired)
+- ✅ Review System v2 with photo/video upload support
+- ✅ UPI Payment option added
+- ✅ EMI option removed per user request
 
 ### December 2025
 - Complete UI overhaul to professional "light purple" theme
@@ -70,19 +84,22 @@ Build a professional, trustworthy, and scalable medical equipment e-commerce pla
 - Full test suite for payment methods and like/share features
 
 ## Known Limitations
-- **Razorpay Integration**: Uses placeholder test keys - requires user to provide real API keys for online payments
+- **Razorpay UPI QR**: UPI QR code requires enabling in Razorpay Dashboard settings
 - **Product Data**: Currently using placeholder product data - needs real Alaxico catalog
 
 ## P0 - Critical (Completed)
 - ✅ Multi-payment method feature
 - ✅ Like/Share buttons on product detail page
 - ✅ Admin product editing with payment methods
+- ✅ Mobile responsiveness (2-column grid, drawer nav)
 
 ## P1 - High Priority (Pending)
-- ⏳ Razorpay integration with real API keys (blocked on user input)
+- ⏳ UPI QR code in Razorpay (user needs to enable in dashboard)
 - ⏳ Add real Alaxico products from catalog with correct pricing/specs
+- ⏳ Deploy to alaxico.com domain
 
 ## P2 - Medium Priority (Backlog)
+- Verify Like/Share button functionality
 - Email notifications for order status updates
 - Wishlist / "Save for Later" functionality
 - Product Comparison feature
@@ -91,6 +108,7 @@ Build a professional, trustworthy, and scalable medical equipment e-commerce pla
 ## P3 - Low Priority (Future)
 - Advanced "Request for Quote" (RFQ) system for B2B
 - Advanced search with filters for price, brand, availability
+- Refactor large components (Admin.js, ProductDetail.js)
 
 ## Test Credentials
 - **Admin**: admin@medequipmart.com / admin123
