@@ -239,6 +239,28 @@ const Checkout = () => {
       return;
     }
     
+    // Validate address fields
+    if (!address.street.trim()) {
+      toast.error('Please enter your street address');
+      return;
+    }
+    if (!address.city.trim()) {
+      toast.error('Please enter your city');
+      return;
+    }
+    if (!address.state.trim()) {
+      toast.error('Please enter your state');
+      return;
+    }
+    if (!address.pincode.trim() || address.pincode.length < 6) {
+      toast.error('Please enter a valid 6-digit pincode');
+      return;
+    }
+    if (!address.phone.trim() || address.phone.length < 10) {
+      toast.error('Please enter a valid phone number');
+      return;
+    }
+    
     if (!selectedPaymentMethod) {
       toast.error('Please select a payment method');
       return;
