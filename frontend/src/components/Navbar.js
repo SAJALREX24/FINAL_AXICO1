@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { 
   ShoppingCart, User, Menu, Search, Package, X, Home, Grid, FileText, 
   LogOut, Settings, ChevronDown, Phone, Mail, Stethoscope, BedDouble, 
-  Scissors, Heart, Microscope, Truck, ShieldCheck, HeadphonesIcon
+  Scissors, Heart, Microscope, Truck, ShieldCheck, HeadphonesIcon, MapPin
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { Button } from './ui/button';
