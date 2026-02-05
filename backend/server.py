@@ -187,6 +187,8 @@ class Review(BaseModel):
     product_id: str
     rating: int
     comment: str
+    images: Optional[List[str]] = []  # URLs of uploaded images
+    video_url: Optional[str] = None   # URL of uploaded video
     approved: bool = False
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
@@ -194,6 +196,8 @@ class ReviewCreate(BaseModel):
     product_id: str
     rating: int
     comment: str
+    images: Optional[List[str]] = []
+    video_url: Optional[str] = None
 
 class VerificationRequest(BaseModel):
     model_config = ConfigDict(extra="ignore")
