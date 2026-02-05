@@ -321,58 +321,58 @@ const Admin = () => {
 
           {/* Products Tab */}
           <TabsContent value="products">
-            <div className="bg-white border border-purple-100 rounded-xl p-6 shadow-sm">
-              <div className="flex justify-between items-center mb-6">
-                <h2 className="text-xl font-semibold text-gray-900">Products Management</h2>
+            <div className="bg-white border border-purple-100 rounded-xl p-3 sm:p-6 shadow-sm">
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4 sm:mb-6">
+                <h2 className="text-lg sm:text-xl font-semibold text-gray-900">Products Management</h2>
                 <Dialog open={productDialogOpen} onOpenChange={(open) => {
                   if (!open) handleCloseDialog();
                   else setProductDialogOpen(true);
                 }}>
                   <DialogTrigger asChild>
-                    <Button className="bg-purple-600 hover:bg-purple-700" data-testid="add-product-button" onClick={() => { setEditingProduct(null); setProductForm(defaultProductForm); }}>
+                    <Button className="w-full sm:w-auto bg-purple-600 hover:bg-purple-700 text-sm" data-testid="add-product-button" onClick={() => { setEditingProduct(null); setProductForm(defaultProductForm); }}>
                       <Plus className="w-4 h-4 mr-2" />
                       Add Product
                     </Button>
                   </DialogTrigger>
-                  <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto bg-white border border-purple-100 shadow-xl">
+                  <DialogContent className="max-w-[95vw] sm:max-w-2xl max-h-[90vh] overflow-y-auto bg-white border border-purple-100 shadow-xl">
                     <DialogHeader className="border-b border-gray-100 pb-4">
                       <div className="flex items-center space-x-3">
                         <div className="w-10 h-10 bg-purple-100 rounded-xl flex items-center justify-center">
                           {editingProduct ? <Pencil className="w-5 h-5 text-purple-600" /> : <Package className="w-5 h-5 text-purple-600" />}
                         </div>
                         <div>
-                          <DialogTitle className="text-xl font-bold text-gray-900">
+                          <DialogTitle className="text-lg sm:text-xl font-bold text-gray-900">
                             {editingProduct ? 'Edit Product' : 'Add New Product'}
                           </DialogTitle>
-                          <p className="text-sm text-gray-500">
+                          <p className="text-xs sm:text-sm text-gray-500">
                             {editingProduct ? 'Update the product details below' : 'Fill in the product details below'}
                           </p>
                         </div>
                       </div>
                     </DialogHeader>
-                    <form onSubmit={handleCreateProduct} className="space-y-6 pt-4">
+                    <form onSubmit={handleCreateProduct} className="space-y-4 sm:space-y-6 pt-4">
                       {/* Basic Info Section */}
-                      <div className="space-y-4">
+                      <div className="space-y-3 sm:space-y-4">
                         <h3 className="text-sm font-semibold text-gray-700 flex items-center">
                           <Tag className="w-4 h-4 mr-2 text-purple-500" />
                           Basic Information
                         </h3>
-                        <div className="grid md:grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                           <div>
-                            <Label className="text-gray-700 font-medium">Product Name *</Label>
+                            <Label className="text-gray-700 font-medium text-sm">Product Name *</Label>
                             <Input
                               value={productForm.name}
                               onChange={(e) => setProductForm({ ...productForm, name: e.target.value })}
                               required
                               placeholder="Enter product name"
-                              className="mt-1 border-gray-200 focus:border-purple-500"
+                              className="mt-1 border-gray-200 focus:border-purple-500 text-sm"
                               data-testid="product-name-input"
                             />
                           </div>
                           <div>
-                            <Label className="text-gray-700 font-medium">Category *</Label>
+                            <Label className="text-gray-700 font-medium text-sm">Category *</Label>
                             <Select value={productForm.category} onValueChange={(v) => setProductForm({ ...productForm, category: v })} required>
-                              <SelectTrigger className="mt-1 border-gray-200 focus:border-purple-500" data-testid="product-category-select">
+                              <SelectTrigger className="mt-1 border-gray-200 focus:border-purple-500 text-sm" data-testid="product-category-select">
                                 <SelectValue placeholder="Select category" />
                               </SelectTrigger>
                               <SelectContent>
@@ -386,60 +386,60 @@ const Admin = () => {
                           </div>
                         </div>
                         <div>
-                          <Label className="text-gray-700 font-medium">Description *</Label>
+                          <Label className="text-gray-700 font-medium text-sm">Description *</Label>
                           <Textarea
                             value={productForm.description}
                             onChange={(e) => setProductForm({ ...productForm, description: e.target.value })}
                             required
                             rows={3}
                             placeholder="Enter detailed product description"
-                            className="mt-1 border-gray-200 focus:border-purple-500"
+                            className="mt-1 border-gray-200 focus:border-purple-500 text-sm"
                             data-testid="product-description-input"
                           />
                         </div>
                         <div>
-                          <Label className="text-gray-700 font-medium">Image URL *</Label>
+                          <Label className="text-gray-700 font-medium text-sm">Image URL *</Label>
                           <Input
                             value={productForm.image}
                             onChange={(e) => setProductForm({ ...productForm, image: e.target.value })}
                             required
                             placeholder="https://example.com/image.jpg"
-                            className="mt-1 border-gray-200 focus:border-purple-500"
+                            className="mt-1 border-gray-200 focus:border-purple-500 text-sm"
                             data-testid="product-image-input"
                           />
                         </div>
                         <div>
-                          <Label className="text-gray-700 font-medium">Gallery Images (comma-separated URLs)</Label>
+                          <Label className="text-gray-700 font-medium text-sm">Gallery Images (comma-separated URLs)</Label>
                           <Input
                             value={productForm.images}
                             onChange={(e) => setProductForm({ ...productForm, images: e.target.value })}
                             placeholder="url1.jpg, url2.jpg, url3.jpg"
-                            className="mt-1 border-gray-200 focus:border-purple-500"
+                            className="mt-1 border-gray-200 focus:border-purple-500 text-sm"
                           />
                           <p className="text-xs text-gray-400 mt-1">Enter multiple image URLs separated by commas</p>
                         </div>
                         <div>
-                          <Label className="text-gray-700 font-medium">Key Features (comma-separated)</Label>
+                          <Label className="text-gray-700 font-medium text-sm">Key Features (comma-separated)</Label>
                           <Input
                             value={productForm.keyFeatures}
                             onChange={(e) => setProductForm({ ...productForm, keyFeatures: e.target.value })}
                             placeholder="Premium Quality, ISO Certified, Easy to Use, 1 Year Warranty"
-                            className="mt-1 border-gray-200 focus:border-purple-500"
+                            className="mt-1 border-gray-200 focus:border-purple-500 text-sm"
                           />
                           <p className="text-xs text-gray-400 mt-1">These appear as checkmarks on the product page</p>
                         </div>
                       </div>
 
                       {/* Feature Highlights Section */}
-                      <div className="space-y-4 border-t border-gray-100 pt-4">
+                      <div className="space-y-3 sm:space-y-4 border-t border-gray-100 pt-4">
                         <h3 className="text-sm font-semibold text-gray-700 flex items-center">
                           <Star className="w-4 h-4 mr-2 text-purple-500" />
                           Feature Highlights (shown in product page)
                         </h3>
                         <p className="text-xs text-gray-500">Add up to 4 feature highlights with icons</p>
                         {productForm.featureHighlights.map((fh, idx) => (
-                          <div key={idx} className="grid grid-cols-12 gap-2 p-3 bg-purple-50 rounded-lg">
-                            <div className="col-span-3">
+                          <div key={idx} className="grid grid-cols-1 sm:grid-cols-12 gap-2 p-3 bg-purple-50 rounded-lg">
+                            <div className="sm:col-span-3">
                               <Label className="text-xs text-gray-600">Icon</Label>
                               <Select 
                                 value={fh.icon} 
@@ -449,7 +449,7 @@ const Admin = () => {
                                   setProductForm({ ...productForm, featureHighlights: newHighlights });
                                 }}
                               >
-                                <SelectTrigger className="mt-1 border-gray-200">
+                                <SelectTrigger className="mt-1 border-gray-200 text-sm">
                                   <SelectValue placeholder="Icon" />
                                 </SelectTrigger>
                                 <SelectContent>
@@ -463,7 +463,7 @@ const Admin = () => {
                                 </SelectContent>
                               </Select>
                             </div>
-                            <div className="col-span-4">
+                            <div className="sm:col-span-4">
                               <Label className="text-xs text-gray-600">Title</Label>
                               <Input
                                 value={fh.title}
@@ -473,10 +473,10 @@ const Admin = () => {
                                   setProductForm({ ...productForm, featureHighlights: newHighlights });
                                 }}
                                 placeholder="Feature title"
-                                className="mt-1 border-gray-200"
+                                className="mt-1 border-gray-200 text-sm"
                               />
                             </div>
-                            <div className="col-span-5">
+                            <div className="sm:col-span-5">
                               <Label className="text-xs text-gray-600">Description</Label>
                               <Input
                                 value={fh.description}
@@ -486,7 +486,7 @@ const Admin = () => {
                                   setProductForm({ ...productForm, featureHighlights: newHighlights });
                                 }}
                                 placeholder="Short description"
-                                className="mt-1 border-gray-200"
+                                className="mt-1 border-gray-200 text-sm"
                               />
                             </div>
                           </div>
@@ -494,44 +494,44 @@ const Admin = () => {
                       </div>
 
                       {/* Pricing Section */}
-                      <div className="space-y-4 border-t border-gray-100 pt-4">
+                      <div className="space-y-3 sm:space-y-4 border-t border-gray-100 pt-4">
                         <h3 className="text-sm font-semibold text-gray-700 flex items-center">
                           <Percent className="w-4 h-4 mr-2 text-purple-500" />
                           Pricing & Discount
                         </h3>
-                        <div className="grid md:grid-cols-3 gap-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
                           <div>
-                            <Label className="text-gray-700 font-medium">Selling Price (₹) *</Label>
+                            <Label className="text-gray-700 font-medium text-sm">Selling Price (₹) *</Label>
                             <Input
                               type="number"
                               value={productForm.price}
                               onChange={(e) => setProductForm({ ...productForm, price: e.target.value })}
                               required
                               placeholder="2499"
-                              className="mt-1 border-gray-200 focus:border-purple-500"
+                              className="mt-1 border-gray-200 focus:border-purple-500 text-sm"
                               data-testid="product-price-input"
                             />
                           </div>
                           <div>
-                            <Label className="text-gray-700 font-medium">Original Price (₹)</Label>
+                            <Label className="text-gray-700 font-medium text-sm">Original Price (₹)</Label>
                             <Input
                               type="number"
                               value={productForm.originalPrice}
                               onChange={(e) => setProductForm({ ...productForm, originalPrice: e.target.value })}
                               placeholder="2999"
-                              className="mt-1 border-gray-200 focus:border-purple-500"
+                              className="mt-1 border-gray-200 focus:border-purple-500 text-sm"
                               data-testid="product-original-price-input"
                             />
                           </div>
                           <div>
-                            <Label className="text-gray-700 font-medium">Discount (%)</Label>
+                            <Label className="text-gray-700 font-medium text-sm">Discount (%)</Label>
                             <Input
                               type="number"
                               value={productForm.discount}
                               onChange={(e) => setProductForm({ ...productForm, discount: e.target.value })}
                               placeholder="15"
                               max="100"
-                              className="mt-1 border-gray-200 focus:border-purple-500"
+                              className="mt-1 border-gray-200 focus:border-purple-500 text-sm"
                               data-testid="product-discount-input"
                             />
                           </div>
@@ -539,32 +539,32 @@ const Admin = () => {
                       </div>
 
                       {/* Stock Section */}
-                      <div className="space-y-4 border-t border-gray-100 pt-4">
+                      <div className="space-y-3 sm:space-y-4 border-t border-gray-100 pt-4">
                         <h3 className="text-sm font-semibold text-gray-700 flex items-center">
                           <Box className="w-4 h-4 mr-2 text-purple-500" />
                           Inventory & Stock
                         </h3>
-                        <div className="grid md:grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                           <div>
-                            <Label className="text-gray-700 font-medium">Stock Quantity</Label>
+                            <Label className="text-gray-700 font-medium text-sm">Stock Quantity</Label>
                             <Input
                               type="number"
                               value={productForm.stockQuantity}
                               onChange={(e) => setProductForm({ ...productForm, stockQuantity: e.target.value })}
                               placeholder="100"
-                              className="mt-1 border-gray-200 focus:border-purple-500"
+                              className="mt-1 border-gray-200 focus:border-purple-500 text-sm"
                               data-testid="product-stock-input"
                             />
                           </div>
                           <div>
-                            <Label className="text-gray-700 font-medium">Min Order Quantity</Label>
+                            <Label className="text-gray-700 font-medium text-sm">Min Order Quantity</Label>
                             <Input
                               type="number"
                               value={productForm.minOrderQuantity}
                               onChange={(e) => setProductForm({ ...productForm, minOrderQuantity: e.target.value })}
                               placeholder="1"
                               min="1"
-                              className="mt-1 border-gray-200 focus:border-purple-500"
+                              className="mt-1 border-gray-200 focus:border-purple-500 text-sm"
                               data-testid="product-min-order-input"
                             />
                           </div>
@@ -572,54 +572,54 @@ const Admin = () => {
                       </div>
 
                       {/* Warranty & Shipping Section */}
-                      <div className="space-y-4 border-t border-gray-100 pt-4">
+                      <div className="space-y-3 sm:space-y-4 border-t border-gray-100 pt-4">
                         <h3 className="text-sm font-semibold text-gray-700 flex items-center">
                           <ShieldCheck className="w-4 h-4 mr-2 text-purple-500" />
                           Warranty & Shipping
                         </h3>
                         <div>
-                          <Label className="text-gray-700 font-medium">Warranty Information</Label>
+                          <Label className="text-gray-700 font-medium text-sm">Warranty Information</Label>
                           <Textarea
                             value={productForm.warrantyInfo}
                             onChange={(e) => setProductForm({ ...productForm, warrantyInfo: e.target.value })}
                             placeholder="1 Year Manufacturer Warranty covering manufacturing defects"
                             rows={2}
-                            className="mt-1 border-gray-200 focus:border-purple-500"
+                            className="mt-1 border-gray-200 focus:border-purple-500 text-sm"
                           />
                         </div>
                         <div>
-                          <Label className="text-gray-700 font-medium">Shipping Information</Label>
+                          <Label className="text-gray-700 font-medium text-sm">Shipping Information</Label>
                           <Textarea
                             value={productForm.shippingInfo}
                             onChange={(e) => setProductForm({ ...productForm, shippingInfo: e.target.value })}
                             placeholder="Free shipping on all orders across India. Delivery in 2-4 days."
                             rows={2}
-                            className="mt-1 border-gray-200 focus:border-purple-500"
+                            className="mt-1 border-gray-200 focus:border-purple-500 text-sm"
                           />
                         </div>
                       </div>
 
                       {/* Payment Methods Section */}
-                      <div className="space-y-4 border-t border-gray-100 pt-4">
+                      <div className="space-y-3 sm:space-y-4 border-t border-gray-100 pt-4">
                         <h3 className="text-sm font-semibold text-gray-700 flex items-center">
                           <Tag className="w-4 h-4 mr-2 text-purple-500" />
                           Allowed Payment Methods
                         </h3>
                         <p className="text-xs text-gray-500">Select which payment methods are available for this product</p>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
                           {PAYMENT_METHODS.map((method) => (
                             <div 
                               key={method.id}
                               onClick={() => togglePaymentMethod(method.id)}
-                              className={`flex items-center justify-between p-3 rounded-lg cursor-pointer border-2 transition-all ${
+                              className={`flex items-center justify-between p-2 sm:p-3 rounded-lg cursor-pointer border-2 transition-all ${
                                 productForm.paymentMethods?.includes(method.id) 
                                   ? 'border-purple-500 bg-purple-50' 
                                   : 'border-gray-200 bg-white hover:border-purple-200'
                               }`}
                             >
                               <div>
-                                <p className="font-medium text-gray-900 text-sm">{method.name}</p>
-                                <p className="text-xs text-gray-500">{method.description}</p>
+                                <p className="font-medium text-gray-900 text-xs sm:text-sm">{method.name}</p>
+                                <p className="text-[10px] sm:text-xs text-gray-500">{method.description}</p>
                               </div>
                               <Switch
                                 checked={productForm.paymentMethods?.includes(method.id)}
@@ -631,27 +631,27 @@ const Admin = () => {
                       </div>
 
                       {/* Options Section */}
-                      <div className="space-y-4 border-t border-gray-100 pt-4">
+                      <div className="space-y-3 sm:space-y-4 border-t border-gray-100 pt-4">
                         <h3 className="text-sm font-semibold text-gray-700">Product Options</h3>
-                        <div className="grid md:grid-cols-3 gap-4">
-                          <div className="flex items-center justify-between p-3 bg-purple-50 rounded-lg">
-                            <Label className="text-gray-700 font-medium cursor-pointer">Available</Label>
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-4">
+                          <div className="flex items-center justify-between p-2 sm:p-3 bg-purple-50 rounded-lg">
+                            <Label className="text-gray-700 font-medium cursor-pointer text-xs sm:text-sm">Available</Label>
                             <Switch
                               checked={productForm.availability}
                               onCheckedChange={(checked) => setProductForm({ ...productForm, availability: checked })}
                               data-testid="product-availability-switch"
                             />
                           </div>
-                          <div className="flex items-center justify-between p-3 bg-purple-50 rounded-lg">
-                            <Label className="text-gray-700 font-medium cursor-pointer">Featured</Label>
+                          <div className="flex items-center justify-between p-2 sm:p-3 bg-purple-50 rounded-lg">
+                            <Label className="text-gray-700 font-medium cursor-pointer text-xs sm:text-sm">Featured</Label>
                             <Switch
                               checked={productForm.featured}
                               onCheckedChange={(checked) => setProductForm({ ...productForm, featured: checked })}
                               data-testid="product-featured-switch"
                             />
                           </div>
-                          <div className="flex items-center justify-between p-3 bg-purple-50 rounded-lg">
-                            <Label className="text-gray-700 font-medium cursor-pointer">Limited Stock</Label>
+                          <div className="flex items-center justify-between p-2 sm:p-3 bg-purple-50 rounded-lg">
+                            <Label className="text-gray-700 font-medium cursor-pointer text-xs sm:text-sm">Limited Stock</Label>
                             <Switch
                               checked={productForm.limitedStock}
                               onCheckedChange={(checked) => setProductForm({ ...productForm, limitedStock: checked })}
@@ -661,10 +661,10 @@ const Admin = () => {
                         </div>
                       </div>
 
-                      <div className="flex space-x-3 pt-4 border-t border-gray-100">
+                      <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3 pt-4 border-t border-gray-100">
                         <Button 
                           type="submit" 
-                          className="flex-1 bg-purple-600 hover:bg-purple-700 text-white shadow-md"
+                          className="flex-1 bg-purple-600 hover:bg-purple-700 text-white shadow-md text-sm"
                           data-testid="submit-product-button"
                         >
                           {editingProduct ? (
@@ -683,7 +683,7 @@ const Admin = () => {
                           type="button" 
                           variant="outline" 
                           onClick={handleCloseDialog}
-                          className="border-gray-200"
+                          className="border-gray-200 text-sm"
                         >
                           Cancel
                         </Button>
@@ -692,7 +692,53 @@ const Admin = () => {
                   </DialogContent>
                 </Dialog>
               </div>
-              <div className="overflow-x-auto">
+              
+              {/* Mobile-friendly Product Cards */}
+              <div className="block sm:hidden space-y-3">
+                {products.map((product) => (
+                  <div key={product.id} className="border border-purple-100 bg-purple-50/50 rounded-xl p-3" data-testid={`admin-product-${product.id}`}>
+                    <div className="flex gap-3">
+                      {product.image && (
+                        <img src={product.image} alt={product.name} className="w-16 h-16 rounded-lg object-cover flex-shrink-0" />
+                      )}
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-medium text-gray-900 text-sm line-clamp-2">{product.name}</h3>
+                        <p className="text-xs text-gray-500 mt-0.5">{product.category}</p>
+                        <div className="flex items-center gap-2 mt-1">
+                          <span className="text-purple-600 font-semibold text-sm">₹{product.price.toLocaleString()}</span>
+                          <span className={`px-1.5 py-0.5 rounded text-[10px] ${product.availability ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+                            {product.availability ? 'In Stock' : 'Out'}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex gap-2 mt-3 pt-3 border-t border-purple-100">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleEditProduct(product)}
+                        className="flex-1 border-purple-200 text-purple-600 hover:bg-purple-50 text-xs h-8"
+                        data-testid={`edit-product-${product.id}`}
+                      >
+                        <Pencil className="w-3 h-3 mr-1" />
+                        Edit
+                      </Button>
+                      <Button
+                        variant="destructive"
+                        size="sm"
+                        onClick={() => handleDeleteProduct(product.id)}
+                        className="flex-1 text-xs h-8"
+                        data-testid={`delete-product-${product.id}`}
+                      >
+                        Delete
+                      </Button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Desktop Table */}
+              <div className="hidden sm:block overflow-x-auto">
                 <table className="w-full">
                   <thead>
                     <tr className="border-b border-purple-100 text-left">
