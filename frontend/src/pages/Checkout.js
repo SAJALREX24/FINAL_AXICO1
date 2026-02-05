@@ -259,54 +259,54 @@ const Checkout = () => {
     <div className="min-h-screen bg-gradient-to-b from-purple-50 to-white" data-testid="checkout-page">
       {/* Header with Progress */}
       <div className="bg-white border-b border-purple-100 sticky top-0 z-40">
-        <div className="max-w-5xl mx-auto px-4 py-4">
+        <div className="max-w-5xl mx-auto px-3 sm:px-4 py-3 sm:py-4">
           <div className="flex items-center justify-between">
-            <h1 className="text-xl font-bold text-gray-900 flex items-center gap-2">
-              <Lock className="w-5 h-5 text-green-600" />
-              Secure Checkout
+            <h1 className="text-base sm:text-xl font-bold text-gray-900 flex items-center gap-1 sm:gap-2">
+              <Lock className="w-4 h-4 sm:w-5 sm:h-5 text-green-600" />
+              <span className="hidden sm:inline">Secure</span> Checkout
             </h1>
-            <div className="flex items-center gap-2 text-sm text-gray-500">
-              <ShieldCheck className="w-4 h-4 text-green-600" />
-              SSL Encrypted
+            <div className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm text-gray-500">
+              <ShieldCheck className="w-3 h-3 sm:w-4 sm:h-4 text-green-600" />
+              <span className="hidden sm:inline">SSL</span> Encrypted
             </div>
           </div>
           
           {/* Progress Steps */}
-          <div className="flex items-center justify-center mt-4 gap-0">
+          <div className="flex items-center justify-center mt-3 sm:mt-4 gap-0">
             <div className={`flex items-center ${currentStep >= 1 ? 'text-purple-600' : 'text-gray-400'}`}>
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold ${currentStep >= 1 ? 'bg-purple-600 text-white' : 'bg-gray-200'}`}>
-                {currentStep > 1 ? <Check className="w-5 h-5" /> : '1'}
+              <div className={`w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs sm:text-sm font-semibold ${currentStep >= 1 ? 'bg-purple-600 text-white' : 'bg-gray-200'}`}>
+                {currentStep > 1 ? <Check className="w-3 h-3 sm:w-5 sm:h-5" /> : '1'}
               </div>
-              <span className="ml-2 font-medium hidden sm:inline">Delivery</span>
+              <span className="ml-1 sm:ml-2 text-xs sm:text-sm font-medium hidden sm:inline">Delivery</span>
             </div>
-            <div className={`w-16 sm:w-24 h-1 mx-2 rounded ${currentStep >= 2 ? 'bg-purple-600' : 'bg-gray-200'}`} />
+            <div className={`w-8 sm:w-16 md:w-24 h-0.5 sm:h-1 mx-1 sm:mx-2 rounded ${currentStep >= 2 ? 'bg-purple-600' : 'bg-gray-200'}`} />
             <div className={`flex items-center ${currentStep >= 2 ? 'text-purple-600' : 'text-gray-400'}`}>
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold ${currentStep >= 2 ? 'bg-purple-600 text-white' : 'bg-gray-200'}`}>
+              <div className={`w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs sm:text-sm font-semibold ${currentStep >= 2 ? 'bg-purple-600 text-white' : 'bg-gray-200'}`}>
                 2
               </div>
-              <span className="ml-2 font-medium hidden sm:inline">Payment</span>
+              <span className="ml-1 sm:ml-2 text-xs sm:text-sm font-medium hidden sm:inline">Payment</span>
             </div>
-            <div className={`w-16 sm:w-24 h-1 mx-2 rounded ${currentStep >= 3 ? 'bg-purple-600' : 'bg-gray-200'}`} />
+            <div className={`w-8 sm:w-16 md:w-24 h-0.5 sm:h-1 mx-1 sm:mx-2 rounded ${currentStep >= 3 ? 'bg-purple-600' : 'bg-gray-200'}`} />
             <div className={`flex items-center ${currentStep >= 3 ? 'text-purple-600' : 'text-gray-400'}`}>
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold ${currentStep >= 3 ? 'bg-purple-600 text-white' : 'bg-gray-200'}`}>
+              <div className={`w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs sm:text-sm font-semibold ${currentStep >= 3 ? 'bg-purple-600 text-white' : 'bg-gray-200'}`}>
                 3
               </div>
-              <span className="ml-2 font-medium hidden sm:inline">Confirm</span>
+              <span className="ml-1 sm:ml-2 text-xs sm:text-sm font-medium hidden sm:inline">Confirm</span>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="py-6 px-4 sm:px-6 lg:px-8">
+      <div className="py-4 sm:py-6 px-3 sm:px-6 lg:px-8">
         <div className="max-w-5xl mx-auto">
-          <div className="grid lg:grid-cols-3 gap-6">
+          <div className="flex flex-col lg:grid lg:grid-cols-3 gap-4 sm:gap-6">
             {/* Left Column - Steps */}
-            <div className="lg:col-span-2 space-y-6">
+            <div className="lg:col-span-2 space-y-4 sm:space-y-6">
               
               {/* Step 1: Delivery Address */}
-              <div className={`bg-white rounded-2xl shadow-sm overflow-hidden border ${currentStep === 1 ? 'border-purple-300 ring-2 ring-purple-100' : 'border-gray-100'}`}>
+              <div className={`bg-white rounded-xl sm:rounded-2xl shadow-sm overflow-hidden border ${currentStep === 1 ? 'border-purple-300 ring-2 ring-purple-100' : 'border-gray-100'}`}>
                 <div 
-                  className={`p-4 flex items-center justify-between cursor-pointer ${currentStep === 1 ? 'bg-purple-50' : 'bg-gray-50'}`}
+                  className={`p-3 sm:p-4 flex items-center justify-between cursor-pointer ${currentStep === 1 ? 'bg-purple-50' : 'bg-gray-50'}`}
                   onClick={() => setCurrentStep(1)}
                 >
                   <div className="flex items-center gap-3">
