@@ -157,15 +157,44 @@ const ProductDetail = () => {
         product_id: product.id,
         rating,
         comment,
+        images: reviewImages,
+        video_url: reviewVideoUrl || null,
       });
       
       toast.success('Review submitted! It will be visible after admin approval.');
       setReviewOpen(false);
       setRating(5);
       setComment('');
+      setReviewImages([]);
+      setReviewVideoUrl('');
     } catch (error) {
       toast.error('Failed to submit review');
     }
+  };
+
+  const handleImageUpload = async (e) => {
+    const files = Array.from(e.target.files);
+    if (files.length === 0) return;
+    
+    if (reviewImages.length + files.length > 5) {
+      toast.error('Maximum 5 images allowed');
+      return;
+    }
+    
+    setUploadingMedia(true);
+    
+    // For demo, we'll use placeholder URLs - in production, upload to cloud storage
+    const newImages = files.map((file, index) => 
+      URL.createObjectURL(file)
+    );
+    
+    setReviewImages(prev => [...prev, ...newImages]);
+    setUploadingMedia(false);
+    toast.success(`${files.length} image(s) added`);
+  };
+
+  const removeReviewImage = (index) => {
+    setReviewImages(prev => prev.filter((_, i) => i !== index));
   };
 
   const toggleSection = (section) => {
