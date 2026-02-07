@@ -150,6 +150,7 @@ const Navbar = ({ cartCount = 0 }) => {
                       <Link
                         key={category.name}
                         to={category.link}
+                        onClick={() => setShowCategoryDropdown(false)}
                         className="flex items-center px-4 py-3 hover:bg-purple-50 transition-colors group"
                         data-testid={`category-dropdown-${category.name.toLowerCase().replace(/\s+/g, '-')}`}
                       >
@@ -167,6 +168,7 @@ const Navbar = ({ cartCount = 0 }) => {
                     <div className="border-t border-purple-100 mt-2 pt-2 px-4">
                       <Link 
                         to="/products" 
+                        onClick={() => setShowCategoryDropdown(false)}
                         className="flex items-center justify-center py-2 text-purple-600 font-medium hover:text-purple-700 transition-colors"
                       >
                         View All Products →
