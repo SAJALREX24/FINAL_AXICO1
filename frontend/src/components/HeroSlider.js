@@ -91,15 +91,28 @@ const HeroSlider = () => {
                 {/* Content Overlay - Centered vertically with more space */}
                 <div className="absolute inset-0 flex items-center">
                   <div className="w-full px-6 sm:px-8 lg:px-12 max-w-7xl mx-auto">
-                    <div className="max-w-[85%] sm:max-w-sm md:max-w-md lg:max-w-lg">
+                    <div className="max-w-[85%] sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl">
                       {/* Title - Larger on mobile, better line height */}
-                      <h2 className="text-white text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold mb-3 sm:mb-4 md:mb-5 drop-shadow-lg leading-snug">
+                      <h2 className="text-white text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold mb-2 sm:mb-3 md:mb-4 drop-shadow-lg leading-snug">
                         {slide.title}
                       </h2>
                       {/* Subtitle - Now visible on mobile too */}
-                      <p className="text-white/90 text-sm sm:text-base md:text-lg lg:text-xl mb-4 sm:mb-5 md:mb-6 drop-shadow-md line-clamp-2">
+                      <p className="text-white/90 text-sm sm:text-base md:text-lg lg:text-xl mb-3 sm:mb-4 drop-shadow-md line-clamp-2">
                         {slide.subtitle}
                       </p>
+                      {/* Features - Show on tablet and up */}
+                      {slide.features && (
+                        <div className="hidden sm:flex flex-wrap gap-2 mb-4 md:mb-5">
+                          {slide.features.map((feature, idx) => (
+                            <span 
+                              key={idx} 
+                              className="bg-white/20 backdrop-blur-sm text-white text-xs md:text-sm px-3 py-1 rounded-full border border-white/30"
+                            >
+                              {feature}
+                            </span>
+                          ))}
+                        </div>
+                      )}
                       {/* CTA Button - Larger touch target on mobile */}
                       <Link to={slide.ctaLink}>
                         <button className="bg-purple-600 hover:bg-purple-700 text-white font-semibold px-5 sm:px-6 md:px-8 lg:px-10 py-2.5 sm:py-3 md:py-3.5 lg:py-4 rounded-full text-sm sm:text-base md:text-lg shadow-lg hover:shadow-xl transition-all duration-300">
