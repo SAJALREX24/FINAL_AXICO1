@@ -13,7 +13,7 @@ const SLIDES = [
     title: "Your Personal Healthcare Partner",
     subtitle: "Premium medical equipment for home & clinical use",
     ctaLink: "/products",
-    ctaText: "Shop All Products",
+    ctaText: "Shop Now",
   },
   {
     id: 2,
@@ -40,7 +40,7 @@ const SLIDES = [
     title: "Technology for Healthy Life",
     subtitle: "Safe electric hot water bags for pain relief",
     ctaLink: "/products?category=Hospital%20Furniture",
-    ctaText: "Shop Hot Water Bags",
+    ctaText: "Shop Now",
   },
 ];
 
@@ -67,35 +67,38 @@ const HeroSlider = () => {
   }, [emblaApi, onSelect]);
 
   return (
-    <section className="relative overflow-hidden bg-purple-50" data-testid="hero-slider">
+    <section className="relative overflow-hidden bg-gray-100" data-testid="hero-slider">
       {/* Main Carousel */}
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex">
           {SLIDES.map((slide) => (
             <div key={slide.id} className="flex-[0_0_100%] min-w-0 relative">
-              {/* Image Container with proper aspect ratio */}
-              <div className="relative w-full aspect-[16/9] sm:aspect-[2/1] lg:aspect-[2.5/1] xl:aspect-[3/1]">
+              {/* Image Container - Different aspect ratios for different screens */}
+              <div className="relative w-full h-[200px] sm:h-[280px] md:h-[350px] lg:h-[420px] xl:h-[480px]">
                 <img
                   src={slide.image}
                   alt={slide.alt}
                   className="absolute inset-0 w-full h-full object-cover object-center"
                   loading={slide.id === 1 ? "eager" : "lazy"}
                 />
-                {/* Gradient Overlay for text readability */}
-                <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/20 to-transparent" />
+                {/* Gradient Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-black/30 to-transparent" />
                 
                 {/* Content Overlay */}
                 <div className="absolute inset-0 flex items-center">
-                  <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="max-w-lg lg:max-w-xl">
-                      <h2 className="text-white text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold mb-2 sm:mb-3 lg:mb-4 drop-shadow-lg leading-tight">
+                  <div className="w-full px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+                    <div className="max-w-[200px] sm:max-w-sm md:max-w-md lg:max-w-lg">
+                      {/* Title - Responsive sizing */}
+                      <h2 className="text-white text-base sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold mb-1 sm:mb-2 md:mb-3 drop-shadow-lg leading-tight">
                         {slide.title}
                       </h2>
-                      <p className="text-white/90 text-sm sm:text-base md:text-lg lg:text-xl mb-3 sm:mb-4 lg:mb-6 drop-shadow-md hidden sm:block">
+                      {/* Subtitle - Hidden on mobile */}
+                      <p className="text-white/90 text-xs sm:text-sm md:text-base lg:text-lg mb-2 sm:mb-3 md:mb-4 drop-shadow-md hidden sm:block line-clamp-2">
                         {slide.subtitle}
                       </p>
+                      {/* CTA Button */}
                       <Link to={slide.ctaLink}>
-                        <button className="bg-purple-600 hover:bg-purple-700 text-white font-semibold px-4 sm:px-6 lg:px-8 py-2 sm:py-2.5 lg:py-3 rounded-full text-xs sm:text-sm lg:text-base shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                        <button className="bg-purple-600 hover:bg-purple-700 text-white font-medium px-3 sm:px-5 md:px-6 lg:px-8 py-1.5 sm:py-2 md:py-2.5 lg:py-3 rounded-full text-[10px] sm:text-xs md:text-sm lg:text-base shadow-lg hover:shadow-xl transition-all duration-300">
                           {slide.ctaText}
                         </button>
                       </Link>
@@ -108,10 +111,10 @@ const HeroSlider = () => {
         </div>
       </div>
 
-      {/* Navigation Arrows - Hidden on very small screens */}
+      {/* Navigation Arrows - Smaller on mobile */}
       <button
         onClick={scrollPrev}
-        className="absolute left-2 sm:left-4 lg:left-8 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 bg-white/90 backdrop-blur-md rounded-full flex items-center justify-center text-purple-600 hover:bg-white hover:text-purple-700 transition-all z-10 shadow-lg"
+        className="absolute left-1 sm:left-3 lg:left-6 top-1/2 -translate-y-1/2 w-7 h-7 sm:w-9 sm:h-9 lg:w-11 lg:h-11 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center text-purple-600 hover:bg-white transition-all z-10 shadow-md"
         aria-label="Previous slide"
         data-testid="hero-prev-button"
       >
@@ -119,23 +122,23 @@ const HeroSlider = () => {
       </button>
       <button
         onClick={scrollNext}
-        className="absolute right-2 sm:right-4 lg:right-8 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 bg-white/90 backdrop-blur-md rounded-full flex items-center justify-center text-purple-600 hover:bg-white hover:text-purple-700 transition-all z-10 shadow-lg"
+        className="absolute right-1 sm:right-3 lg:right-6 top-1/2 -translate-y-1/2 w-7 h-7 sm:w-9 sm:h-9 lg:w-11 lg:h-11 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center text-purple-600 hover:bg-white transition-all z-10 shadow-md"
         aria-label="Next slide"
         data-testid="hero-next-button"
       >
         <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6" />
       </button>
 
-      {/* Dots Indicator */}
-      <div className="absolute bottom-3 sm:bottom-4 lg:bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-1.5 sm:gap-2 lg:gap-3 z-10">
+      {/* Dots Indicator - Smaller on mobile */}
+      <div className="absolute bottom-2 sm:bottom-3 lg:bottom-5 left-1/2 -translate-x-1/2 flex items-center gap-1 sm:gap-1.5 lg:gap-2 z-10">
         {SLIDES.map((_, index) => (
           <button
             key={index}
             onClick={() => scrollTo(index)}
             className={`transition-all duration-300 rounded-full ${
               index === selectedIndex
-                ? 'w-6 sm:w-8 lg:w-10 h-2 sm:h-2.5 lg:h-3 bg-purple-600'
-                : 'w-2 sm:w-2.5 lg:w-3 h-2 sm:h-2.5 lg:h-3 bg-white/70 hover:bg-white'
+                ? 'w-4 sm:w-6 lg:w-8 h-1.5 sm:h-2 lg:h-2.5 bg-purple-600'
+                : 'w-1.5 sm:w-2 lg:w-2.5 h-1.5 sm:h-2 lg:h-2.5 bg-white/60 hover:bg-white'
             }`}
             aria-label={`Go to slide ${index + 1}`}
             data-testid={`hero-dot-${index}`}
