@@ -4,43 +4,47 @@ import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from 'embla-carousel-autoplay';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
-// Alaxico Landscape Hero Banners
+// Alaxico Landscape Hero Banners - Real product photos with people using products
 const SLIDES = [
   {
     id: 1,
-    image: "https://static.prod-images.emergentagent.com/jobs/63efdd01-ddd2-4f30-9bfd-9187efddd23c/images/046f272b7b55875ce5c75dcca7e7d30ea767f99869090145cf5daf75b7eddcf0.png",
-    alt: "Alaxico - Your Personal Healthcare Partner",
-    title: "Your Personal Healthcare Partner",
-    subtitle: "Premium medical equipment for home & clinical use",
-    ctaLink: "/products",
-    ctaText: "Shop Now",
-  },
-  {
-    id: 2,
-    image: "https://static.prod-images.emergentagent.com/jobs/63efdd01-ddd2-4f30-9bfd-9187efddd23c/images/a41e3b64fb9e5f4f884da5d726fdaec93c8c0dbbb406d94e98008c4f1aa7d4bc.png",
-    alt: "Alaxico Nebulizers - Breathe Easy Live Fully",
+    image: "https://static.prod-images.emergentagent.com/jobs/ca9be29b-8ac3-4cf9-b58b-b602c01a2519/images/1e736eb32089855ffa56aaadafdccc75674a08b225ca43d28912520f82e77945.png",
+    alt: "Alaxico Piston Compressor Nebulizer",
     title: "Breathe Easy, Live Fully",
-    subtitle: "Advanced nebulizers for respiratory care",
+    subtitle: "Piston Compressor Nebulizer with Low Noise Operation & 3 Year Warranty",
+    features: ["Ultrafine Particles", "Strong Airflow", "Three Layer Filtration"],
     ctaLink: "/products?category=Diagnostic%20Equipment",
     ctaText: "Shop Nebulizers",
   },
   {
-    id: 3,
-    image: "https://static.prod-images.emergentagent.com/jobs/63efdd01-ddd2-4f30-9bfd-9187efddd23c/images/46c296af5d11cbe2c6b8020dbccf3b1412fe8284e5c1103863ae48c38a53b1a7.png",
-    alt: "Alaxico Blood Pressure Monitors - Your Heart's Best Friend",
+    id: 2,
+    image: "https://static.prod-images.emergentagent.com/jobs/ca9be29b-8ac3-4cf9-b58b-b602c01a2519/images/c70949d6051c7bb83a241e49ca693d9367ddf5568c309026ef918bcea376d075.png",
+    alt: "Alaxico Digital Blood Pressure Monitor",
     title: "Your Heart's Best Friend",
-    subtitle: "Accurate digital BP monitors for daily monitoring",
+    subtitle: "Rechargeable BP Monitor with Voice Broadcast & 99 Memory Data",
+    features: ["Digital LCD", "One Click On/Off", "3 Year Warranty"],
     ctaLink: "/products?category=Patient%20Monitoring",
     ctaText: "Shop BP Monitors",
   },
   {
+    id: 3,
+    image: "https://static.prod-images.emergentagent.com/jobs/ca9be29b-8ac3-4cf9-b58b-b602c01a2519/images/9b6c2d8dfc7d34a275dc4dc3dd65694a9352eab3c915751d47ee0f382cf5fd8a.png",
+    alt: "Alaxico Steamer Cum Vaporizer",
+    title: "Pure & Gentle Steam",
+    subtitle: "Steamer Vaporizer for Respiratory Relief & Skincare Routines",
+    features: ["350 ML Capacity", "Single Wall Safety", "1 Year Warranty"],
+    ctaLink: "/products?category=Surgical%20Equipment",
+    ctaText: "Shop Vaporizers",
+  },
+  {
     id: 4,
-    image: "https://static.prod-images.emergentagent.com/jobs/63efdd01-ddd2-4f30-9bfd-9187efddd23c/images/a4bcb4ffaece8705c66f815d98e3c5813aaf535d00b4fc86fa615d94d4896134.png",
-    alt: "Alaxico Hot Water Bags - Technology for Healthy Life",
+    image: "https://static.prod-images.emergentagent.com/jobs/ca9be29b-8ac3-4cf9-b58b-b602c01a2519/images/5911a61323832050165d7b697384ea5d0009dc3d4e0d0d88d017425238154dbf.png",
+    alt: "Alaxico Electric Hot Water Bag",
     title: "Technology for Healthy Life",
-    subtitle: "Safe electric hot water bags for pain relief",
+    subtitle: "Electric Hot Water Bag with Superfast Heating & Low Power Consumption",
+    features: ["Safe & Secure", "Instant Pain Relief", "Multiple Colors"],
     ctaLink: "/products?category=Hospital%20Furniture",
-    ctaText: "Shop Now",
+    ctaText: "Shop Hot Water Bags",
   },
 ];
 
