@@ -82,52 +82,99 @@ const HeroSlider = () => {
         <div className="flex">
           {SLIDES.map((slide) => (
             <div key={slide.id} className="flex-[0_0_100%] min-w-0 relative">
-              {/* Image Container - Optimized heights for all screens */}
-              <div className="relative w-full h-[320px] sm:h-[360px] md:h-[400px] lg:h-[480px] xl:h-[550px]">
-                <img
-                  src={slide.image}
-                  alt={slide.alt}
-                  className="absolute inset-0 w-full h-full object-cover object-center sm:object-right"
-                  loading={slide.id === 1 ? "eager" : "lazy"}
-                />
-                {/* Gradient Overlay - Stronger on mobile for text readability */}
-                <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent sm:from-black/60 sm:via-black/30" />
-                
-                {/* Content Overlay - Better positioned for mobile */}
-                <div className="absolute inset-0 flex items-center">
-                  <div className="w-full px-4 sm:px-8 lg:px-12 max-w-7xl mx-auto">
-                    <div className="max-w-[75%] sm:max-w-[60%] md:max-w-md lg:max-w-lg xl:max-w-xl pr-8 sm:pr-0">
-                      {/* Title - Responsive sizing */}
-                      <h2 className="text-white text-lg sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold mb-2 sm:mb-3 md:mb-4 drop-shadow-lg leading-tight sm:leading-snug">
-                        {slide.title}
-                      </h2>
-                      {/* Subtitle - Smaller on mobile */}
-                      <p className="text-white/90 text-xs sm:text-sm md:text-base lg:text-lg mb-3 sm:mb-4 drop-shadow-md line-clamp-2">
-                        {slide.subtitle}
-                      </p>
-                      {/* Features - Show on tablet and up */}
-                      {slide.features && (
-                        <div className="hidden sm:flex flex-wrap gap-2 mb-4 md:mb-5">
-                          {slide.features.map((feature, idx) => (
-                            <span 
-                              key={idx} 
-                              className="bg-white/20 backdrop-blur-sm text-white text-xs md:text-sm px-3 py-1 rounded-full border border-white/30"
-                            >
-                              {feature}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-                      {/* CTA Button - Optimized for mobile touch */}
-                      <Link to={slide.ctaLink}>
-                        <button className="bg-purple-600 hover:bg-purple-700 text-white font-semibold px-4 sm:px-6 md:px-8 lg:px-10 py-2 sm:py-3 md:py-3.5 lg:py-4 rounded-full text-xs sm:text-sm md:text-base lg:text-lg shadow-lg hover:shadow-xl transition-all duration-300">
-                          {slide.ctaText}
-                        </button>
-                      </Link>
+              {slide.isProductSlide ? (
+                /* Product Slide - Shows actual product image with gradient background */
+                <div className="relative w-full h-[320px] sm:h-[360px] md:h-[400px] lg:h-[480px] xl:h-[550px] bg-gradient-to-r from-purple-700 via-purple-600 to-purple-500">
+                  {/* Content Container */}
+                  <div className="absolute inset-0 flex items-center">
+                    <div className="w-full px-4 sm:px-8 lg:px-12 max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between">
+                      {/* Text Content - Left Side */}
+                      <div className="max-w-full sm:max-w-[45%] text-center sm:text-left mb-4 sm:mb-0">
+                        <h2 className="text-white text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold mb-2 sm:mb-3 md:mb-4 drop-shadow-lg leading-tight sm:leading-snug">
+                          {slide.title}
+                        </h2>
+                        <p className="text-white/90 text-sm sm:text-base md:text-lg lg:text-xl mb-3 sm:mb-4 drop-shadow-md">
+                          {slide.subtitle}
+                        </p>
+                        {/* Features - Show on tablet and up */}
+                        {slide.features && (
+                          <div className="hidden sm:flex flex-wrap gap-2 mb-4 md:mb-5">
+                            {slide.features.map((feature, idx) => (
+                              <span 
+                                key={idx} 
+                                className="bg-white/20 backdrop-blur-sm text-white text-xs md:text-sm px-3 py-1 rounded-full border border-white/30"
+                              >
+                                {feature}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+                        <Link to={slide.ctaLink}>
+                          <button className="bg-white hover:bg-gray-100 text-purple-700 font-semibold px-5 sm:px-6 md:px-8 lg:px-10 py-2.5 sm:py-3 md:py-3.5 lg:py-4 rounded-full text-sm sm:text-base md:text-lg shadow-lg hover:shadow-xl transition-all duration-300">
+                            {slide.ctaText}
+                          </button>
+                        </Link>
+                      </div>
+                      {/* Product Image - Right Side */}
+                      <div className="w-[200px] sm:w-[280px] md:w-[320px] lg:w-[380px] xl:w-[420px] flex-shrink-0">
+                        <img
+                          src={slide.productImage}
+                          alt={slide.alt}
+                          className="w-full h-auto object-contain drop-shadow-2xl"
+                          loading="lazy"
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              ) : (
+                /* Regular Slide - Background image with overlay */
+                <div className="relative w-full h-[320px] sm:h-[360px] md:h-[400px] lg:h-[480px] xl:h-[550px]">
+                  <img
+                    src={slide.image}
+                    alt={slide.alt}
+                    className="absolute inset-0 w-full h-full object-cover object-center sm:object-right"
+                    loading={slide.id === 1 ? "eager" : "lazy"}
+                  />
+                  {/* Gradient Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent sm:from-black/60 sm:via-black/30" />
+                  
+                  {/* Content Overlay */}
+                  <div className="absolute inset-0 flex items-center">
+                    <div className="w-full px-4 sm:px-8 lg:px-12 max-w-7xl mx-auto">
+                      <div className="max-w-[75%] sm:max-w-[60%] md:max-w-md lg:max-w-lg xl:max-w-xl pr-8 sm:pr-0">
+                        <h2 className="text-white text-lg sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold mb-2 sm:mb-3 md:mb-4 drop-shadow-lg leading-tight sm:leading-snug">
+                          {slide.title}
+                        </h2>
+                        <p className="text-white/90 text-xs sm:text-sm md:text-base lg:text-lg mb-3 sm:mb-4 drop-shadow-md line-clamp-2">
+                          {slide.subtitle}
+                        </p>
+                        {slide.features && (
+                          <div className="hidden sm:flex flex-wrap gap-2 mb-4 md:mb-5">
+                            {slide.features.map((feature, idx) => (
+                              <span 
+                                key={idx} 
+                                className="bg-white/20 backdrop-blur-sm text-white text-xs md:text-sm px-3 py-1 rounded-full border border-white/30"
+                              >
+                                {feature}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+                        <Link to={slide.ctaLink}>
+                          <button className="bg-purple-600 hover:bg-purple-700 text-white font-semibold px-4 sm:px-6 md:px-8 lg:px-10 py-2 sm:py-3 md:py-3.5 lg:py-4 rounded-full text-xs sm:text-sm md:text-base lg:text-lg shadow-lg hover:shadow-xl transition-all duration-300">
+                            {slide.ctaText}
+                          </button>
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
             </div>
           ))}
         </div>
