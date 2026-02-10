@@ -175,10 +175,6 @@ const HeroSlider = () => {
           ))}
         </div>
       </div>
-            </div>
-          ))}
-        </div>
-      </div>
 
       {/* Navigation Arrows - Hidden on mobile, visible on tablet+ */}
       <button
