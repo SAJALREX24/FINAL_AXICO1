@@ -127,8 +127,8 @@ const Navbar = ({ cartCount = 0 }) => {
               </div>
             </form>
 
-            {/* Desktop Navigation */}
-            <div className="hidden lg:flex items-center space-x-1">
+            {/* Desktop Navigation - Frido Style */}
+            <div className="hidden lg:flex items-center space-x-0">
               {/* Categories Dropdown */}
               <div 
                 className="relative"
@@ -136,48 +136,124 @@ const Navbar = ({ cartCount = 0 }) => {
                 onMouseLeave={() => setShowCategoryDropdown(false)}
               >
                 <button 
-                  className="flex items-center px-4 py-2 text-gray-700 hover:text-purple-600 font-medium transition-colors"
+                  className="flex items-center px-3 xl:px-4 py-2 text-gray-700 hover:text-purple-600 text-sm font-medium transition-colors"
                   data-testid="categories-dropdown-trigger"
                 >
-                  <Grid className="w-4 h-4 mr-2" />
                   Categories
-                  <ChevronDown className={`w-4 h-4 ml-1 transition-transform ${showCategoryDropdown ? 'rotate-180' : ''}`} />
+                  <ChevronDown className={`w-3.5 h-3.5 ml-1 transition-transform ${showCategoryDropdown ? 'rotate-180' : ''}`} />
                 </button>
                 
                 {/* Dropdown Menu */}
                 {showCategoryDropdown && (
-                  <div className="absolute top-full left-0 w-72 bg-white rounded-xl shadow-xl border border-purple-100 py-2 z-50 animate-fade-in">
+                  <div className="absolute top-full left-0 w-64 bg-white rounded-xl shadow-xl border border-purple-100 py-2 z-50 animate-fade-in">
                     {CATEGORIES.map((category) => (
                       <Link
                         key={category.name}
                         to={category.link}
                         onClick={() => setShowCategoryDropdown(false)}
-                        className="flex items-center px-4 py-3 hover:bg-purple-50 transition-colors group"
+                        className="flex items-center px-4 py-2.5 hover:bg-purple-50 transition-colors group"
                         data-testid={`category-dropdown-${category.name.toLowerCase().replace(/\s+/g, '-')}`}
                       >
-                        <div className={`w-10 h-10 ${category.bgColor} rounded-lg flex items-center justify-center mr-3 group-hover:scale-110 transition-transform`}>
-                          <category.icon className={`w-5 h-5 ${category.color}`} />
+                        <div className={`w-8 h-8 ${category.bgColor} rounded-lg flex items-center justify-center mr-3`}>
+                          <category.icon className={`w-4 h-4 ${category.color}`} />
                         </div>
-                        <div>
-                          <p className="font-medium text-gray-900 group-hover:text-purple-700 transition-colors">
-                            {category.name}
-                          </p>
-                          <p className="text-xs text-gray-500">{category.description}</p>
-                        </div>
+                        <span className="text-sm font-medium text-gray-700 group-hover:text-purple-600">{category.name}</span>
                       </Link>
                     ))}
-                    <div className="border-t border-purple-100 mt-2 pt-2 px-4">
-                      <Link 
-                        to="/products" 
-                        onClick={() => setShowCategoryDropdown(false)}
-                        className="flex items-center justify-center py-2 text-purple-600 font-medium hover:text-purple-700 transition-colors"
-                      >
-                        View All Products →
-                      </Link>
-                    </div>
                   </div>
                 )}
               </div>
+
+              {/* Bundles/Combos */}
+              <Link 
+                to="/products?view=bundles" 
+                className="px-3 xl:px-4 py-2 text-gray-700 hover:text-purple-600 text-sm font-medium transition-colors"
+              >
+                Combos
+              </Link>
+
+              {/* Shop by Use Case Dropdown */}
+              <DropdownMenu>
+                <DropdownMenuTrigger className="flex items-center px-3 xl:px-4 py-2 text-gray-700 hover:text-purple-600 text-sm font-medium transition-colors">
+                  Shop by Use
+                  <ChevronDown className="w-3.5 h-3.5 ml-1" />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="start" className="w-48 bg-white">
+                  <DropdownMenuItem asChild>
+                    <Link to="/products?useCase=hospitals" className="cursor-pointer text-sm">For Hospitals</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link to="/products?useCase=clinics" className="cursor-pointer text-sm">For Clinics</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link to="/products?useCase=homecare" className="cursor-pointer text-sm">Home Care</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link to="/products?useCase=labs" className="cursor-pointer text-sm">For Labs</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link to="/products?useCase=emergency" className="cursor-pointer text-sm">Emergency</Link>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+
+              {/* B2B / For Business */}
+              <Link 
+                to="/b2b" 
+                className="px-3 xl:px-4 py-2 text-gray-700 hover:text-purple-600 text-sm font-medium transition-colors"
+              >
+                For Business
+              </Link>
+
+              {/* More Dropdown */}
+              <DropdownMenu>
+                <DropdownMenuTrigger className="flex items-center px-3 xl:px-4 py-2 text-gray-700 hover:text-purple-600 text-sm font-medium transition-colors">
+                  More
+                  <ChevronDown className="w-3.5 h-3.5 ml-1" />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="start" className="w-52 bg-white">
+                  <DropdownMenuItem asChild>
+                    <Link to="/quiz" className="flex items-center cursor-pointer text-sm">
+                      <HelpCircle className="w-4 h-4 mr-2 text-purple-600" />
+                      Find Right Equipment
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link to="/compare" className="flex items-center cursor-pointer text-sm">
+                      <Scale className="w-4 h-4 mr-2 text-blue-600" />
+                      Compare Products
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link to="/bulk-order" className="flex items-center cursor-pointer text-sm">
+                      <Package className="w-4 h-4 mr-2 text-green-600" />
+                      Bulk Orders
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link to="/partner" className="flex items-center cursor-pointer text-sm">
+                      <Handshake className="w-4 h-4 mr-2 text-orange-600" />
+                      Partner with Us
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link to="/stores" className="flex items-center cursor-pointer text-sm">
+                      <Store className="w-4 h-4 mr-2 text-red-600" />
+                      Store Locator
+                    </Link>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+
+              {/* Help/Support */}
+              <a 
+                href="tel:+917617617178"
+                className="flex items-center px-3 xl:px-4 py-2 text-gray-700 hover:text-purple-600 text-sm font-medium transition-colors"
+              >
+                <HeadphonesIcon className="w-4 h-4 mr-1" />
+                Help
+              </a>
+            </div>
 
               <Link 
                 to="/products" 
