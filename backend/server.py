@@ -1435,6 +1435,62 @@ async def generate_invoice(order_id: str, user: User = Depends(get_current_user)
         headers={"Content-Disposition": f"attachment; filename=invoice_{order_id[:8]}.pdf"}
     )
 
+# ============= B2B ROUTES =============
+
+@api_router.post("/b2b/enquiry")
+async def create_b2b_enquiry(enquiry_data: B2BEnquiryCreate):
+    """Create a B2B enquiry for bulk orders"""
+    enquiry = B2BEnquiry(**enquiry_data.model_dump())
+    doc = enquiry.model_dump()
+    doc["created_at"] = doc["created_at"].isoformat()
+    await db.b2b_enquiries.insert_one(doc)
+    return {"message": "Enquiry submitted successfully", "id": enquiry.id}
+
+@api_router.get("/admin/b2b-enquiries", dependencies=[Depends(get_admin_user)])
+async def get_all_b2b_enquiries():
+    """Get all B2B enquiries (admin only)"""
+    enquiries = await db.b2b_enquiries.find({}, {"_id": 0}).sort("created_at", -1).to_list(1000)
+    return enquiries
+
+@api_router.put("/admin/b2b-enquiries/{enquiry_id}", dependencies=[Depends(get_admin_user)])
+async def update_b2b_enquiry_status(enquiry_id: str, status_data: EnquiryStatusUpdate):
+    """Update B2B enquiry status"""
+    result = await db.b2b_enquiries.update_one(
+        {"id": enquiry_id},
+        {"$set": {"status": status_data.status}}
+    )
+    if result.matched_count == 0:
+        raise HTTPException(status_code=404, detail="Enquiry not found")
+    return {"message": "Status updated"}
+
+# ============= PARTNER ROUTES =============
+
+@api_router.post("/partner/apply")
+async def create_partner_application(application_data: PartnerApplicationCreate):
+    """Create a partner application"""
+    application = PartnerApplication(**application_data.model_dump())
+    doc = application.model_dump()
+    doc["created_at"] = doc["created_at"].isoformat()
+    await db.partner_applications.insert_one(doc)
+    return {"message": "Application submitted successfully", "id": application.id}
+
+@api_router.get("/admin/partner-applications", dependencies=[Depends(get_admin_user)])
+async def get_all_partner_applications():
+    """Get all partner applications (admin only)"""
+    applications = await db.partner_applications.find({}, {"_id": 0}).sort("created_at", -1).to_list(1000)
+    return applications
+
+@api_router.put("/admin/partner-applications/{application_id}", dependencies=[Depends(get_admin_user)])
+async def update_partner_application_status(application_id: str, status_data: EnquiryStatusUpdate):
+    """Update partner application status"""
+    result = await db.partner_applications.update_one(
+        {"id": application_id},
+        {"$set": {"status": status_data.status}}
+    )
+    if result.matched_count == 0:
+        raise HTTPException(status_code=404, detail="Application not found")
+    return {"message": "Status updated"}
+
 # ============= CONFIG ROUTES =============
 
 @api_router.get("/config")
