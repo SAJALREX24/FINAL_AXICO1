@@ -5,6 +5,7 @@ import { Toaster } from './components/ui/sonner';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import WhatsAppButton from './components/WhatsAppButton';
+import PromoBanner from './components/PromoBanner';
 import Home from './pages/Home';
 import Products from './pages/Products';
 import ProductDetail from './pages/ProductDetail';
