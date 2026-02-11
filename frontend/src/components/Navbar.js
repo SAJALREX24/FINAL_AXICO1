@@ -194,6 +194,18 @@ const Navbar = ({ cartCount = 0 }) => {
                 Bulk Orders
               </Link>
 
+              {/* Track Order - Prominent */}
+              {user && (
+                <Link 
+                  to="/dashboard?tab=orders" 
+                  className="flex items-center px-4 py-2 text-purple-600 hover:text-purple-700 font-medium transition-colors"
+                  data-testid="track-order-nav-link"
+                >
+                  <PackageSearch className="w-4 h-4 mr-2" />
+                  Track Order
+                </Link>
+              )}
+
               {/* Contact */}
               <a 
                 href="tel:+917617617178"
