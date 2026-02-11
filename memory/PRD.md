@@ -49,6 +49,18 @@ Build a professional, trustworthy, and scalable medical equipment e-commerce pla
 ## What's Been Implemented
 
 ### February 2026
+- ✅ **MEDIUM PRIORITY Features Implemented** (Feb 11):
+  - **Quiz/Recommendation Tool** (`/quiz`): 4-step quiz to find right equipment based on use case, category, budget, and priority
+  - **Product Comparison Tool** (`/compare`): Compare up to 4 products side-by-side with specs, price, features
+  - **Corporate/B2B Section** (`/b2b`): Full B2B page with bulk pricing tiers (10-25% discounts), benefits, enquiry form
+  - **Affiliate & Partner Programs** (`/partner`): 4 partner programs (Distributor, Affiliate, Healthcare Professional, Campus Ambassador)
+  - **Store Locator** (`/stores`): 8 store locations with search, filters (All/Head Office/Showroom/Service Center/Dealer), directions
+  - **Track Order**: Prominent "Track Order" link in navbar for logged-in users
+  - Backend APIs added for B2B enquiries and Partner applications
+  - All pages fully mobile responsive
+  - Added "More" dropdown in navbar, updated Footer with new links
+  - Updated mobile menu with "Tools & Services" section
+
 - ✅ **HIGH PRIORITY Features Implemented** (Feb 11):
   - **Promotional Banner Strip**: Animated rotating offers bar at top with 5 different promos (50% OFF, 5% prepaid discount, Free gifts, Free delivery, Same day dispatch)
   - **Shop by Use Case Section**: 6 use case cards (Hospitals, Clinics, Home Care, Labs, Emergency, Elderly Care)
