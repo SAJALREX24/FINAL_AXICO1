@@ -103,8 +103,11 @@ const Home = () => {
         </div>
       </section>
 
+      {/* Shop by Use Case - NEW */}
+      <ShopByUseCase />
+
       {/* Categories Section */}
-      <section className="py-12 sm:py-16 lg:py-20 bg-white" data-testid="categories-section">
+      <section className="py-12 sm:py-16 lg:py-20 bg-purple-50" data-testid="categories-section">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-8 sm:mb-12">
             <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold tracking-tight text-gray-900 mb-2 sm:mb-4" data-testid="categories-title">
@@ -149,8 +152,11 @@ const Home = () => {
         </div>
       </section>
 
+      {/* Product Bundles - NEW */}
+      <ProductBundles />
+
       {/* Featured Products */}
-      <section className="py-12 sm:py-16 lg:py-20 bg-purple-50" data-testid="featured-products-section">
+      <section className="py-12 sm:py-16 lg:py-20 bg-white" data-testid="featured-products-section">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-6 sm:mb-8 lg:mb-12">
             <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold tracking-tight text-gray-900 mb-2 sm:mb-4" data-testid="featured-products-title">
@@ -183,6 +189,9 @@ const Home = () => {
 
       {/* Recently Viewed Products */}
       <RecentlyViewed />
+
+      {/* Press & Media Section - NEW */}
+      <PressSection />
 
       {/* Why Choose Us */}
       <section className="py-12 sm:py-16 lg:py-20 bg-white">
