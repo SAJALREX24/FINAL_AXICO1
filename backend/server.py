@@ -213,6 +213,54 @@ class VerificationRequestCreate(BaseModel):
     organization_name: str
     documents: dict
 
+# B2B Enquiry Model
+class B2BEnquiry(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    business_name: str
+    contact_person: str
+    email: str
+    phone: str
+    business_type: str
+    estimated_quantity: Optional[str] = None
+    products_interested: Optional[str] = None
+    message: Optional[str] = None
+    status: str = "pending"
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+class B2BEnquiryCreate(BaseModel):
+    business_name: str
+    contact_person: str
+    email: str
+    phone: str
+    business_type: str
+    estimated_quantity: Optional[str] = None
+    products_interested: Optional[str] = None
+    message: Optional[str] = None
+
+# Partner Application Model
+class PartnerApplication(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    name: str
+    email: str
+    phone: str
+    program_type: str
+    organization: Optional[str] = None
+    city: str
+    message: Optional[str] = None
+    status: str = "pending"
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+class PartnerApplicationCreate(BaseModel):
+    name: str
+    email: str
+    phone: str
+    program_type: str
+    organization: Optional[str] = None
+    city: str
+    message: Optional[str] = None
+
 # ============= AUTH UTILS =============
 
 def hash_password(password: str) -> str:
