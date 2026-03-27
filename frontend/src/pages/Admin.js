@@ -9,11 +9,12 @@ import { Label } from '../components/ui/label';
 import { Textarea } from '../components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '../components/ui/dialog';
-import { Package, ShoppingCart, FileText, Star, ShieldCheck, Users, Plus, Percent, Box, Tag, BarChart3, Download, Pencil } from 'lucide-react';
+import { Package, ShoppingCart, FileText, Star, ShieldCheck, Users, Plus, Percent, Box, Tag, BarChart3, Download, Pencil, Upload } from 'lucide-react';
 import { toast } from 'sonner';
 import { Switch } from '../components/ui/switch';
 import SalesDashboard from '../components/SalesDashboard';
 import { FullPageLoader } from '../components/MedicalLoader';
+import ImageUpload from '../components/ImageUpload';
 
 const Admin = () => {
   const { user, loading: authLoading } = useAuth();
@@ -397,27 +398,78 @@ const Admin = () => {
                             data-testid="product-description-input"
                           />
                         </div>
-                        <div>
-                          <Label className="text-gray-700 font-medium text-sm">Image URL *</Label>
-                          <Input
-                            value={productForm.image}
-                            onChange={(e) => setProductForm({ ...productForm, image: e.target.value })}
-                            required
-                            placeholder="https://example.com/image.jpg"
-                            className="mt-1 border-gray-200 focus:border-purple-500 text-sm"
-                            data-testid="product-image-input"
-                          />
+                        
+                        {/* Main Product Image Upload */}
+                        <div className="space-y-2">
+                          <Label className="text-gray-700 font-medium text-sm flex items-center">
+                            <Upload className="w-4 h-4 mr-2 text-purple-500" />
+                            Main Product Image *
+                          </Label>
+                          {productForm.image ? (
+                            <div className="flex items-start gap-3">
+                              <div className="relative w-24 h-24 rounded-lg overflow-hidden border border-gray-200">
+                                <img src={productForm.image} alt="Product" className="w-full h-full object-cover" />
+                                <button
+                                  type="button"
+                                  onClick={() => setProductForm({ ...productForm, image: '' })}
+                                  className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
+                                >
+                                  <span className="text-xs">✕</span>
+                                </button>
+                              </div>
+                              <div className="flex-1">
+                                <p className="text-xs text-green-600 font-medium">✓ Image uploaded</p>
+                                <p className="text-xs text-gray-400 mt-1 break-all">{productForm.image.substring(0, 50)}...</p>
+                              </div>
+                            </div>
+                          ) : (
+                            <ImageUpload
+                              onUploadComplete={(url) => setProductForm({ ...productForm, image: url })}
+                              multiple={false}
+                              folder="alaxico/products"
+                              existingImages={[]}
+                              maxFiles={1}
+                            />
+                          )}
+                          {/* Fallback: Manual URL input */}
+                          <div className="mt-2">
+                            <p className="text-xs text-gray-500 mb-1">Or paste image URL directly:</p>
+                            <Input
+                              value={productForm.image}
+                              onChange={(e) => setProductForm({ ...productForm, image: e.target.value })}
+                              placeholder="https://example.com/image.jpg"
+                              className="border-gray-200 focus:border-purple-500 text-sm"
+                              data-testid="product-image-input"
+                            />
+                          </div>
                         </div>
-                        <div>
-                          <Label className="text-gray-700 font-medium text-sm">Gallery Images (comma-separated URLs)</Label>
-                          <Input
-                            value={productForm.images}
-                            onChange={(e) => setProductForm({ ...productForm, images: e.target.value })}
-                            placeholder="url1.jpg, url2.jpg, url3.jpg"
-                            className="mt-1 border-gray-200 focus:border-purple-500 text-sm"
+
+                        {/* Gallery Images Upload */}
+                        <div className="space-y-2">
+                          <Label className="text-gray-700 font-medium text-sm flex items-center">
+                            <Upload className="w-4 h-4 mr-2 text-purple-500" />
+                            Gallery Images (optional)
+                          </Label>
+                          <ImageUpload
+                            onUploadComplete={(urls) => {
+                              const currentImages = productForm.images ? productForm.images.split(',').map(u => u.trim()).filter(u => u) : [];
+                              const newImages = Array.isArray(urls) ? urls : [urls];
+                              const allImages = [...currentImages, ...newImages];
+                              setProductForm({ ...productForm, images: allImages.join(', ') });
+                            }}
+                            multiple={true}
+                            folder="alaxico/products"
+                            existingImages={productForm.images ? productForm.images.split(',').map(u => u.trim()).filter(u => u) : []}
+                            onRemoveImage={(index) => {
+                              const images = productForm.images.split(',').map(u => u.trim()).filter(u => u);
+                              images.splice(index, 1);
+                              setProductForm({ ...productForm, images: images.join(', ') });
+                            }}
+                            maxFiles={5}
                           />
-                          <p className="text-xs text-gray-400 mt-1">Enter multiple image URLs separated by commas</p>
+                          <p className="text-xs text-gray-400">Upload up to 5 gallery images for the product carousel</p>
                         </div>
+
                         <div>
                           <Label className="text-gray-700 font-medium text-sm">Key Features (comma-separated)</Label>
                           <Input

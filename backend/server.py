@@ -1,4 +1,4 @@
-from fastapi import FastAPI, APIRouter, HTTPException, Depends, status, Request, Response
+from fastapi import FastAPI, APIRouter, HTTPException, Depends, status, Request, Response, Query
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from fastapi.responses import StreamingResponse
 from dotenv import load_dotenv
@@ -6,6 +6,7 @@ from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
 import os
 import logging
+import time
 from pathlib import Path
 from pydantic import BaseModel, Field, ConfigDict, EmailStr
 from typing import List, Optional
@@ -16,6 +17,9 @@ import jwt
 import razorpay
 import httpx
 import io
+import cloudinary
+import cloudinary.utils
+import cloudinary.uploader
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
@@ -33,6 +37,14 @@ db = client[os.environ['DB_NAME']]
 
 # Razorpay client
 razorpay_client = razorpay.Client(auth=(os.environ['RAZORPAY_KEY_ID'], os.environ['RAZORPAY_KEY_SECRET']))
+
+# Cloudinary configuration
+cloudinary.config(
+    cloud_name=os.environ.get("CLOUDINARY_CLOUD_NAME"),
+    api_key=os.environ.get("CLOUDINARY_API_KEY"),
+    api_secret=os.environ.get("CLOUDINARY_API_SECRET"),
+    secure=True
+)
 
 # JWT configuration
 JWT_SECRET = os.environ['JWT_SECRET']
@@ -1499,6 +1511,53 @@ async def get_config():
         "razorpay_key_id": os.environ["RAZORPAY_KEY_ID"],
         "whatsapp_number": os.environ["WHATSAPP_NUMBER"]
     }
+
+# ============= CLOUDINARY UPLOAD ROUTES =============
+
+@api_router.get("/cloudinary/signature")
+async def generate_cloudinary_signature(
+    resource_type: str = Query("image", enum=["image", "video"]),
+    folder: str = Query("alaxico/products")
+):
+    """Generate signature for Cloudinary upload"""
+    ALLOWED_FOLDERS = ("alaxico/products", "alaxico/reviews", "alaxico/users")
+    if not any(folder.startswith(f) for f in ALLOWED_FOLDERS):
+        raise HTTPException(status_code=400, detail="Invalid folder path")
+
+    timestamp = int(time.time())
+    params = {
+        "timestamp": timestamp,
+        "folder": folder,
+    }
+
+    signature = cloudinary.utils.api_sign_request(
+        params,
+        os.environ.get("CLOUDINARY_API_SECRET")
+    )
+
+    return {
+        "signature": signature,
+        "timestamp": timestamp,
+        "cloud_name": os.environ.get("CLOUDINARY_CLOUD_NAME"),
+        "api_key": os.environ.get("CLOUDINARY_API_KEY"),
+        "folder": folder,
+        "resource_type": resource_type
+    }
+
+@api_router.delete("/cloudinary/delete")
+async def delete_cloudinary_image(
+    public_id: str = Query(..., description="Public ID of the image to delete"),
+    user: User = Depends(get_admin_user)
+):
+    """Delete an image from Cloudinary (admin only)"""
+    try:
+        result = cloudinary.uploader.destroy(public_id, invalidate=True)
+        if result.get("result") == "ok":
+            return {"message": "Image deleted successfully"}
+        else:
+            raise HTTPException(status_code=400, detail="Failed to delete image")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error deleting image: {str(e)}")
 
 # ============= INCLUDE ROUTER =============
 

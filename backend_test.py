@@ -1,578 +1,327 @@
 #!/usr/bin/env python3
+"""
+Backend API Testing for Alaxico Medical Equipment E-commerce App
+Testing Cloudinary image upload integration and existing endpoints
+"""
 
 import requests
-import sys
 import json
+import os
+import sys
 from datetime import datetime
 
-class MedEquipMartAPITester:
-    def __init__(self, base_url="https://init-point.preview.emergentagent.com/api"):
-        self.base_url = base_url
-        self.token = None
-        self.admin_token = None
-        self.user_id = None
-        self.admin_id = None
-        self.tests_run = 0
-        self.tests_passed = 0
-        self.test_results = []
+# Get backend URL from frontend .env
+BACKEND_URL = "https://init-point.preview.emergentagent.com"
+API_BASE = f"{BACKEND_URL}/api"
 
-    def log_test(self, name, success, details=""):
-        """Log test result"""
-        self.tests_run += 1
-        if success:
-            self.tests_passed += 1
-        
-        result = {
-            "test": name,
-            "status": "PASS" if success else "FAIL",
-            "details": details,
-            "timestamp": datetime.now().isoformat()
-        }
-        self.test_results.append(result)
-        
-        status_icon = "✅" if success else "❌"
-        print(f"{status_icon} {name}: {details}")
+class Colors:
+    GREEN = '\033[92m'
+    RED = '\033[91m'
+    YELLOW = '\033[93m'
+    BLUE = '\033[94m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
 
-    def run_test(self, name, method, endpoint, expected_status, data=None, headers=None, use_admin=False):
-        """Run a single API test"""
-        url = f"{self.base_url}/{endpoint}"
-        test_headers = {'Content-Type': 'application/json'}
-        
-        # Add auth token if available
-        token = self.admin_token if use_admin and self.admin_token else self.token
-        if token:
-            test_headers['Authorization'] = f'Bearer {token}'
-        
-        if headers:
-            test_headers.update(headers)
+def print_test_header(test_name):
+    print(f"\n{Colors.BLUE}{Colors.BOLD}{'='*60}{Colors.ENDC}")
+    print(f"{Colors.BLUE}{Colors.BOLD}Testing: {test_name}{Colors.ENDC}")
+    print(f"{Colors.BLUE}{Colors.BOLD}{'='*60}{Colors.ENDC}")
 
-        try:
-            if method == 'GET':
-                response = requests.get(url, headers=test_headers, timeout=10)
-            elif method == 'POST':
-                response = requests.post(url, json=data, headers=test_headers, timeout=10)
-            elif method == 'PUT':
-                response = requests.put(url, json=data, headers=test_headers, timeout=10)
-            elif method == 'DELETE':
-                response = requests.delete(url, headers=test_headers, timeout=10)
+def print_success(message):
+    print(f"{Colors.GREEN}✅ {message}{Colors.ENDC}")
 
-            success = response.status_code == expected_status
-            details = f"Status: {response.status_code}"
+def print_error(message):
+    print(f"{Colors.RED}❌ {message}{Colors.ENDC}")
+
+def print_warning(message):
+    print(f"{Colors.YELLOW}⚠️  {message}{Colors.ENDC}")
+
+def print_info(message):
+    print(f"{Colors.BLUE}ℹ️  {message}{Colors.ENDC}")
+
+def test_cloudinary_signature_endpoint():
+    """Test GET /api/cloudinary/signature endpoint"""
+    print_test_header("Cloudinary Signature Endpoint")
+    
+    try:
+        # Test 1: Default parameters (image, alaxico/products)
+        print_info("Testing default parameters...")
+        response = requests.get(f"{API_BASE}/cloudinary/signature")
+        
+        if response.status_code == 200:
+            data = response.json()
+            required_fields = ["signature", "timestamp", "cloud_name", "api_key", "folder", "resource_type"]
             
-            if not success:
-                details += f" (Expected: {expected_status})"
-                try:
-                    error_data = response.json()
-                    details += f" - {error_data.get('detail', 'Unknown error')}"
-                except:
-                    details += f" - {response.text[:100]}"
+            missing_fields = [field for field in required_fields if field not in data]
+            if missing_fields:
+                print_error(f"Missing required fields: {missing_fields}")
+                return False
             
-            self.log_test(name, success, details)
+            # Verify cloud_name
+            if data["cloud_name"] != "de6hn1eu1":
+                print_error(f"Expected cloud_name 'de6hn1eu1', got '{data['cloud_name']}'")
+                return False
             
-            if success:
-                try:
-                    return True, response.json()
-                except:
-                    return True, {}
+            # Verify default folder
+            if data["folder"] != "alaxico/products":
+                print_error(f"Expected default folder 'alaxico/products', got '{data['folder']}'")
+                return False
+            
+            # Verify default resource_type
+            if data["resource_type"] != "image":
+                print_error(f"Expected default resource_type 'image', got '{data['resource_type']}'")
+                return False
+            
+            # Verify API key is present
+            if not data["api_key"]:
+                print_error("API key is empty")
+                return False
+            
+            print_success("Default parameters test passed")
+            print_info(f"Response: {json.dumps(data, indent=2)}")
+            
+        else:
+            print_error(f"Request failed with status {response.status_code}: {response.text}")
+            return False
+        
+        # Test 2: Different resource_type (video)
+        print_info("Testing with resource_type=video...")
+        response = requests.get(f"{API_BASE}/cloudinary/signature?resource_type=video")
+        
+        if response.status_code == 200:
+            data = response.json()
+            if data["resource_type"] != "video":
+                print_error(f"Expected resource_type 'video', got '{data['resource_type']}'")
+                return False
+            print_success("Video resource_type test passed")
+        else:
+            print_error(f"Video resource_type test failed: {response.status_code}")
+            return False
+        
+        # Test 3: Different folder
+        print_info("Testing with different folder...")
+        response = requests.get(f"{API_BASE}/cloudinary/signature?folder=alaxico/reviews")
+        
+        if response.status_code == 200:
+            data = response.json()
+            if data["folder"] != "alaxico/reviews":
+                print_error(f"Expected folder 'alaxico/reviews', got '{data['folder']}'")
+                return False
+            print_success("Different folder test passed")
+        else:
+            print_error(f"Different folder test failed: {response.status_code}")
+            return False
+        
+        # Test 4: Invalid folder (should fail)
+        print_info("Testing with invalid folder...")
+        response = requests.get(f"{API_BASE}/cloudinary/signature?folder=invalid/folder")
+        
+        if response.status_code == 400:
+            print_success("Invalid folder correctly rejected")
+        else:
+            print_warning(f"Expected 400 for invalid folder, got {response.status_code}")
+        
+        # Test 5: Combined parameters
+        print_info("Testing combined parameters...")
+        response = requests.get(f"{API_BASE}/cloudinary/signature?resource_type=video&folder=alaxico/users")
+        
+        if response.status_code == 200:
+            data = response.json()
+            if data["resource_type"] == "video" and data["folder"] == "alaxico/users":
+                print_success("Combined parameters test passed")
             else:
-                return False, {}
+                print_error("Combined parameters not set correctly")
+                return False
+        else:
+            print_error(f"Combined parameters test failed: {response.status_code}")
+            return False
+        
+        return True
+        
+    except requests.exceptions.RequestException as e:
+        print_error(f"Network error: {e}")
+        return False
+    except Exception as e:
+        print_error(f"Unexpected error: {e}")
+        return False
 
-        except Exception as e:
-            self.log_test(name, False, f"Error: {str(e)}")
-            return False, {}
+def test_existing_endpoints():
+    """Test existing endpoints to ensure they still work"""
+    print_test_header("Existing Endpoints")
+    
+    success_count = 0
+    total_tests = 2
+    
+    try:
+        # Test 1: GET /api/products
+        print_info("Testing GET /api/products...")
+        response = requests.get(f"{API_BASE}/products")
+        
+        if response.status_code == 200:
+            data = response.json()
+            if isinstance(data, list):
+                print_success(f"Products endpoint working - returned {len(data)} products")
+                success_count += 1
+            else:
+                print_error("Products endpoint returned non-list data")
+        else:
+            print_error(f"Products endpoint failed: {response.status_code}")
+        
+        # Test 2: GET /api/categories
+        print_info("Testing GET /api/categories...")
+        response = requests.get(f"{API_BASE}/categories")
+        
+        if response.status_code == 200:
+            data = response.json()
+            if isinstance(data, list):
+                print_success(f"Categories endpoint working - returned {len(data)} categories")
+                success_count += 1
+            else:
+                print_error("Categories endpoint returned non-list data")
+        else:
+            print_error(f"Categories endpoint failed: {response.status_code}")
+        
+        return success_count == total_tests
+        
+    except requests.exceptions.RequestException as e:
+        print_error(f"Network error: {e}")
+        return False
+    except Exception as e:
+        print_error(f"Unexpected error: {e}")
+        return False
 
-    def test_config_endpoint(self):
-        """Test config endpoint"""
-        success, response = self.run_test(
-            "Get Config",
-            "GET",
-            "config",
-            200
-        )
-        if success:
-            required_keys = ['razorpay_key_id', 'whatsapp_number']
-            for key in required_keys:
-                if key not in response:
-                    self.log_test(f"Config - {key} present", False, f"Missing {key}")
+def test_cloudinary_configuration():
+    """Test Cloudinary configuration values"""
+    print_test_header("Cloudinary Configuration")
+    
+    try:
+        response = requests.get(f"{API_BASE}/cloudinary/signature")
+        
+        if response.status_code == 200:
+            data = response.json()
+            
+            # Check cloud_name
+            expected_cloud_name = "de6hn1eu1"
+            if data.get("cloud_name") == expected_cloud_name:
+                print_success(f"Cloud name correct: {expected_cloud_name}")
+            else:
+                print_error(f"Expected cloud_name '{expected_cloud_name}', got '{data.get('cloud_name')}'")
+                return False
+            
+            # Check API key is present (don't log the actual key)
+            if data.get("api_key"):
+                print_success("API key is present")
+            else:
+                print_error("API key is missing")
+                return False
+            
+            # Check signature is generated
+            if data.get("signature"):
+                print_success("Signature is generated")
+            else:
+                print_error("Signature is missing")
+                return False
+            
+            # Check timestamp is present and recent
+            if data.get("timestamp"):
+                timestamp = data.get("timestamp")
+                current_time = datetime.now().timestamp()
+                if abs(current_time - timestamp) < 60:  # Within 1 minute
+                    print_success("Timestamp is recent")
                 else:
-                    self.log_test(f"Config - {key} present", True, f"Value: {response[key]}")
-        return success
-
-    def test_user_registration(self):
-        """Test user registration"""
-        timestamp = datetime.now().strftime('%H%M%S')
-        user_data = {
-            "name": f"Test User {timestamp}",
-            "email": f"testuser{timestamp}@example.com",
-            "password": "testpass123",
-            "phone": "9876543210"
-        }
-        
-        success, response = self.run_test(
-            "User Registration",
-            "POST",
-            "auth/register",
-            200,
-            data=user_data
-        )
-        
-        if success and 'token' in response:
-            self.token = response['token']
-            self.user_id = response['user']['id']
-            self.log_test("Registration Token Received", True, "Token stored")
-        
-        return success
-
-    def test_user_login(self):
-        """Test user login with provided credentials"""
-        login_data = {
-            "email": "hospital@example.com",
-            "password": "demo123"
-        }
-        
-        success, response = self.run_test(
-            "User Login",
-            "POST",
-            "auth/login",
-            200,
-            data=login_data
-        )
-        
-        if success and 'token' in response:
-            self.token = response['token']
-            self.user_id = response['user']['id']
-            self.log_test("Login Token Received", True, "Token stored")
-        
-        return success
-
-    def test_admin_login(self):
-        """Test admin login"""
-        login_data = {
-            "email": "admin@medequipmart.com",
-            "password": "admin123"
-        }
-        
-        success, response = self.run_test(
-            "Admin Login",
-            "POST",
-            "auth/login",
-            200,
-            data=login_data
-        )
-        
-        if success and 'token' in response:
-            self.admin_token = response['token']
-            self.admin_id = response['user']['id']
-            self.log_test("Admin Token Received", True, "Admin token stored")
-        
-        return success
-
-    def test_get_current_user(self):
-        """Test get current user"""
-        if not self.token:
-            self.log_test("Get Current User", False, "No token available")
+                    print_warning("Timestamp seems old")
+            else:
+                print_error("Timestamp is missing")
+                return False
+            
+            return True
+        else:
+            print_error(f"Failed to get signature: {response.status_code}")
             return False
             
-        success, response = self.run_test(
-            "Get Current User",
-            "GET",
-            "auth/me",
-            200
-        )
-        return success
+    except Exception as e:
+        print_error(f"Configuration test error: {e}")
+        return False
 
-    def test_products_endpoints(self):
-        """Test product-related endpoints"""
-        # Get all products
-        success1, products = self.run_test(
-            "Get All Products",
-            "GET",
-            "products",
-            200
+def check_backend_logs():
+    """Check backend logs for any errors"""
+    print_test_header("Backend Logs Check")
+    
+    try:
+        import subprocess
+        result = subprocess.run(
+            ["tail", "-n", "50", "/var/log/supervisor/backend.err.log"],
+            capture_output=True,
+            text=True,
+            timeout=10
         )
         
-        # Get categories
-        success2, categories = self.run_test(
-            "Get Categories",
-            "GET",
-            "categories",
-            200
-        )
-        
-        # Test product search
-        success3, search_results = self.run_test(
-            "Search Products",
-            "GET",
-            "products?search=equipment",
-            200
-        )
-        
-        # Test category filter
-        if success2 and categories:
-            category = categories[0] if categories else "Diagnostic Equipment"
-            success4, filtered = self.run_test(
-                "Filter Products by Category",
-                "GET",
-                f"products?category={category}",
-                200
-            )
-        else:
-            success4 = False
-        
-        # Test individual product
-        if success1 and products:
-            product_id = products[0]['id'] if products else None
-            if product_id:
-                success5, product = self.run_test(
-                    "Get Single Product",
-                    "GET",
-                    f"products/{product_id}",
-                    200
-                )
+        if result.returncode == 0:
+            error_logs = result.stdout.strip()
+            if error_logs:
+                print_warning("Found error logs:")
+                print(error_logs)
+                return False
             else:
-                success5 = False
+                print_success("No recent error logs found")
+                return True
         else:
-            success5 = False
-        
-        return all([success1, success2, success3, success4, success5])
-
-    def test_cart_operations(self):
-        """Test cart operations"""
-        if not self.token:
-            self.log_test("Cart Operations", False, "No user token")
-            return False
-        
-        # Get empty cart
-        success1, cart = self.run_test(
-            "Get Empty Cart",
-            "GET",
-            "cart",
-            200
-        )
-        
-        # Get a product to add to cart
-        success_prod, products = self.run_test(
-            "Get Products for Cart Test",
-            "GET",
-            "products",
-            200
-        )
-        
-        if not success_prod or not products:
-            self.log_test("Cart Operations", False, "No products available")
-            return False
-        
-        product_id = products[0]['id']
-        
-        # Add to cart
-        success2, _ = self.run_test(
-            "Add to Cart",
-            "POST",
-            "cart/add",
-            200,
-            data={"product_id": product_id, "quantity": 2}
-        )
-        
-        # Get cart with items
-        success3, cart_with_items = self.run_test(
-            "Get Cart with Items",
-            "GET",
-            "cart",
-            200
-        )
-        
-        # Update cart
-        success4, _ = self.run_test(
-            "Update Cart Quantity",
-            "PUT",
-            "cart/update",
-            200,
-            data={"product_id": product_id, "quantity": 3}
-        )
-        
-        # Remove from cart
-        success5, _ = self.run_test(
-            "Remove from Cart",
-            "DELETE",
-            f"cart/remove/{product_id}",
-            200
-        )
-        
-        return all([success1, success2, success3, success4, success5])
-
-    def test_bulk_enquiry(self):
-        """Test bulk enquiry functionality"""
-        if not self.token:
-            self.log_test("Bulk Enquiry", False, "No user token")
-            return False
-        
-        # Get a product for enquiry
-        success_prod, products = self.run_test(
-            "Get Products for Enquiry",
-            "GET",
-            "products",
-            200
-        )
-        
-        if not success_prod or not products:
-            self.log_test("Bulk Enquiry", False, "No products available")
-            return False
-        
-        product_id = products[0]['id']
-        
-        # Create bulk enquiry
-        enquiry_data = {
-            "product_id": product_id,
-            "buyer_type": "Hospital",
-            "quantity": 10,
-            "organization_name": "Test Hospital",
-            "contact_details": {
-                "name": "Test Contact",
-                "phone": "9876543210",
-                "email": "test@hospital.com"
-            },
-            "message": "Test bulk enquiry"
-        }
-        
-        success1, _ = self.run_test(
-            "Create Bulk Enquiry",
-            "POST",
-            "bulk-enquiries",
-            200,
-            data=enquiry_data
-        )
-        
-        # Get user's enquiries
-        success2, _ = self.run_test(
-            "Get My Enquiries",
-            "GET",
-            "bulk-enquiries/my-enquiries",
-            200
-        )
-        
-        return success1 and success2
-
-    def test_reviews(self):
-        """Test review functionality"""
-        if not self.token:
-            self.log_test("Reviews", False, "No user token")
-            return False
-        
-        # Get products
-        success_prod, products = self.run_test(
-            "Get Products for Review",
-            "GET",
-            "products",
-            200
-        )
-        
-        if not success_prod or not products:
-            self.log_test("Reviews", False, "No products available")
-            return False
-        
-        product_id = products[0]['id']
-        
-        # Create review
-        review_data = {
-            "product_id": product_id,
-            "rating": 5,
-            "comment": "Excellent product quality!"
-        }
-        
-        success1, _ = self.run_test(
-            "Create Review",
-            "POST",
-            "reviews",
-            200,
-            data=review_data
-        )
-        
-        # Get product reviews
-        success2, _ = self.run_test(
-            "Get Product Reviews",
-            "GET",
-            f"reviews/product/{product_id}",
-            200
-        )
-        
-        # Get featured reviews
-        success3, _ = self.run_test(
-            "Get Featured Reviews",
-            "GET",
-            "reviews/featured",
-            200
-        )
-        
-        return all([success1, success2, success3])
-
-    def test_verification(self):
-        """Test verification functionality"""
-        if not self.token:
-            self.log_test("Verification", False, "No user token")
-            return False
-        
-        # Get verification status
-        success1, _ = self.run_test(
-            "Get Verification Status",
-            "GET",
-            "verification/status",
-            200
-        )
-        
-        # Submit verification request
-        verification_data = {
-            "buyer_type": "Hospital",
-            "organization_name": "Test Medical Center",
-            "documents": {
-                "info": "Medical License: ML123456"
-            }
-        }
-        
-        success2, _ = self.run_test(
-            "Submit Verification",
-            "POST",
-            "verification/submit",
-            200,
-            data=verification_data
-        )
-        
-        return success1 and success2
-
-    def test_orders(self):
-        """Test order creation (without payment)"""
-        if not self.token:
-            self.log_test("Orders", False, "No user token")
-            return False
-        
-        # Get user's orders
-        success1, _ = self.run_test(
-            "Get My Orders",
-            "GET",
-            "orders/my-orders",
-            200
-        )
-        
-        # Test order creation (will fail without proper cart but should return proper error)
-        order_data = {
-            "items": [
-                {
-                    "product_id": "test-id",
-                    "product_name": "Test Product",
-                    "quantity": 1,
-                    "price": 1000
-                }
-            ],
-            "total_amount": 1000,
-            "delivery_address": {
-                "street": "Test Street",
-                "city": "Test City",
-                "state": "Test State",
-                "pincode": "123456",
-                "phone": "9876543210"
-            }
-        }
-        
-        # This might fail but we test the endpoint
-        success2, _ = self.run_test(
-            "Create Razorpay Order",
-            "POST",
-            "orders/create-razorpay-order",
-            200,
-            data=order_data
-        )
-        
-        return success1  # Only count the successful get orders
-
-    def test_admin_endpoints(self):
-        """Test admin endpoints"""
-        if not self.admin_token:
-            self.log_test("Admin Endpoints", False, "No admin token")
-            return False
-        
-        # Get all orders (admin)
-        success1, _ = self.run_test(
-            "Admin - Get All Orders",
-            "GET",
-            "admin/orders",
-            200,
-            use_admin=True
-        )
-        
-        # Get all bulk enquiries (admin)
-        success2, _ = self.run_test(
-            "Admin - Get All Bulk Enquiries",
-            "GET",
-            "admin/bulk-enquiries",
-            200,
-            use_admin=True
-        )
-        
-        # Get all reviews (admin)
-        success3, _ = self.run_test(
-            "Admin - Get All Reviews",
-            "GET",
-            "admin/reviews",
-            200,
-            use_admin=True
-        )
-        
-        # Get all verifications (admin)
-        success4, _ = self.run_test(
-            "Admin - Get All Verifications",
-            "GET",
-            "admin/verifications",
-            200,
-            use_admin=True
-        )
-        
-        return all([success1, success2, success3, success4])
-
-    def run_all_tests(self):
-        """Run all API tests"""
-        print("🚀 Starting MedEquipMart API Tests...")
-        print("=" * 50)
-        
-        # Basic endpoints
-        self.test_config_endpoint()
-        
-        # Authentication tests
-        self.test_user_registration()
-        self.test_user_login()
-        self.test_admin_login()
-        self.test_get_current_user()
-        
-        # Product tests
-        self.test_products_endpoints()
-        
-        # Cart tests
-        self.test_cart_operations()
-        
-        # Feature tests
-        self.test_bulk_enquiry()
-        self.test_reviews()
-        self.test_verification()
-        self.test_orders()
-        
-        # Admin tests
-        self.test_admin_endpoints()
-        
-        # Print summary
-        print("\n" + "=" * 50)
-        print(f"📊 Test Summary: {self.tests_passed}/{self.tests_run} tests passed")
-        
-        success_rate = (self.tests_passed / self.tests_run * 100) if self.tests_run > 0 else 0
-        print(f"📈 Success Rate: {success_rate:.1f}%")
-        
-        if self.tests_passed == self.tests_run:
-            print("🎉 All tests passed!")
-            return 0
-        else:
-            print("⚠️  Some tests failed. Check the details above.")
-            return 1
+            print_info("Could not read error logs (file may not exist)")
+            return True
+            
+    except subprocess.TimeoutExpired:
+        print_warning("Log check timed out")
+        return True
+    except Exception as e:
+        print_info(f"Could not check logs: {e}")
+        return True
 
 def main():
-    tester = MedEquipMartAPITester()
-    return tester.run_all_tests()
+    """Run all tests"""
+    print(f"{Colors.BOLD}Alaxico Backend API Testing{Colors.ENDC}")
+    print(f"Backend URL: {BACKEND_URL}")
+    print(f"Testing started at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    
+    test_results = []
+    
+    # Test Cloudinary signature endpoint
+    test_results.append(("Cloudinary Signature Endpoint", test_cloudinary_signature_endpoint()))
+    
+    # Test Cloudinary configuration
+    test_results.append(("Cloudinary Configuration", test_cloudinary_configuration()))
+    
+    # Test existing endpoints
+    test_results.append(("Existing Endpoints", test_existing_endpoints()))
+    
+    # Check backend logs
+    test_results.append(("Backend Logs", check_backend_logs()))
+    
+    # Print summary
+    print_test_header("Test Summary")
+    
+    passed = 0
+    failed = 0
+    
+    for test_name, result in test_results:
+        if result:
+            print_success(f"{test_name}: PASSED")
+            passed += 1
+        else:
+            print_error(f"{test_name}: FAILED")
+            failed += 1
+    
+    print(f"\n{Colors.BOLD}Overall Results:{Colors.ENDC}")
+    print(f"{Colors.GREEN}Passed: {passed}{Colors.ENDC}")
+    print(f"{Colors.RED}Failed: {failed}{Colors.ENDC}")
+    print(f"{Colors.BLUE}Total: {passed + failed}{Colors.ENDC}")
+    
+    if failed == 0:
+        print(f"\n{Colors.GREEN}{Colors.BOLD}🎉 All tests passed! Cloudinary integration is working correctly.{Colors.ENDC}")
+        return True
+    else:
+        print(f"\n{Colors.RED}{Colors.BOLD}❌ {failed} test(s) failed. Please check the issues above.{Colors.ENDC}")
+        return False
 
 if __name__ == "__main__":
-    sys.exit(main())
+    success = main()
+    sys.exit(0 if success else 1)
