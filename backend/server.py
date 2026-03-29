@@ -816,6 +816,16 @@ async def create_cod_order(order_data: CODOrderCreate, user: User = Depends(get_
     
     order_id = str(uuid.uuid4())
     
+    # Set payment status based on payment method
+    # COD: Payment collected on delivery - status is "pay_on_delivery"
+    # Bank Transfer: Pending until admin verifies - status is "awaiting_confirmation"
+    # Pay Later: EMI/Credit - status is "emi_approved" or "pending"
+    payment_status_map = {
+        "cod": "pay_on_delivery",
+        "bank_transfer": "awaiting_confirmation",
+        "pay_later": "emi_pending"
+    }
+    
     order = {
         "id": order_id,
         "user_id": user.id,
@@ -823,7 +833,7 @@ async def create_cod_order(order_data: CODOrderCreate, user: User = Depends(get_
         "total_amount": order_data.total_amount,
         "delivery_address": order_data.delivery_address,
         "payment_method": order_data.payment_method,
-        "payment_status": "completed",
+        "payment_status": payment_status_map.get(order_data.payment_method, "pending"),
         "order_status": "pending",
         "status_updated_at": datetime.now(timezone.utc).isoformat(),
         "created_at": datetime.now(timezone.utc).isoformat()
@@ -834,11 +844,44 @@ async def create_cod_order(order_data: CODOrderCreate, user: User = Depends(get_
     # Clear cart
     await db.carts.delete_one({"user_id": user.id})
     
+    # Generate response message based on payment method
+    messages = {
+        "cod": "Order placed! Pay ₹{} when you receive your order.",
+        "bank_transfer": "Order placed! Please transfer ₹{} to our bank account. We'll confirm once received.",
+        "pay_later": "Order placed with EMI! Your EMI application is being processed."
+    }
+    
     return {
         "order_id": order_id,
-        "message": f"Order placed successfully with {order_data.payment_method.upper()}",
-        "payment_method": order_data.payment_method
+        "message": messages.get(order_data.payment_method, "Order placed successfully!").format(int(order_data.total_amount)),
+        "payment_method": order_data.payment_method,
+        "payment_status": payment_status_map.get(order_data.payment_method, "pending")
     }
+
+# Admin endpoint to confirm payment (for bank transfer, COD after delivery)
+class PaymentConfirmation(BaseModel):
+    payment_status: str  # completed, failed, refunded
+
+@api_router.put("/admin/orders/{order_id}/payment")
+async def confirm_payment(order_id: str, data: PaymentConfirmation, admin: User = Depends(get_admin_user)):
+    """Admin confirms payment received (for bank transfer, COD)"""
+    valid_statuses = ["completed", "failed", "refunded", "pay_on_delivery", "awaiting_confirmation"]
+    if data.payment_status not in valid_statuses:
+        raise HTTPException(status_code=400, detail=f"Invalid payment status")
+    
+    result = await db.orders.update_one(
+        {"id": order_id},
+        {"$set": {
+            "payment_status": data.payment_status,
+            "payment_confirmed_at": datetime.now(timezone.utc).isoformat(),
+            "payment_confirmed_by": admin.id
+        }}
+    )
+    
+    if result.matched_count == 0:
+        raise HTTPException(status_code=404, detail="Order not found")
+    
+    return {"message": f"Payment status updated to {data.payment_status}"}
 
 @api_router.get("/orders/my-orders")
 async def get_my_orders(user: User = Depends(get_current_user)):

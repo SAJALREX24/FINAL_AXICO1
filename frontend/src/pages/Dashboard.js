@@ -23,6 +23,17 @@ const ORDER_STATUSES = {
   cancelled: { label: 'Cancelled', color: 'bg-red-100 text-red-700', icon: XCircle }
 };
 
+// Payment status configuration
+const PAYMENT_STATUSES = {
+  completed: { label: 'Paid', color: 'bg-green-100 text-green-700', icon: '✓' },
+  pay_on_delivery: { label: 'Pay on Delivery', color: 'bg-orange-100 text-orange-700', icon: '💵' },
+  awaiting_confirmation: { label: 'Awaiting Confirmation', color: 'bg-yellow-100 text-yellow-700', icon: '⏳' },
+  emi_pending: { label: 'EMI Processing', color: 'bg-blue-100 text-blue-700', icon: '📋' },
+  pending: { label: 'Pending', color: 'bg-gray-100 text-gray-700', icon: '⏳' },
+  failed: { label: 'Failed', color: 'bg-red-100 text-red-700', icon: '✗' },
+  refunded: { label: 'Refunded', color: 'bg-purple-100 text-purple-700', icon: '↩' }
+};
+
 const Dashboard = () => {
   const { user, loading: authLoading } = useAuth();
   const navigate = useNavigate();
@@ -167,6 +178,7 @@ const Dashboard = () => {
                   <div className="space-y-4">
                     {orders.map((order) => {
                       const status = ORDER_STATUSES[order.order_status] || ORDER_STATUSES.pending;
+                      const paymentStatus = PAYMENT_STATUSES[order.payment_status] || PAYMENT_STATUSES.pending;
                       const StatusIcon = status.icon;
                       return (
                         <div key={order.id} className="bg-purple-50 border border-purple-100 rounded-xl p-4" data-testid={`order-${order.id}`}>
@@ -178,23 +190,40 @@ const Dashboard = () => {
                                   day: 'numeric', month: 'short', year: 'numeric' 
                                 })}
                               </p>
+                              <p className="text-xs text-gray-400 mt-1">
+                                via {order.payment_method === 'cod' ? 'Cash on Delivery' : 
+                                    order.payment_method === 'razorpay' ? 'Card/NetBanking' :
+                                    order.payment_method === 'upi' ? 'UPI' :
+                                    order.payment_method === 'bank_transfer' ? 'Bank Transfer' :
+                                    order.payment_method === 'pay_later' ? 'Pay Later' : order.payment_method}
+                              </p>
                             </div>
                             <div className="flex flex-col items-end gap-1">
                               <span className={`px-3 py-1 rounded-full text-xs font-medium flex items-center gap-1 ${status.color}`}>
                                 <StatusIcon className="w-3 h-3" />
                                 {status.label}
                               </span>
-                              {order.payment_status && (
-                                <span className={`px-2 py-0.5 rounded text-xs ${
-                                  order.payment_status === 'completed' 
-                                    ? 'bg-green-50 text-green-600'
-                                    : 'bg-orange-50 text-orange-600'
-                                }`}>
-                                  Payment: {order.payment_status}
-                                </span>
-                              )}
+                              <span className={`px-2 py-0.5 rounded text-xs flex items-center gap-1 ${paymentStatus.color}`}>
+                                <span>{paymentStatus.icon}</span>
+                                {paymentStatus.label}
+                              </span>
                             </div>
                           </div>
+                          
+                          {/* Payment Instructions for pending payments */}
+                          {order.payment_status === 'awaiting_confirmation' && (
+                            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mb-3 text-xs">
+                              <p className="font-semibold text-yellow-800">⏳ Bank Transfer Pending</p>
+                              <p className="text-yellow-700 mt-1">Please transfer ₹{order.total_amount.toLocaleString()} to our bank account. Your order will be processed once we confirm the payment.</p>
+                            </div>
+                          )}
+                          
+                          {order.payment_status === 'pay_on_delivery' && order.order_status !== 'delivered' && (
+                            <div className="bg-orange-50 border border-orange-200 rounded-lg p-3 mb-3 text-xs">
+                              <p className="font-semibold text-orange-800">💵 Cash on Delivery</p>
+                              <p className="text-orange-700 mt-1">Please keep ₹{order.total_amount.toLocaleString()} ready. Pay when you receive your order.</p>
+                            </div>
+                          )}
                           
                           {/* Order Items */}
                           <div className="space-y-2 mb-3">

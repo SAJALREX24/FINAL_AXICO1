@@ -279,6 +279,16 @@ const Admin = () => {
     }
   };
 
+  const handlePaymentConfirmation = async (orderId, paymentStatus) => {
+    try {
+      await api.put(`/admin/orders/${orderId}/payment`, { payment_status: paymentStatus });
+      toast.success(`Payment ${paymentStatus === 'completed' ? 'confirmed' : 'marked as ' + paymentStatus}`);
+      fetchData();
+    } catch (error) {
+      toast.error('Failed to update payment status');
+    }
+  };
+
   if (loading) {
     return <FullPageLoader text="Loading admin panel..." />;
   }
@@ -950,6 +960,32 @@ const Admin = () => {
                           </Button>
                         ))}
                       </div>
+                      
+                      {/* Payment Confirmation (for COD/Bank Transfer) */}
+                      {(order.payment_status === 'pay_on_delivery' || order.payment_status === 'awaiting_confirmation') && (
+                        <div className="mt-3 p-3 bg-yellow-50 rounded-lg border border-yellow-200">
+                          <p className="text-xs font-semibold text-yellow-800 mb-2">
+                            💳 Payment Status: {order.payment_status === 'pay_on_delivery' ? 'Cash on Delivery' : 'Awaiting Bank Transfer Confirmation'}
+                          </p>
+                          <div className="flex gap-2">
+                            <Button
+                              size="sm"
+                              className="text-xs h-7 bg-green-600 hover:bg-green-700"
+                              onClick={() => handlePaymentConfirmation(order.id, 'completed')}
+                            >
+                              ✓ Confirm Payment Received
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              className="text-xs h-7 border-red-200 text-red-600 hover:bg-red-50"
+                              onClick={() => handlePaymentConfirmation(order.id, 'failed')}
+                            >
+                              ✗ Payment Failed
+                            </Button>
+                          </div>
+                        </div>
+                      )}
                       
                       {/* Tracking Info Input (show when shipped) */}
                       {(order.order_status === 'shipped' || order.order_status === 'packed') && (
