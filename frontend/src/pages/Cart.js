@@ -25,7 +25,6 @@ const Cart = () => {
       return;
     }
     fetchCart();
-    fetchSimilarProducts();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, authLoading]);
 
@@ -33,6 +32,8 @@ const Cart = () => {
     try {
       const response = await api.get('/cart');
       setCart(response.data);
+      // Fetch similar products after cart is loaded to exclude cart items
+      fetchSimilarProducts(response.data.items || []);
     } catch (error) {
       console.error('Error fetching cart:', error);
     } finally {
@@ -40,10 +41,16 @@ const Cart = () => {
     }
   };
 
-  const fetchSimilarProducts = async () => {
+  const fetchSimilarProducts = async (cartItems = []) => {
     try {
-      const response = await api.get('/products?limit=4');
-      setSimilarProducts(response.data.slice(0, 4));
+      const response = await api.get('/products?limit=10');
+      // Get IDs of products already in cart
+      const cartProductIds = cartItems.map(item => item.product_id);
+      // Filter out products that are already in the cart
+      const filteredProducts = response.data.filter(
+        product => !cartProductIds.includes(product.id)
+      );
+      setSimilarProducts(filteredProducts.slice(0, 4));
     } catch (error) {
       console.error('Error fetching similar products:', error);
     }
