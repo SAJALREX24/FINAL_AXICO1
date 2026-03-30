@@ -970,149 +970,214 @@ const Admin = () => {
           <TabsContent value="orders">
             <div className="bg-white border border-purple-100 rounded-xl p-3 sm:p-6 shadow-sm">
               <h2 className="text-lg sm:text-xl font-semibold text-gray-900 mb-4 sm:mb-6">Orders Management</h2>
-              <div className="space-y-3 sm:space-y-4">
+              <div className="space-y-4 sm:space-y-6">
                 {orders.map((order) => (
-                  <div key={order.id} className="border border-purple-100 bg-purple-50 rounded-lg p-3 sm:p-4" data-testid={`admin-order-${order.id}`}>
-                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2 mb-3">
-                      <div>
-                        <p className="font-semibold text-gray-900 text-sm sm:text-base">Order #{order.id.slice(0, 8)}</p>
-                        <p className="text-xs sm:text-sm text-gray-500">{new Date(order.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</p>
-                        {order.user && (
-                          <p className="text-xs text-purple-600 mt-1">
-                            👤 {order.user.name || order.user.email}
+                  <div key={order.id} className="border-2 border-purple-200 bg-white rounded-xl overflow-hidden shadow-sm" data-testid={`admin-order-${order.id}`}>
+                    {/* Order Header */}
+                    <div className="bg-purple-50 p-3 sm:p-4 border-b border-purple-200">
+                      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
+                        <div>
+                          <p className="font-bold text-gray-900 text-base sm:text-lg">Order #{order.id.slice(0, 8)}</p>
+                          <p className="text-xs sm:text-sm text-gray-500">
+                            {new Date(order.created_at).toLocaleDateString('en-IN', { 
+                              day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' 
+                            })}
                           </p>
+                        </div>
+                        <div className="flex flex-wrap gap-2">
+                          <span className={`px-3 py-1.5 rounded-full text-xs font-bold ${
+                            order.payment_status === 'completed' ? 'bg-green-500 text-white' : 
+                            order.payment_status === 'pay_on_delivery' ? 'bg-orange-500 text-white' :
+                            'bg-yellow-500 text-white'
+                          }`}>
+                            💳 {order.payment_status === 'completed' ? 'PAID' : 
+                               order.payment_status === 'pay_on_delivery' ? 'COD' : 
+                               order.payment_status?.toUpperCase() || 'PENDING'}
+                          </span>
+                          <span className={`px-3 py-1.5 rounded-full text-xs font-bold ${
+                            order.order_status === 'delivered' ? 'bg-green-500 text-white' :
+                            order.order_status === 'shipped' ? 'bg-blue-500 text-white' :
+                            order.order_status === 'packed' ? 'bg-indigo-500 text-white' :
+                            order.order_status === 'processing' ? 'bg-purple-500 text-white' :
+                            order.order_status === 'cancelled' ? 'bg-red-500 text-white' :
+                            'bg-yellow-500 text-white'
+                          }`}>
+                            📦 {order.order_status?.toUpperCase() || 'PENDING'}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="p-3 sm:p-4">
+                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                        {/* Left: Delivery Address - PROMINENT */}
+                        <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-4 border-2 border-blue-200">
+                          <h4 className="font-bold text-blue-800 text-sm mb-3 flex items-center">
+                            🚚 DELIVER TO:
+                          </h4>
+                          {order.delivery_address ? (
+                            <div className="space-y-2">
+                              <p className="font-bold text-gray-900 text-base">
+                                {order.delivery_address.name}
+                              </p>
+                              <p className="text-gray-700 flex items-center gap-2">
+                                <span className="text-lg">📞</span>
+                                <span className="font-semibold">{order.delivery_address.phone}</span>
+                              </p>
+                              <div className="text-gray-600 text-sm leading-relaxed">
+                                <p>{order.delivery_address.address || order.delivery_address.street}</p>
+                                <p className="font-medium">
+                                  {order.delivery_address.city}, {order.delivery_address.state}
+                                </p>
+                                <p className="font-bold text-blue-700 text-base">
+                                  PIN: {order.delivery_address.pincode}
+                                </p>
+                              </div>
+                              {order.delivery_address.landmark && (
+                                <p className="text-gray-500 text-xs">
+                                  Landmark: {order.delivery_address.landmark}
+                                </p>
+                              )}
+                            </div>
+                          ) : (
+                            <p className="text-red-500">No address provided</p>
+                          )}
+                          
+                          {/* Customer Info */}
+                          {order.user && (
+                            <div className="mt-3 pt-3 border-t border-blue-200">
+                              <p className="text-xs text-blue-600">
+                                <span className="font-medium">Customer:</span> {order.user.email}
+                              </p>
+                              {order.user.phone && (
+                                <p className="text-xs text-blue-600">
+                                  <span className="font-medium">Alt Phone:</span> {order.user.phone}
+                                </p>
+                              )}
+                            </div>
+                          )}
+                        </div>
+                        
+                        {/* Right: Order Items */}
+                        <div className="bg-gray-50 rounded-xl p-4 border border-gray-200">
+                          <h4 className="font-bold text-gray-700 text-sm mb-3">📦 ORDER ITEMS:</h4>
+                          <div className="space-y-2">
+                            {order.items?.map((item, idx) => (
+                              <div key={idx} className="flex justify-between py-2 border-b border-gray-200 last:border-0">
+                                <div>
+                                  <p className="text-gray-900 font-medium text-sm">{item.product_name}</p>
+                                  <p className="text-gray-500 text-xs">Qty: {item.quantity}</p>
+                                </div>
+                                <span className="font-semibold text-gray-900">₹{(item.price * item.quantity).toLocaleString()}</span>
+                              </div>
+                            ))}
+                          </div>
+                          <div className="flex justify-between pt-3 mt-2 border-t-2 border-gray-300">
+                            <span className="font-bold text-gray-900">TOTAL AMOUNT</span>
+                            <span className="font-bold text-purple-600 text-lg">₹{order.total_amount?.toLocaleString()}</span>
+                          </div>
+                          <p className="text-xs text-gray-500 mt-2">
+                            Payment: {order.payment_method === 'cod' ? 'Cash on Delivery' : 
+                                     order.payment_method === 'razorpay' ? 'Online Payment' :
+                                     order.payment_method === 'upi' ? 'UPI' :
+                                     order.payment_method === 'bank_transfer' ? 'Bank Transfer' :
+                                     order.payment_method || 'N/A'}
+                          </p>
+                        </div>
+                      </div>
+                      
+                      {/* Order Status Update */}
+                      <div className="mt-4 pt-4 border-t border-gray-200">
+                        <p className="text-sm font-bold text-gray-700 mb-3">⚡ UPDATE ORDER STATUS:</p>
+                        <div className="flex flex-wrap gap-2">
+                          {['pending', 'processing', 'packed', 'shipped', 'delivered', 'cancelled'].map((status) => (
+                            <Button
+                              key={status}
+                              size="sm"
+                              variant={order.order_status === status ? 'default' : 'outline'}
+                              className={`text-xs h-8 ${
+                                order.order_status === status 
+                                  ? 'bg-purple-600 text-white' 
+                                  : 'border-purple-200 text-purple-600 hover:bg-purple-50'
+                              }`}
+                              onClick={() => handleOrderStatusUpdate(order.id, status)}
+                            >
+                              {status === 'pending' && '⏳'}
+                              {status === 'processing' && '⚙️'}
+                              {status === 'packed' && '📦'}
+                              {status === 'shipped' && '🚚'}
+                              {status === 'delivered' && '✅'}
+                              {status === 'cancelled' && '❌'}
+                              {' '}{status.charAt(0).toUpperCase() + status.slice(1)}
+                            </Button>
+                          ))}
+                        </div>
+                      
+                        {/* Payment Confirmation (for COD/Bank Transfer) */}
+                        {(order.payment_status === 'pay_on_delivery' || order.payment_status === 'awaiting_confirmation') && (
+                          <div className="mt-3 p-3 bg-yellow-50 rounded-lg border border-yellow-200">
+                            <p className="text-xs font-semibold text-yellow-800 mb-2">
+                              💳 Payment Status: {order.payment_status === 'pay_on_delivery' ? 'Cash on Delivery' : 'Awaiting Bank Transfer Confirmation'}
+                            </p>
+                            <div className="flex gap-2">
+                              <Button
+                                size="sm"
+                                className="text-xs h-7 bg-green-600 hover:bg-green-700"
+                                onClick={() => handlePaymentConfirmation(order.id, 'completed')}
+                              >
+                                ✓ Confirm Payment Received
+                              </Button>
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                className="text-xs h-7 border-red-200 text-red-600 hover:bg-red-50"
+                                onClick={() => handlePaymentConfirmation(order.id, 'failed')}
+                              >
+                                ✗ Payment Failed
+                              </Button>
+                            </div>
+                          </div>
+                        )}
+                      
+                        {/* Tracking Info Input (show when shipped) */}
+                        {(order.order_status === 'shipped' || order.order_status === 'packed') && (
+                          <div className="mt-3 p-3 bg-white rounded-lg border border-purple-100">
+                            <p className="text-xs font-semibold text-gray-700 mb-2">🚚 Add Tracking Info:</p>
+                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                              <Input
+                                placeholder="Courier Name"
+                                className="text-xs h-8"
+                                id={`courier-${order.id}`}
+                                defaultValue={order.courier_name || ''}
+                              />
+                              <Input
+                                placeholder="Tracking Number"
+                                className="text-xs h-8"
+                                id={`tracking-${order.id}`}
+                                defaultValue={order.tracking_number || ''}
+                              />
+                              <Input
+                                placeholder="Est. Delivery (e.g., Apr 5)"
+                                className="text-xs h-8"
+                                id={`delivery-${order.id}`}
+                                defaultValue={order.estimated_delivery || ''}
+                              />
+                            </div>
+                            <Button
+                              size="sm"
+                              className="mt-2 text-xs h-7 bg-purple-600"
+                              onClick={() => {
+                                const courier = document.getElementById(`courier-${order.id}`).value;
+                                const tracking = document.getElementById(`tracking-${order.id}`).value;
+                                const delivery = document.getElementById(`delivery-${order.id}`).value;
+                                handleOrderStatusUpdate(order.id, order.order_status, courier, tracking, delivery);
+                              }}
+                            >
+                              Save Tracking Info
+                            </Button>
+                          </div>
                         )}
                       </div>
-                      <div className="flex flex-col gap-1 items-end">
-                        <span className={`px-2 sm:px-3 py-1 rounded-full text-xs font-medium ${order.payment_status === 'completed' ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700'}`}>
-                          💳 {order.payment_status || 'pending'}
-                        </span>
-                        <span className={`px-2 sm:px-3 py-1 rounded-full text-xs font-medium ${
-                          order.order_status === 'delivered' ? 'bg-green-100 text-green-700' :
-                          order.order_status === 'shipped' ? 'bg-purple-100 text-purple-700' :
-                          order.order_status === 'cancelled' ? 'bg-red-100 text-red-700' :
-                          'bg-yellow-100 text-yellow-700'
-                        }`}>
-                          📦 {order.order_status || 'pending'}
-                        </span>
-                      </div>
-                    </div>
-                    
-                    {/* Order Items */}
-                    <div className="bg-white rounded-lg p-2 mb-3 text-xs">
-                      {order.items?.map((item, idx) => (
-                        <div key={idx} className="flex justify-between py-1 border-b border-gray-100 last:border-0">
-                          <span className="text-gray-700">{item.product_name} × {item.quantity}</span>
-                          <span className="font-medium">₹{(item.price * item.quantity).toLocaleString()}</span>
-                        </div>
-                      ))}
-                      <div className="flex justify-between pt-2 font-semibold text-purple-600">
-                        <span>Total</span>
-                        <span>₹{order.total_amount?.toLocaleString()}</span>
-                      </div>
-                    </div>
-                    
-                    {/* Delivery Address */}
-                    {order.delivery_address && (
-                      <div className="text-xs text-gray-500 mb-3 bg-white rounded-lg p-2">
-                        <p className="font-medium text-gray-700 mb-1">📍 Delivery Address:</p>
-                        <p>{order.delivery_address.name}, {order.delivery_address.phone}</p>
-                        <p>{order.delivery_address.address}, {order.delivery_address.city}</p>
-                        <p>{order.delivery_address.state} - {order.delivery_address.pincode}</p>
-                      </div>
-                    )}
-                    
-                    {/* Order Status Update */}
-                    <div className="border-t border-purple-200 pt-3">
-                      <p className="text-xs font-semibold text-gray-700 mb-2">Update Order Status:</p>
-                      <div className="flex flex-wrap gap-2">
-                        {['pending', 'processing', 'packed', 'shipped', 'delivered', 'cancelled'].map((status) => (
-                          <Button
-                            key={status}
-                            size="sm"
-                            variant={order.order_status === status ? 'default' : 'outline'}
-                            className={`text-xs h-7 ${
-                              order.order_status === status 
-                                ? 'bg-purple-600 text-white' 
-                                : 'border-purple-200 text-purple-600 hover:bg-purple-50'
-                            }`}
-                            onClick={() => handleOrderStatusUpdate(order.id, status)}
-                          >
-                            {status === 'pending' && '⏳'}
-                            {status === 'processing' && '⚙️'}
-                            {status === 'packed' && '📦'}
-                            {status === 'shipped' && '🚚'}
-                            {status === 'delivered' && '✅'}
-                            {status === 'cancelled' && '❌'}
-                            {' '}{status.charAt(0).toUpperCase() + status.slice(1)}
-                          </Button>
-                        ))}
-                      </div>
-                      
-                      {/* Payment Confirmation (for COD/Bank Transfer) */}
-                      {(order.payment_status === 'pay_on_delivery' || order.payment_status === 'awaiting_confirmation') && (
-                        <div className="mt-3 p-3 bg-yellow-50 rounded-lg border border-yellow-200">
-                          <p className="text-xs font-semibold text-yellow-800 mb-2">
-                            💳 Payment Status: {order.payment_status === 'pay_on_delivery' ? 'Cash on Delivery' : 'Awaiting Bank Transfer Confirmation'}
-                          </p>
-                          <div className="flex gap-2">
-                            <Button
-                              size="sm"
-                              className="text-xs h-7 bg-green-600 hover:bg-green-700"
-                              onClick={() => handlePaymentConfirmation(order.id, 'completed')}
-                            >
-                              ✓ Confirm Payment Received
-                            </Button>
-                            <Button
-                              size="sm"
-                              variant="outline"
-                              className="text-xs h-7 border-red-200 text-red-600 hover:bg-red-50"
-                              onClick={() => handlePaymentConfirmation(order.id, 'failed')}
-                            >
-                              ✗ Payment Failed
-                            </Button>
-                          </div>
-                        </div>
-                      )}
-                      
-                      {/* Tracking Info Input (show when shipped) */}
-                      {(order.order_status === 'shipped' || order.order_status === 'packed') && (
-                        <div className="mt-3 p-3 bg-white rounded-lg border border-purple-100">
-                          <p className="text-xs font-semibold text-gray-700 mb-2">🚚 Add Tracking Info:</p>
-                          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                            <Input
-                              placeholder="Courier Name"
-                              className="text-xs h-8"
-                              id={`courier-${order.id}`}
-                              defaultValue={order.courier_name || ''}
-                            />
-                            <Input
-                              placeholder="Tracking Number"
-                              className="text-xs h-8"
-                              id={`tracking-${order.id}`}
-                              defaultValue={order.tracking_number || ''}
-                            />
-                            <Input
-                              placeholder="Est. Delivery (e.g., Apr 5)"
-                              className="text-xs h-8"
-                              id={`delivery-${order.id}`}
-                              defaultValue={order.estimated_delivery || ''}
-                            />
-                          </div>
-                          <Button
-                            size="sm"
-                            className="mt-2 text-xs h-7 bg-purple-600"
-                            onClick={() => {
-                              const courier = document.getElementById(`courier-${order.id}`).value;
-                              const tracking = document.getElementById(`tracking-${order.id}`).value;
-                              const delivery = document.getElementById(`delivery-${order.id}`).value;
-                              handleOrderStatusUpdate(order.id, order.order_status, courier, tracking, delivery);
-                            }}
-                          >
-                            Save Tracking Info
-                          </Button>
-                        </div>
-                      )}
                     </div>
                   </div>
                 ))}

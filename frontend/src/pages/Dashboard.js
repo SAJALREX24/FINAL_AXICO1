@@ -279,16 +279,6 @@ const Dashboard = () => {
                               <span>Total: </span>
                               <span className="text-purple-600">₹{order.total_amount.toLocaleString()}</span>
                             </div>
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              onClick={() => downloadInvoice(order.id)}
-                              className="border-purple-200 text-purple-600 hover:bg-purple-50"
-                              data-testid={`download-invoice-${order.id}`}
-                            >
-                              <Download className="w-4 h-4 mr-1" />
-                              Invoice
-                            </Button>
                           </div>
                         </div>
                       );
