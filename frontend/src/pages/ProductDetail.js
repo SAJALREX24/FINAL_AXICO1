@@ -162,7 +162,7 @@ const ProductDetail = () => {
         video_url: reviewVideoUrl || null,
       });
       
-      toast.success('Review submitted! It will be visible after admin approval.');
+      toast.success('Review submitted!');
       setReviewOpen(false);
       setRating(5);
       setComment('');
