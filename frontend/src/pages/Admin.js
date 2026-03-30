@@ -46,6 +46,7 @@ const Admin = () => {
     price: '',
     originalPrice: '',
     discount: '',
+    priceError: '',
     image: '',
     images: '',
     stockQuantity: '',
@@ -103,6 +104,21 @@ const Admin = () => {
 
   const handleCreateProduct = async (e) => {
     e.preventDefault();
+    
+    // Validate pricing
+    const sellingPrice = parseFloat(productForm.price) || 0;
+    const originalPrice = parseFloat(productForm.originalPrice) || 0;
+    
+    if (originalPrice > 0 && sellingPrice >= originalPrice) {
+      toast.error('Selling price must be less than Original Price (MRP)');
+      return;
+    }
+    
+    if (sellingPrice <= 0) {
+      toast.error('Please enter a valid selling price');
+      return;
+    }
+    
     try {
       // Parse images from comma-separated string
       const imagesArray = productForm.images 
@@ -124,7 +140,7 @@ const Admin = () => {
         description: productForm.description,
         category: productForm.category,
         price: parseFloat(productForm.price),
-        original_price: productForm.originalPrice ? parseFloat(productForm.originalPrice) : null,
+        original_price: productForm.originalPrice ? parseFloat(productForm.originalPrice) : parseFloat(productForm.price),
         image: productForm.image,
         images: imagesArray.length > 0 ? imagesArray : null,
         key_features: keyFeaturesArray,
@@ -577,7 +593,7 @@ const Admin = () => {
                           Pricing & Discount
                         </h3>
                         <p className="text-xs text-gray-500 mb-2">
-                          💡 Enter Selling Price (what customer pays) and Original Price (MRP). Discount will auto-calculate.
+                          💡 Selling Price must be less than Original Price (MRP). Discount will auto-calculate.
                         </p>
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
                           <div>
@@ -590,20 +606,30 @@ const Admin = () => {
                                 const sellingPrice = parseFloat(e.target.value) || 0;
                                 const originalPrice = parseFloat(productForm.originalPrice) || 0;
                                 let discount = '';
-                                if (originalPrice > 0 && sellingPrice > 0 && originalPrice > sellingPrice) {
-                                  discount = Math.round(((originalPrice - sellingPrice) / originalPrice) * 100).toString();
+                                let priceError = '';
+                                
+                                if (originalPrice > 0 && sellingPrice > 0) {
+                                  if (sellingPrice >= originalPrice) {
+                                    priceError = 'Selling price must be less than MRP';
+                                  } else {
+                                    discount = Math.round(((originalPrice - sellingPrice) / originalPrice) * 100).toString();
+                                  }
                                 }
-                                setProductForm({ ...productForm, price: e.target.value, discount });
+                                setProductForm({ ...productForm, price: e.target.value, discount, priceError });
                               }}
                               required
                               placeholder="1499"
-                              className="mt-1 border-gray-200 focus:border-purple-500 text-sm"
+                              className={`mt-1 text-sm ${
+                                productForm.priceError 
+                                  ? 'border-red-500 focus:border-red-500' 
+                                  : 'border-gray-200 focus:border-purple-500'
+                              }`}
                               data-testid="product-price-input"
                             />
                           </div>
                           <div>
-                            <Label className="text-gray-700 font-medium text-sm">Original Price / MRP (₹)</Label>
-                            <p className="text-xs text-gray-500 mb-1">Shown crossed out</p>
+                            <Label className="text-gray-700 font-medium text-sm">Original Price / MRP (₹) *</Label>
+                            <p className="text-xs text-gray-500 mb-1">Shown crossed out (must be higher)</p>
                             <Input
                               type="number"
                               value={productForm.originalPrice}
@@ -611,13 +637,24 @@ const Admin = () => {
                                 const originalPrice = parseFloat(e.target.value) || 0;
                                 const sellingPrice = parseFloat(productForm.price) || 0;
                                 let discount = '';
-                                if (originalPrice > 0 && sellingPrice > 0 && originalPrice > sellingPrice) {
-                                  discount = Math.round(((originalPrice - sellingPrice) / originalPrice) * 100).toString();
+                                let priceError = '';
+                                
+                                if (originalPrice > 0 && sellingPrice > 0) {
+                                  if (sellingPrice >= originalPrice) {
+                                    priceError = 'MRP must be greater than selling price';
+                                  } else {
+                                    discount = Math.round(((originalPrice - sellingPrice) / originalPrice) * 100).toString();
+                                  }
                                 }
-                                setProductForm({ ...productForm, originalPrice: e.target.value, discount });
+                                setProductForm({ ...productForm, originalPrice: e.target.value, discount, priceError });
                               }}
+                              required
                               placeholder="2499"
-                              className="mt-1 border-gray-200 focus:border-purple-500 text-sm"
+                              className={`mt-1 text-sm ${
+                                productForm.priceError 
+                                  ? 'border-red-500 focus:border-red-500' 
+                                  : 'border-gray-200 focus:border-purple-500'
+                              }`}
                               data-testid="product-original-price-input"
                             />
                           </div>
@@ -635,18 +672,32 @@ const Admin = () => {
                             />
                           </div>
                         </div>
-                        {/* Price Preview */}
-                        {productForm.price && (
+                        
+                        {/* Price Error Message */}
+                        {productForm.priceError && (
+                          <div className="mt-2 p-3 bg-red-50 rounded-lg border border-red-200">
+                            <p className="text-sm font-medium text-red-600 flex items-center">
+                              ❌ {productForm.priceError}
+                            </p>
+                            <p className="text-xs text-red-500 mt-1">
+                              Example: If MRP is ₹2,499 then Selling Price should be less (e.g., ₹1,499)
+                            </p>
+                          </div>
+                        )}
+                        
+                        {/* Price Preview - Only show when valid */}
+                        {productForm.price && productForm.originalPrice && !productForm.priceError && parseFloat(productForm.price) < parseFloat(productForm.originalPrice) && (
                           <div className="mt-3 p-3 bg-green-50 rounded-lg border border-green-200">
                             <p className="text-sm font-medium text-green-800">
-                              Preview: 
-                              {productForm.originalPrice && parseFloat(productForm.originalPrice) > parseFloat(productForm.price) && (
-                                <span className="line-through text-gray-400 ml-2">₹{productForm.originalPrice}</span>
-                              )}
-                              <span className="text-green-600 ml-2 text-lg">₹{productForm.price}</span>
+                              ✅ Preview: 
+                              <span className="line-through text-gray-400 ml-2">₹{productForm.originalPrice}</span>
+                              <span className="text-green-600 ml-2 text-lg font-bold">₹{productForm.price}</span>
                               {productForm.discount && (
                                 <span className="ml-2 bg-green-600 text-white text-xs px-2 py-0.5 rounded">{productForm.discount}% OFF</span>
                               )}
+                            </p>
+                            <p className="text-xs text-green-600 mt-1">
+                              Customer saves ₹{(parseFloat(productForm.originalPrice) - parseFloat(productForm.price)).toLocaleString()}
                             </p>
                           </div>
                         )}
